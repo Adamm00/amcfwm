@@ -94,7 +94,7 @@ build_fw() {
 	BRANCH="$3"
 	FWMODEL="$2"
 	FWPATH="$1"
-	if [ "$(cat "$SRC_LOC/$FWMODEL.git" 2>/dev/null)" != "$(git ls-remote https://github.com/RMerl/asuswrt-merlin.ng.git "$BRANCH" | awk '{print $1}')" ] && [ "forcebuild" != "y" ]; then
+	if [ "$(cat "$SRC_LOC/$FWMODEL.git" 2>/dev/null)" != "$(git ls-remote https://github.com/RMerl/asuswrt-merlin.ng.git "$BRANCH" | awk '{print $1}')" ] && [ "$forcebuild" != "y" ]; then
 		echo "*** $(date +%R) - Starting building $FWMODEL..."
 		cd "$HOME/$FWPATH" || exit 1
 		if make "$FWMODEL" > output.txt 2>&1; then
@@ -127,7 +127,7 @@ clean_tree() {
 	FWMODEL=$3
 	BRANCH=$4
 
-	if [ "$(cat "$SRC_LOC/$FWMODEL.git" 2>/dev/null)" != "$(git ls-remote https://github.com/RMerl/asuswrt-merlin.ng.git "$BRANCH" | awk '{print $1}')" ] && [ "forcebuild" != "y" ]; then
+	if [ "$(cat "$SRC_LOC/$FWMODEL.git" 2>/dev/null)" != "$(git ls-remote https://github.com/RMerl/asuswrt-merlin.ng.git "$BRANCH" | awk '{print $1}')" ] && [ "$forcebuild" != "y" ]; then
 		echo
 		echo "*** $(date +%R) - Cleaning up $FWMODEL..."
 		if [ "$RSYNC_TREE" = "y" ]; then
