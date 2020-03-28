@@ -1,2 +1,2 @@
-# -am_cfwm
+# am_cfwm
 AsusWRT-Merlin - Custom Firmware Manager
