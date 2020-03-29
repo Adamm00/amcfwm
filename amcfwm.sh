@@ -73,7 +73,7 @@ Set_Default() {
 	STAGE_LOC="$HOME/images"
 	FINAL_LOC=admin@router.asus.com:/mnt/sda1/Share
 	SSH_PORT="22"
-	BUILDREV="1"
+	BUILDREV="y"
 	MERLINUPDATE="n"
 	RSYNC_TREE="y"
 	CLEANUP_TREE="n"
@@ -134,7 +134,7 @@ Load_Menu() {
 					printf '%-35s | %-40s\n' "[2]  --> Stage Location" "$(Grn "$STAGE_LOC")"
 					printf '%-35s | %-40s\n' "[3]  --> Final Location" "$(Grn "$FINAL_LOC")"
 					printf '%-35s | %-40s\n\n' "[4]  --> Remote SSH Port" "$(Grn "$SSH_PORT")"
-					printf '%-35s | %-40s\n' "[5]  --> Build Revision" "$(if [ "$BUILDREV" = "1" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[5]  --> Build Revision" "$(if [ "$BUILDREV" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[6]  --> Merlin Update Server" "$(if [ "$MERLINUPDATE" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[7]  --> Rsync Tree" "$(if [ "$RSYNC_TREE" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[8]  --> Cleanup Tree" "$(if [ "$CLEANUP_TREE" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
@@ -755,6 +755,8 @@ case "$1" in
 			echo
 			exit 1
 		fi
+		if [ "$BUILDREV" = "y" ]; then export BUILDREV="1"; fi
+		if [ "$MERLINUPDATE" = "y" ]; then export MERLINUPDATE="y"; fi
 		build_fw() {
 			BRANCH="$3"
 			FWMODEL="$2"
