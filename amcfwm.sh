@@ -49,7 +49,6 @@ Write_Config() {
 		printf '%s="%s"\n\n' "SSH_PORT" "$SSH_PORT"
 		printf '%s\n' "## Misc Options ##"
 		printf '%s="%s"\n' "BUILDREV" "$BUILDREV"
-		printf '%s="%s"\n' "MERLINUPDATE" "$MERLINUPDATE"
 		printf '%s="%s"\n' "RSYNC_TREE" "$RSYNC_TREE"
 		printf '%s="%s"\n' "CLEANUP_TREE" "$CLEANUP_TREE"
 		printf '%s="%s"\n\n' "FORCEBUILD" "$FORCEBUILD"
@@ -74,7 +73,6 @@ Set_Default() {
 	FINAL_LOC=admin@router.asus.com:/mnt/sda1/Share
 	SSH_PORT="22"
 	BUILDREV="y"
-	MERLINUPDATE="n"
 	RSYNC_TREE="y"
 	CLEANUP_TREE="n"
 	FORCEBUILD="n"
@@ -135,20 +133,19 @@ Load_Menu() {
 					printf '%-35s | %-40s\n' "[3]  --> Final Location" "$(Grn "$FINAL_LOC")"
 					printf '%-35s | %-40s\n\n' "[4]  --> Remote SSH Port" "$(Grn "$SSH_PORT")"
 					printf '%-35s | %-40s\n' "[5]  --> Build Revision" "$(if [ "$BUILDREV" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[6]  --> Merlin Update Server" "$(if [ "$MERLINUPDATE" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[7]  --> Rsync Tree" "$(if [ "$RSYNC_TREE" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[8]  --> Cleanup Tree" "$(if [ "$CLEANUP_TREE" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n\n' "[9]  --> Force Image Build" "$(if [ "$FORCEBUILD" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[10] --> AC56U Build" "$(if [ "$BAC56" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[11] --> AC68U Build" "$(if [ "$BAC68" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[12] --> AC87U Build" "$(if [ "$BAC87" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[13] --> AC3200 Build" "$(if [ "$BAC3200" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[14] --> AC88U Build" "$(if [ "$BAC88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[15] --> AC3100 Build" "$(if [ "$BAC3100" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[16] --> AC5300 Build" "$(if [ "$BAC5300" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[17] --> AC86U Build" "$(if [ "$BAC86" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[18] --> AX88U Build" "$(if [ "$BAX88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n\n' "[19] --> AX58U Build" "$(if [ "$BAX58" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[6]  --> Rsync Tree" "$(if [ "$RSYNC_TREE" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[7]  --> Cleanup Tree" "$(if [ "$CLEANUP_TREE" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n\n' "[8]  --> Force Image Build" "$(if [ "$FORCEBUILD" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[9] --> AC56U Build" "$(if [ "$BAC56" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[10] --> AC68U Build" "$(if [ "$BAC68" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[11] --> AC87U Build" "$(if [ "$BAC87" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[12] --> AC3200 Build" "$(if [ "$BAC3200" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[13] --> AC88U Build" "$(if [ "$BAC88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[14] --> AC3100 Build" "$(if [ "$BAC3100" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[15] --> AC5300 Build" "$(if [ "$BAC5300" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[16] --> AC86U Build" "$(if [ "$BAC86" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[17] --> AX88U Build" "$(if [ "$BAX88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n\n' "[18] --> AX58U Build" "$(if [ "$BAX58" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s\n\n' "[20] --> Reset All Settings To Default"
 					printf "[1-20]: "
 					read -r "menu2"
@@ -231,39 +228,6 @@ Load_Menu() {
 							break
 						;;
 						6)
-							option2="merlinupdate"
-							while true; do
-								echo "Select Merlin Update Server Option:"
-								echo "[1]  --> Enable"
-								echo "[2]  --> Disable"
-								echo
-								printf "[1-2]: "
-								read -r "menu3"
-								echo
-								case "$menu3" in
-									1)
-										option3="enable"
-										break
-									;;
-									2)
-										option3="disable"
-										break
-									;;
-									e|exit|back|menu)
-										unset "option1" "option2" "option3"
-										clear
-										Load_Menu
-										break
-									;;
-									*)
-										echo "[*] $menu3 Isn't An Option!"
-										echo
-									;;
-								esac
-							done
-							break
-						;;
-						7)
 							option2="rsynctree"
 							while true; do
 								echo "Select Rsync Tree Option:"
@@ -296,7 +260,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						8)
+						7)
 							option2="cleanuptree"
 							while true; do
 								echo "Select Cleanup Tree Option:"
@@ -329,7 +293,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						9)
+						8)
 							option2="forcebuild"
 							while true; do
 								echo "Select Force Build Option:"
@@ -362,7 +326,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						10)
+						9)
 							option2="bac56"
 							while true; do
 								echo "Select AC56U Build Option:"
@@ -395,7 +359,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						11)
+						10)
 							option2="bac68"
 							while true; do
 								echo "Select AC68U Build Option:"
@@ -428,7 +392,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						12)
+						11)
 							option2="bac87"
 							while true; do
 								echo "Select AC87U Build Option:"
@@ -461,7 +425,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						13)
+						12)
 							option2="bac3200"
 							while true; do
 								echo "Select AC3200U Build Option:"
@@ -494,7 +458,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						14)
+						13)
 							option2="bac88"
 							while true; do
 								echo "Select AC88U Build Option:"
@@ -527,7 +491,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						15)
+						14)
 							option2="bac3100"
 							while true; do
 								echo "Select AC3100U Build Option:"
@@ -560,7 +524,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						16)
+						15)
 							option2="bac5300"
 							while true; do
 								echo "Select AC5300U Build Option:"
@@ -593,7 +557,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						17)
+						16)
 							option2="bac86"
 							while true; do
 								echo "Select AC86U Build Option:"
@@ -626,7 +590,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						18)
+						17)
 							option2="bax88"
 							while true; do
 								echo "Select AX88U Build Option:"
@@ -659,7 +623,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						19)
+						18)
 							option2="bax58"
 							while true; do
 								echo "Select AX58U Build Option:"
@@ -692,7 +656,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						20)
+						19)
 							option2="reset"
 							break
 						;;
@@ -1045,23 +1009,6 @@ case "$1" in
 					disable)
 						BUILDREV="n"
 						echo "[i] Build Revision String Disabled"
-					;;
-					*)
-						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/am_cfwm"
-						echo; exit 2
-					;;
-				esac
-			;;
-			merlinupdate)
-				case "$3" in
-					enable)
-						MERLINUPDATE="y"
-						echo "[i] Merlin Update Server Check Enabled"
-					;;
-					disable)
-						MERLINUPDATE="n"
-						echo "[i] Merlin Update Server Check Disabled"
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
