@@ -1014,7 +1014,7 @@ case "$1" in
 				if [ -z "$3" ]; then echo "[*] Source Location Not Specified - Exiting"; echo; exit 1; fi
 				if [ -z "$3" ]; then echo "[*] Source Location Doesn't Exist - Exiting"; echo; exit 1; fi
 				SRC_LOC="$3"
-				echo "[i] Stage Location Set To $SRC_LOC"
+				echo "[i] Source Location Set To $SRC_LOC"
 			;;
 			stageloc)
 				if [ -z "$3" ]; then echo "[*] Stage Location Not Specified - Exiting"; echo; exit 1; fi
@@ -1025,7 +1025,7 @@ case "$1" in
 			finalloc)
 				if [ -z "$3" ]; then echo "[*] Final Location Not Specified - Exiting"; echo; exit 1; fi
 				FINAL_LOC="$3"
-				echo "[i] Stage Location Set To $FINAL_LOC"
+				echo "[i] Final Location Set To $FINAL_LOC"
 			;;
 			sshport)
 				if [ -z "$3" ]; then echo "[*] Remote SSH Port Not Specified - Exiting"; echo; exit 1; fi
