@@ -1176,11 +1176,11 @@ case "$1" in
 				case "$3" in
 					enable)
 						BAC3200="y"
-						echo "[i] AC3200U Build Enabled"
+						echo "[i] AC3200 Build Enabled"
 					;;
 					disable)
 						BAC3200="n"
-						echo "[i] AC3200U Build Disabled"
+						echo "[i] AC3200 Build Disabled"
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
@@ -1210,11 +1210,11 @@ case "$1" in
 				case "$3" in
 					enable)
 						BAC3100="y"
-						echo "[i] AC3100U Build Enabled"
+						echo "[i] AC3100 Build Enabled"
 					;;
 					disable)
 						BAC3100="n"
-						echo "[i] AC3100U Build Disabled"
+						echo "[i] AC3100 Build Disabled"
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
@@ -1227,11 +1227,11 @@ case "$1" in
 				case "$3" in
 					enable)
 						BAC5300="y"
-						echo "[i] AC5300U Build Enabled"
+						echo "[i] AC5300 Build Enabled"
 					;;
 					disable)
 						BAC68="n"
-						echo "[i] AC5300U Build Disabled"
+						echo "[i] AC5300 Build Disabled"
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
