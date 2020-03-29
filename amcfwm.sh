@@ -748,7 +748,7 @@ case "$1" in
 					sha256sum "$FWNAME" > sha256sum.sha256
 					zip -qj "$STAGE_LOC/$ZIPNAME" "$FWNAME" "$STAGE_LOC/README-merlin.txt" "$STAGE_LOC"/Changelog*.txt "sha256sum.sha256" 2>/dev/null
 					echo "*** $(date +%R) - Done building $FWMODEL!"
-					BUILDSUCCESS="y"
+					touch "$HOME/amcfwm/build.success"
 				else
 					echo "!!! $(date +%R) - $FWMODEL build failed!"
 				fi
@@ -892,8 +892,9 @@ case "$1" in
 
 		# Copy everything to the host
 
-		if [ -n "$FINAL_LOC" ] && [ "$BUILDSUCCESS" = "y" ]; then
+		if [ -n "$FINAL_LOC" ] && [ -f "$HOME/amcfwm/build.success" ]; then
 			scp -P "$SSH_PORT" -- *.zip *.trx *.txt *.w "$FINAL_LOC/" 2>/dev/null
+			rm -rf "$HOME/amcfwm/build.success"
 		fi
 
 		echo "=== $(date +%R) - All done!"
