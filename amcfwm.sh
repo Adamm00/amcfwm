@@ -1351,6 +1351,7 @@ case "$1" in
 		done
 esac
 
+echo
 Write_Config
 rm -rf "$HOME/amcfwm/amcfwm.lock"
-if [ -n "$reloadmenu" ]; then echo; echo; printf "[i] Press Enter To Continue..."; read -r continue; exec "$0"; fi
+if [ -n "$reloadmenu" ]; then echo; printf "[i] Press Enter To Continue..."; read -r continue; exec "$0"; fi
