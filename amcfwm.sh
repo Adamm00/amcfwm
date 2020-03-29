@@ -23,7 +23,7 @@ mkdir -p "$HOME/amcfwm"
 sudo true
 
 if [ -f "$HOME/amcfwm/amcfwm.lock" ] && [ -d "/proc/$(cat "$HOME/amcfwm/amcfwm.lock")" ]; then
-	logger -st AMCFWM "[*] Lock File Detected (pid=$(cat "$HOME/amcfwm/amcfwm.lock")) - Exiting"
+	echo "[*] Lock File Detected (pid=$(cat "$HOME/amcfwm/amcfwm.lock")) - Exiting"
 	exit 1
 else
 	echo "$$" > "$HOME/amcfwm/amcfwm.lock"
@@ -110,7 +110,7 @@ Load_Menu() {
 		echo
 		echo "[e]  --> Exit Menu"
 		echo
-		printf "[1-5]: "
+		printf "[1-6]: "
 		read -r "menu"
 		echo
 		case "$menu" in
