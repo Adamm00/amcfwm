@@ -91,6 +91,10 @@ Set_Default() {
 	Write_Config
 }
 
+Filter_Version() {
+	grep -m1 -oE 'v[0-9]{1,2}([.][0-9]{1,2})([.][0-9]{1,2})'
+}
+
 Load_Menu() {
 	. "$HOME/amcfwm/amcfwm.cfg"
 	reloadmenu="1"
@@ -101,7 +105,8 @@ Load_Menu() {
 		echo "[3]  --> Setup Repo / Toolchain"
 		echo
 		echo "[4]  --> Settings"
-		echo "[5]  --> Uninstall"
+		echo "[5]  --> Update AMCFWM"
+		echo "[6]  --> Uninstall"
 		echo
 		echo "[e]  --> Exit Menu"
 		echo
@@ -706,6 +711,10 @@ Load_Menu() {
 				break
 			;;
 			5)
+				option1="update"
+				break
+			;;
+			6)
 				option1="uninstall"
 				break
 			;;
@@ -1284,6 +1293,28 @@ case "$1" in
 				echo "[i] All Settings Reset"
 			;;
 		esac
+	;;
+
+	update)
+		remotedir="https://raw.githubusercontent.com/Adamm00/am_cfwm/master"
+		localver="$(Filter_Version < "$0")"
+		remotever="$(curl -fsL --retry 3 --connect-timeout 3 "${remotedir}/amcfwm.sh" | Filter_Version)"
+		localmd5="$(md5sum "$0" | awk '{print $1}')"
+		remotemd5="$(curl -fsL --retry 3 --connect-timeout 3 "${remotedir}/amcfwm.sh" | md5sum | awk '{print $1}')"
+		if [ "$localmd5" = "$remotemd5" ] && [ "$2" != "-f" ]; then
+			echo "[i] AMCFWM Up To Date - $localver (${localmd5})"
+		elif [ "$localmd5" != "$remotemd5" ] && [ "$2" = "check" ]; then
+			echo "[i] AMCFWM Update Detected - $remotever (${remotemd5})"
+		elif [ "$2" = "-f" ]; then
+			echo "[i] Forcing Update"
+		fi
+		if [ "$localmd5" != "$remotemd5" ] || [ "$2" = "-f" ]; then
+			echo "[i] New Version Detected - Updating To $remotever (${remotemd5})"
+			curl -fsL --retry 3 --connect-timeout 3 "${remotedir}/amcfwm.sh" -o "$0"
+			echo "[i] Update Complete!"
+			echo
+			exit 0
+		fi
 	;;
 
 	uninstall)
