@@ -10,7 +10,7 @@
 #                                                                                                            #
 #                           AsusWRT-Merlin CFW Manager For Ubuntu 18.04 LTS                                  #
 #                            By Adamm - https://github.com/Adamm00/am_cfwm                                   #
-#                                         29/03/2020 - v1.0.0                                                #
+#                                         30/03/2020 - v1.0.0                                                #
 ##############################################################################################################
 
 
@@ -782,6 +782,7 @@ case "$1" in
 					sha256sum "$FWNAME" > sha256sum.sha256
 					zip -qj "$STAGE_LOC/$ZIPNAME" "$FWNAME" "$STAGE_LOC/README-merlin.txt" "$STAGE_LOC"/Changelog*.txt "sha256sum.sha256" 2>/dev/null
 					echo "*** $(date +%R) - Done building $FWMODEL!"
+					BUILDSUCCESS="y"
 				else
 					echo "!!! $(date +%R) - $FWMODEL build failed!"
 				fi
@@ -925,7 +926,7 @@ case "$1" in
 
 		# Copy everything to the host
 
-		if [ -n "$FINAL_LOC" ]; then
+		if [ -n "$FINAL_LOC" ] && [ "$BUILDSUCCESS" = "y" ]; then
 			scp -P "$SSH_PORT" -- *.zip *.trx *.txt *.w "$FINAL_LOC/" 2>/dev/null
 		fi
 
