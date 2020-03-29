@@ -146,8 +146,8 @@ Load_Menu() {
 					printf '%-35s | %-40s\n' "[16] --> AC86U Build" "$(if [ "$BAC86" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[17] --> AX88U Build" "$(if [ "$BAX88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n\n' "[18] --> AX58U Build" "$(if [ "$BAX58" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s\n\n' "[20] --> Reset All Settings To Default"
-					printf "[1-20]: "
+					printf '%-35s\n\n' "[19] --> Reset All Settings To Default"
+					printf "[1-19]: "
 					read -r "menu2"
 					echo
 					case "$menu2" in
@@ -720,7 +720,6 @@ case "$1" in
 			exit 1
 		fi
 		if [ "$BUILDREV" = "y" ]; then export BUILDREV="1"; fi
-		if [ "$MERLINUPDATE" = "y" ]; then export MERLINUPDATE="y"; fi
 		build_fw() {
 			BRANCH="$3"
 			FWMODEL="$2"
