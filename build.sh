@@ -103,7 +103,7 @@ build_fw() {
 	if [ "$localver" != "$remotever" ] || [ "$force" = "y" ]; then
 		echo "*** $(date +%R) - Starting building $FWMODEL..."
 		cd "$HOME/$FWPATH" || exit 1
-		if make "$FWMODEL" > "$HOME/amcfwm/$model-output.txt" 2>&1; then
+		if make "$FWMODEL" > "$HOME/amcfwm/$FWMODEL-output.txt" 2>&1; then
 			cd image || exit 1
 			if [ "$FWMODEL" = "rt-ac86u" ] || [ "$FWMODEL" = "rt-ax88u" ]; then
 				FWNAME=$(find -- *_cferom_ubi.w | head -n 1)
