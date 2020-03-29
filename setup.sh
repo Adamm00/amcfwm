@@ -76,10 +76,10 @@ case "$1" in
 		sudo dpkg --add-architecture i386
 		sudo apt-get update
 		sudo apt-get -y install lib32ncurses5-dev dos2unix libtool-bin cmake libproxy-dev uuid-dev liblzo2-dev autoconf automake bash bison bzip2 diffutils file flex m4 g++ gawk groff-base libncurses5-dev libtool libslang2 make patch perl pkg-config shtool subversion tar texinfo zlib1g zlib1g-dev git gettext libexpat1-dev libssl-dev cvs gperf unzip python libxml-parser-perl gcc-multilib gconf-editor libxml2-dev g++-multilib gitk libncurses5 mtd-utils libncurses5-dev libvorbis-dev git autopoint autogen sed build-essential intltool libelf1 libglib2.0-dev xutils-dev lib32z1-dev lib32stdc++6 xsltproc gtk-doc-tools libelf-dev:i386 libelf1:i386 libltdl-dev openssh-server curl git build-essential nano
-		if [ ! -f "$HOME/Desktop/setup.sh" ]; then curl -fsL --retry 3 "https://raw.githubusercontent.com/Adamm00/am_cfwm/master/setup.sh" -o "$HOME/Desktop/setup.sh"; fi
-		if [ ! -f "$HOME/Desktop/build.sh" ]; then curl -fsL --retry 3 "https://raw.githubusercontent.com/Adamm00/am_cfwm/master/build.sh" -o "$HOME/Desktop/build.sh"; fi
-		sudo ln -sf ~/Desktop/setup.sh /bin/setup
-		sudo ln -sf ~/Desktop/build.sh /bin/build
+		if [ ! -f "$HOME/Desktop/setup.sh" ]; then curl -fsL --retry 3 "https://raw.githubusercontent.com/Adamm00/am_cfwm/master/setup.sh" -o "$HOME/amcfwm/setup.sh"; fi
+		if [ ! -f "$HOME/Desktop/build.sh" ]; then curl -fsL --retry 3 "https://raw.githubusercontent.com/Adamm00/am_cfwm/master/build.sh" -o "$HOME/amcfwm/build.sh"; fi
+		sudo ln -sf "$HOME/amcfwm/setup.sh" /bin/setup
+		sudo ln -sf "$HOME/amcfwm/build.sh" /bin/build
 		chmod 755 /bin/build /bin/setup
 		mkdir -p ~/images
 		echo
@@ -142,10 +142,10 @@ case "$1" in
 		echo
 	;;
 	uninstall)
-		sudo rm -rf ~/am-toolchains ~/amng /opt
+		sudo rm -rf "$HOME/am-toolchains" "$HOME/amng"  "$HOME"/amng.* "/opt"
 		sed -i '\~AsusWRT-Merlin CFW Manager~d' ~/.profile
-		rm -rf "$HOME/Desktop/setup.sh" "/bin/setup" "$HOME/Desktop/build.sh" "/bin/build"
-		rm -rf /etc/update-motd.d/10-help-text
+		sudo rm -rf "$HOME/amcfwm" "/bin/setup" "/bin/build"
+		sudo rm -rf /etc/update-motd.d/10-help-text
 	;;
 esac
 

@@ -44,7 +44,8 @@ RSYNC_TREE=y
 #CLEANUP_TREE=y
 
 
-### Uncomment the models you wish to build.
+### Uncomment the models you wish to build
+# This can also be set with positional variables
 
 #BAC56=y
 
@@ -72,6 +73,10 @@ if [ "$BAC56" != "y" ] && [ "$BAC68" != "y" ] && [ "$BAC87" != "y" ] && [ "$BAC3
 	exit 1
 fi
 
+# Force building images even if most recent build is up-to-date
+# This can also be set with positional variables
+force="n"
+
 ### Paths
 # Store built images there
 STAGE_LOC="$HOME/images"
@@ -92,13 +97,13 @@ build_fw() {
 	BRANCH="$3"
 	FWMODEL="$2"
 	FWPATH="$1"
-	localver="$(cat "$SRC_LOC/$FWMODEL.git" 2>/dev/null)"
+	localver="$(cat "$HOME/amcfwm/$FWMODEL.git" 2>/dev/null)"
 	remotever="$(git ls-remote https://github.com/RMerl/asuswrt-merlin.ng.git "$BRANCH" | awk '{print $1}')"
 
 	if [ "$localver" != "$remotever" ] || [ "$force" = "y" ]; then
 		echo "*** $(date +%R) - Starting building $FWMODEL..."
 		cd "$HOME/$FWPATH" || exit 1
-		if make "$FWMODEL" > output.txt 2>&1; then
+		if make "$FWMODEL" > "$HOME/amcfwm/$model-output.txt" 2>&1; then
 			cd image || exit 1
 			if [ "$FWMODEL" = "rt-ac86u" ] || [ "$FWMODEL" = "rt-ax88u" ]; then
 				FWNAME=$(find -- *_cferom_ubi.w | head -n 1)
@@ -118,7 +123,7 @@ build_fw() {
 		else
 			echo "!!! $(date +%R) - $FWMODEL build failed!"
 		fi
-		git -C "$HOME/$FWPATH" rev-parse HEAD > "$SRC_LOC/$FWMODEL.git"
+		git -C "$HOME/$FWPATH" rev-parse HEAD > "$HOME/amcfwm/$FWMODEL.git"
 	fi
 }
 
@@ -127,7 +132,7 @@ clean_tree() {
 	SDKPATH=$2
 	FWMODEL=$3
 	BRANCH=$4
-	localver="$(cat "$SRC_LOC/$FWMODEL.git" 2>/dev/null)"
+	localver="$(cat "$HOME/amcfwm/$FWMODEL.git" 2>/dev/null)"
 	remotever="$(git ls-remote https://github.com/RMerl/asuswrt-merlin.ng.git "$BRANCH" | awk '{print $1}')"
 
 	if [ "$localver" != "$remotever" ] || [ "$force" = "y" ]; then
