@@ -1020,7 +1020,7 @@ case "$1" in
 			;;
 			sshport)
 				if [ -z "$3" ]; then echo "[*] Remote SSH Port Not Specified - Exiting"; echo; exit 1; fi
-				if ! [ "$3" -eq "$3" ] 2>/dev/null; then echo "[*] $3 Isn't A Valid Port Number!"
+				if ! [ "$3" -eq "$3" ] 2>/dev/null; then echo "[*] $3 Isn't A Valid Port Number!"; echo; exit 1; fi
 				SSH_PORT="$3"
 				echo "[i] Remote SSH Port Set To $SSH_PORT"
 			;;
