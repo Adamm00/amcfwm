@@ -676,6 +676,39 @@ Load_Menu() {
 			;;
 			5)
 				option1="update"
+				while true; do
+					echo "Select Update Option:"
+					echo "[1]  --> Check For And Install Any New Updates"
+					echo "[2]  --> Check For Updates Only"
+					echo "[3]  --> Force Update Even If No Updates Detected"
+					echo
+					printf "[1-3]: "
+					read -r "menu2"
+					echo
+					case "$menu2" in
+						1)
+							break
+						;;
+						2)
+							option2="check"
+							break
+						;;
+						3)
+							option2="-f"
+							break
+						;;
+						e|exit|back|menu)
+							unset "option1" "option2" "option3"
+							clear
+							Load_Menu
+							break
+						;;
+						*)
+							echo "[*] $menu2 Isn't An Option!"
+							echo
+						;;
+					esac
+				done
 				break
 			;;
 			6)
@@ -724,10 +757,10 @@ case "$1" in
 			BRANCH="$3"
 			FWMODEL="$2"
 			FWPATH="$1"
-			LOCALVER="$(cat "$HOME/amcfwm/$FWMODEL.git" 2>/dev/null)"
-			REMOTEVER="$(git ls-remote https://github.com/RMerl/asuswrt-merlin.ng.git "$BRANCH" | awk '{print $1}')"
+			LOCALFWVER="$(cat "$HOME/amcfwm/$FWMODEL.git" 2>/dev/null)"
+			REMOTEFWVER="$(git ls-remote https://github.com/RMerl/asuswrt-merlin.ng.git "$BRANCH" | awk '{print $1}')"
 
-			if [ "$LOCALVER" != "$REMOTEVER" ] || [ "$FORCEBUILD" = "y" ]; then
+			if [ "$LOCALFWVER" != "$REMOTEFWVER" ] || [ "$FORCEBUILD" = "y" ]; then
 				echo "*** $(date +%R) - Starting building $FWMODEL..."
 				cd "$HOME/$FWPATH" || exit 1
 				if make "$FWMODEL" > "$HOME/amcfwm/$FWMODEL-output.txt" 2>&1; then
@@ -760,10 +793,10 @@ case "$1" in
 			SDKPATH=$2
 			FWMODEL=$3
 			BRANCH=$4
-			LOCALVER="$(cat "$HOME/amcfwm/$FWMODEL.git" 2>/dev/null)"
-			REMOTEVER="$(git ls-remote https://github.com/RMerl/asuswrt-merlin.ng.git "$BRANCH" | awk '{print $1}')"
+			LOCALFWVER="$(cat "$HOME/amcfwm/$FWMODEL.git" 2>/dev/null)"
+			REMOTEFWVER="$(git ls-remote https://github.com/RMerl/asuswrt-merlin.ng.git "$BRANCH" | awk '{print $1}')"
 
-			if [ "$LOCALVER" != "$REMOTEVER" ] || [ "$FORCEBUILD" = "y" ]; then
+			if [ "$LOCALFWVER" != "$REMOTEFWVER" ] || [ "$FORCEBUILD" = "y" ]; then
 				echo
 				echo "*** $(date +%R) - Cleaning up $FWMODEL..."
 				if [ "$RSYNC_TREE" = "y" ]; then
@@ -1253,12 +1286,14 @@ case "$1" in
 		remotemd5="$(curl -fsL --retry 3 --connect-timeout 3 "${remotedir}/amcfwm.sh" | md5sum | awk '{print $1}')"
 		if [ "$localmd5" = "$remotemd5" ] && [ "$2" != "-f" ]; then
 			echo "[i] AMCFWM Up To Date - $localver (${localmd5})"
+			noupdate="1"
 		elif [ "$localmd5" != "$remotemd5" ] && [ "$2" = "check" ]; then
 			echo "[i] AMCFWM Update Detected - $remotever (${remotemd5})"
+			noupdate="1"
 		elif [ "$2" = "-f" ]; then
 			echo "[i] Forcing Update"
 		fi
-		if [ "$localmd5" != "$remotemd5" ] || [ "$2" = "-f" ]; then
+		if [ "$localmd5" != "$remotemd5" ] || [ "$2" = "-f" ] && [ "$noupdate" != "1" ]; then
 			echo "[i] New Version Detected - Updating To $remotever (${remotemd5})"
 			curl -fsL --retry 3 --connect-timeout 3 "${remotedir}/amcfwm.sh" -o "$0"
 			echo "[i] Update Complete!"
@@ -1299,6 +1334,13 @@ case "$1" in
 				;;
 			esac
 		done
+	;;
+
+	*)
+		echo "Command Not Recognized, Please Try Again"
+		echo "For Help Check https://github.com/Adamm00/am_cfwm"
+		echo
+	;;
 esac
 
 echo
