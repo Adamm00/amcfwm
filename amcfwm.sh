@@ -1082,6 +1082,7 @@ case "$1" in
 				if [ "$TRANSFERTRX" = "y" ]; then scp -P "$SSH_PORT" -- *.trx "$FINAL_LOC/" 2>/dev/null; fi
 				if [ "$TRANSFERW" = "y" ]; then scp -P "$SSH_PORT" -- *.w "$FINAL_LOC/" 2>/dev/null; fi
 				if [ "$TRANSFERTXT" = "y" ]; then scp -P "$SSH_PORT" -- *.txt "$FINAL_LOC/" 2>/dev/null; fi
+				echo
 				rm -rf "$HOME/amcfwm/build.success"
 			fi
 
