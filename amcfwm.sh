@@ -975,7 +975,7 @@ case "$1" in
 					echo "*** $(date +%R) - $FWMODEL code ready."
 				else
 					echo "*** $(date +%R) - $FWMODEL Up To Date"
-					eval "$(echo "$FWMODEL" | tr -d '-')=n"
+					eval "$(echo "$FWMODEL" | tr -d '-')BUILD=n"
 				fi
 			}
 
@@ -991,34 +991,34 @@ case "$1" in
 			# Update all model trees
 
 			echo "--- $(date +%R) - Preparing trees"
-			if [ "$BAC56" = "y" ]; then
+			if [ "$BAC56" = "y" ] && [ "$BAC56BUILD" = "y" ]; then
 				clean_tree amng.ac56 release/src-rt-6.x.4708 rt-ac56u master
 			fi
-			if [ "$BAC68" = "y" ]; then
+			if [ "$BAC68" = "y" ] && [ "$BAC68BUILD" = "y" ]; then
 				clean_tree amng.ac68 release/src-rt-6.x.4708 rt-ac68u mainline
 			fi
-			if [ "$BAC87" = "y" ]; then
+			if [ "$BAC87" = "y" ] && [ "$BAC87BUILD" = "y" ]; then
 				clean_tree amng.ac87 release/src-rt-6.x.4708 rt-ac87u 384.13_x
 			fi
-			if [ "$BAC3200" = "y" ]; then
+			if [ "$BAC3200" = "y" ] && [ "$BAC3200BUILD" = "y" ]; then
 				clean_tree amng.ac3200 release/src-rt-7.x.main/src rt-ac3200 384.13_x
 			fi
-			if [ "$BAC3100" = "y" ]; then
+			if [ "$BAC3100" = "y" ] && [ "$BAC3100BUILD" = "y" ]; then
 				clean_tree amng.ac3100 release/src-rt-7.14.114.x/src rt-ac3100 mainline
 			fi
-			if [ "$BAC88" = "y" ]; then
+			if [ "$BAC88" = "y" ] && [ "$BAC88BUILD" = "y" ]; then
 				clean_tree amng.ac88 release/src-rt-7.14.114.x/src rt-ac88u mainline
 			fi
-			if [ "$BAC5300" = "y" ]; then
+			if [ "$BAC5300" = "y" ] && [ "$BAC5300BUILD" = "y" ]; then
 				clean_tree amng.ac5300 release/src-rt-7.14.114.x/src rt-ac5300 mainline
 			fi
-			if [ "$BAC86" = "y" ]; then
+			if [ "$BAC86" = "y" ] && [ "$BAC86BUILD" = "y" ]; then
 				clean_tree amng.ac86 release/src-rt-5.02hnd rt-ac86u mainline
 			fi
-			if [ "$BAX88" = "y" ]; then
+			if [ "$BAX88" = "y" ] && [ "$BAX88BUILD" = "y" ]; then
 				clean_tree amng.ax88 release/src-rt-5.02axhnd rt-ax88u ax
 			fi
-			if [ "$BAX58" = "y" ]; then
+			if [ "$BAX58" = "y" ] && [ "$BAX58BUILD" = "y" ]; then
 				clean_tree amng.ax58 release/src-rt-5.02axhnd.675x rt-ax58u ax
 			fi
 			echo "--- $(date +%R) - All trees ready!"
