@@ -15,7 +15,7 @@
 
 
 clear
-sed -n '2,16p' "$0"
+sed -n '2,14p' "$0"
 mkdir -p "$HOME/amcfwm"
 
 ### Inspired By RMerlin
@@ -28,6 +28,10 @@ if [ -f "$HOME/amcfwm/amcfwm.lock" ] && [ -d "/proc/$(cat "$HOME/amcfwm/amcfwm.l
 else
 	echo "$$" > "$HOME/amcfwm/amcfwm.lock"
 fi
+
+###############
+#- Functions -#
+###############
 
 Red() {
 	printf -- '\033[1;31m%s\033[0m\n' "$1"
@@ -95,6 +99,7 @@ Filter_Version() {
 
 Load_Menu() {
 	. "$HOME/amcfwm/amcfwm.cfg"
+	printf '\n\n==============================================================================================================\n\n\n'
 	reloadmenu="1"
 	while true; do
 		echo "Select Menu Option:"
@@ -104,7 +109,9 @@ Load_Menu() {
 		echo
 		echo "[4]  --> Settings"
 		echo "[5]  --> Update AMCFWM"
-		echo "[6]  --> Uninstall"
+		echo "[6]  --> Cleanup Inactive Builds"
+		echo
+		echo "[7]  --> Uninstall"
 		echo
 		echo "[e]  --> Exit Menu"
 		echo
@@ -712,6 +719,10 @@ Load_Menu() {
 				break
 			;;
 			6)
+				option1="cleanup"
+				break
+			;;
+			7)
 				option1="uninstall"
 				break
 			;;
@@ -734,12 +745,13 @@ fi
 if [ -n "$option1" ]; then
 	set "$option1" "$option2" "$option3"
 	echo "[$] $0 $*" | tr -s " "
-	echo
 fi
 
 if [ -f "$HOME/amcfwm/amcfwm.cfg" ]; then
 	. "$HOME/amcfwm/amcfwm.cfg"
 fi
+
+printf '\n\n==============================================================================================================\n\n\n'
 
 ##############
 #- Commands -#
@@ -748,188 +760,187 @@ fi
 case "$1" in
 	build)
 		if [ "$BAC56" = "n" ] && [ "$BAC68" = "n" ] && [ "$BAC87" = "n" ] && [ "$BAC3200" = "n" ] && [ "$BAC88" = "n" ] && [ "$BAC3100" = "n" ] && [ "$BAC5300" = "n" ] && [ "$BAC86" = "n" ] && [ "$BAX88" = "n" ] && [ "$BAX58" = "n" ]; then
-			echo "[*] No Models Configured For Build - Exiting!"
-			echo
-			exit 1
-		fi
-		if [ "$BUILDREV" = "1" ]; then export BUILDREV="1"; fi
-		build_fw() {
-			BRANCH="$3"
-			FWMODEL="$2"
-			FWPATH="$1"
-			LOCALFWVER="$(cat "$HOME/amcfwm/$FWMODEL.git" 2>/dev/null)"
-			REMOTEFWVER="$(git ls-remote https://github.com/RMerl/asuswrt-merlin.ng.git "$BRANCH" | awk '{print $1}')"
+			echo "[*] No Models Configured For Build"
+		else
+			if [ "$BUILDREV" = "1" ]; then export BUILDREV="1"; fi
+			build_fw() {
+				BRANCH="$3"
+				FWMODEL="$2"
+				FWPATH="$1"
+				LOCALFWVER="$(cat "$HOME/amcfwm/$FWMODEL.git" 2>/dev/null)"
+				REMOTEFWVER="$(git ls-remote https://github.com/RMerl/asuswrt-merlin.ng.git "$BRANCH" | awk '{print $1}')"
 
-			if [ "$LOCALFWVER" != "$REMOTEFWVER" ] || [ "$FORCEBUILD" = "y" ]; then
-				echo "*** $(date +%R) - Starting building $FWMODEL..."
-				cd "$HOME/$FWPATH" || exit 1
-				if make "$FWMODEL" > "$HOME/amcfwm/$FWMODEL-output.txt" 2>&1; then
-					cd image || exit 1
-					if [ "$FWMODEL" = "rt-ac86u" ] || [ "$FWMODEL" = "rt-ax88u" ]; then
-						FWNAME=$(find -- *_cferom_ubi.w | head -n 1)
-						ZIPNAME="$(echo "$FWNAME" | sed 's~_cferom_ubi.w~~g').zip"
-					elif [ "$FWMODEL" = "rt-ax58u" ]; then
-						FWNAME=$(find -- *_cferom_pureubi.w | head -n 1)
-						ZIPNAME="$(echo "$FWNAME" | sed 's~_cferom_pureubi.w~~g').zip"
+				if [ "$LOCALFWVER" != "$REMOTEFWVER" ] || [ "$FORCEBUILD" = "y" ]; then
+					echo "*** $(date +%R) - Starting building $FWMODEL..."
+					cd "$HOME/$FWPATH" || exit 1
+					if make "$FWMODEL" > "$HOME/amcfwm/$FWMODEL-output.txt" 2>&1; then
+						cd image || exit 1
+						if [ "$FWMODEL" = "rt-ac86u" ] || [ "$FWMODEL" = "rt-ax88u" ]; then
+							FWNAME=$(find -- *_cferom_ubi.w | head -n 1)
+							ZIPNAME="$(echo "$FWNAME" | sed 's~_cferom_ubi.w~~g').zip"
+						elif [ "$FWMODEL" = "rt-ax58u" ]; then
+							FWNAME=$(find -- *_cferom_pureubi.w | head -n 1)
+							ZIPNAME="$(echo "$FWNAME" | sed 's~_cferom_pureubi.w~~g').zip"
+						else
+							FWNAME=$(find -- *.trx | head -n 1)
+							ZIPNAME="$(echo "$FWNAME" | sed 's~.trx~~g').zip"
+						fi
+						cp "$FWNAME" "$STAGE_LOC/"
+
+						sha256sum "$FWNAME" > sha256sum.sha256
+						zip -qj "$STAGE_LOC/$ZIPNAME" "$FWNAME" "$STAGE_LOC/README-merlin.txt" "$STAGE_LOC"/Changelog*.txt "sha256sum.sha256" 2>/dev/null
+						echo "*** $(date +%R) - Done building $FWMODEL!"
+						touch "$HOME/amcfwm/build.success"
 					else
-						FWNAME=$(find -- *.trx | head -n 1)
-						ZIPNAME="$(echo "$FWNAME" | sed 's~.trx~~g').zip"
+						echo "!!! $(date +%R) - $FWMODEL build failed!"
 					fi
-					cp "$FWNAME" "$STAGE_LOC/"
+					git -C "$HOME/$FWPATH" rev-parse HEAD > "$HOME/amcfwm/$FWMODEL.git"
+				fi
+			}
 
-					sha256sum "$FWNAME" > sha256sum.sha256
-					zip -qj "$STAGE_LOC/$ZIPNAME" "$FWNAME" "$STAGE_LOC/README-merlin.txt" "$STAGE_LOC"/Changelog*.txt "sha256sum.sha256" 2>/dev/null
-					echo "*** $(date +%R) - Done building $FWMODEL!"
-					touch "$HOME/amcfwm/build.success"
+			clean_tree() {
+				FWPATH=$1
+				SDKPATH=$2
+				FWMODEL=$3
+				BRANCH=$4
+				LOCALFWVER="$(cat "$HOME/amcfwm/$FWMODEL.git" 2>/dev/null)"
+				REMOTEFWVER="$(git ls-remote https://github.com/RMerl/asuswrt-merlin.ng.git "$BRANCH" | awk '{print $1}')"
+
+				if [ "$LOCALFWVER" != "$REMOTEFWVER" ] || [ "$FORCEBUILD" = "y" ]; then
+					echo
+					echo "*** $(date +%R) - Cleaning up $FWMODEL..."
+					if [ "$RSYNC_TREE" = "y" ]; then
+						echo "*** $(date +%R) - Updating $FWMODEL tree..."
+						rsync -a --del "$SRC_LOC/" "$HOME/$FWPATH"
+					fi
+					cd "$HOME/$FWPATH" || exit 1
+
+					CURRENT=$(git branch | grep "\*" | cut -d ' ' -f2)
+					if [ "$CURRENT" != "$BRANCH" ] ; then
+						git checkout "$BRANCH" >/dev/null 2>&1
+						git pull origin "$BRANCH" >/dev/null 2>&1
+					fi
+
+					if [ "$CLEANUP_TREE" = "y" ]; then
+						cd "$HOME/$FWPATH/$SDKPATH" || exit 1
+						make cleankernel clean >/dev/null 2>&1
+						rm .config image/*.trx image/*.w >/dev/null 2>&1
+					fi
+
+					echo "*** $(date +%R) - $FWMODEL code ready."
 				else
-					echo "!!! $(date +%R) - $FWMODEL build failed!"
+					echo "*** $(date +%R) - $FWMODEL Up To Date"
+					eval "$(echo "$FWMODEL" | tr -d '-')=n"
 				fi
-				git -C "$HOME/$FWPATH" rev-parse HEAD > "$HOME/amcfwm/$FWMODEL.git"
+			}
+
+			# Initial cleanup
+
+			echo "--- $(date +%R) - Global cleanup..."
+			mkdir -p "$STAGE_LOC/backup"
+			mv "$STAGE_LOC"/* "$STAGE_LOC/backup/" 2>/dev/null
+			cp "$SRC_LOC/README-merlin.txt" "$STAGE_LOC/"
+			cp "$SRC_LOC"/Changelog*.txt "$STAGE_LOC/"
+
+
+			# Update all model trees
+
+			echo "--- $(date +%R) - Preparing trees"
+			if [ "$BAC56" = "y" ]; then
+				clean_tree amng.ac56 release/src-rt-6.x.4708 rt-ac56u master
 			fi
-		}
-
-		clean_tree() {
-			FWPATH=$1
-			SDKPATH=$2
-			FWMODEL=$3
-			BRANCH=$4
-			LOCALFWVER="$(cat "$HOME/amcfwm/$FWMODEL.git" 2>/dev/null)"
-			REMOTEFWVER="$(git ls-remote https://github.com/RMerl/asuswrt-merlin.ng.git "$BRANCH" | awk '{print $1}')"
-
-			if [ "$LOCALFWVER" != "$REMOTEFWVER" ] || [ "$FORCEBUILD" = "y" ]; then
-				echo
-				echo "*** $(date +%R) - Cleaning up $FWMODEL..."
-				if [ "$RSYNC_TREE" = "y" ]; then
-					echo "*** $(date +%R) - Updating $FWMODEL tree..."
-					rsync -a --del "$SRC_LOC/" "$HOME/$FWPATH"
-				fi
-				cd "$HOME/$FWPATH" || exit 1
-
-				CURRENT=$(git branch | grep "\*" | cut -d ' ' -f2)
-				if [ "$CURRENT" != "$BRANCH" ] ; then
-					git checkout "$BRANCH" >/dev/null 2>&1
-					git pull origin "$BRANCH" >/dev/null 2>&1
-				fi
-
-				if [ "$CLEANUP_TREE" = "y" ]; then
-					cd "$HOME/$FWPATH/$SDKPATH" || exit 1
-					make cleankernel clean >/dev/null 2>&1
-					rm .config image/*.trx image/*.w >/dev/null 2>&1
-				fi
-
-				echo "*** $(date +%R) - $FWMODEL code ready."
-			else
-				echo "*** $(date +%R) - $FWMODEL Up To Date"
-				eval "$(echo "$FWMODEL" | tr -d '-')=n"
+			if [ "$BAC68" = "y" ]; then
+				clean_tree amng.ac68 release/src-rt-6.x.4708 rt-ac68u mainline
 			fi
-		}
+			if [ "$BAC87" = "y" ]; then
+				clean_tree amng.ac87 release/src-rt-6.x.4708 rt-ac87u 384.13_x
+			fi
+			if [ "$BAC3200" = "y" ]; then
+				clean_tree amng.ac3200 release/src-rt-7.x.main/src rt-ac3200 384.13_x
+			fi
+			if [ "$BAC3100" = "y" ]; then
+				clean_tree amng.ac3100 release/src-rt-7.14.114.x/src rt-ac3100 mainline
+			fi
+			if [ "$BAC88" = "y" ]; then
+				clean_tree amng.ac88 release/src-rt-7.14.114.x/src rt-ac88u mainline
+			fi
+			if [ "$BAC5300" = "y" ]; then
+				clean_tree amng.ac5300 release/src-rt-7.14.114.x/src rt-ac5300 mainline
+			fi
+			if [ "$BAC86" = "y" ]; then
+				clean_tree amng.ac86 release/src-rt-5.02hnd rt-ac86u mainline
+			fi
+			if [ "$BAX88" = "y" ]; then
+				clean_tree amng.ax88 release/src-rt-5.02axhnd rt-ax88u ax
+			fi
+			if [ "$BAX58" = "y" ]; then
+				clean_tree amng.ax58 release/src-rt-5.02axhnd.675x rt-ax58u ax
+			fi
+			echo "--- $(date +%R) - All trees ready!"
+			echo
 
-		# Initial cleanup
+			# Launch parallel builds
 
-		echo "--- $(date +%R) - Global cleanup..."
-		mkdir -p "$STAGE_LOC/backup"
-		mv "$STAGE_LOC"/* "$STAGE_LOC/backup/" 2>/dev/null
-		cp "$SRC_LOC/README-merlin.txt" "$STAGE_LOC/"
-		cp "$SRC_LOC"/Changelog*.txt "$STAGE_LOC/"
+			echo "--- $(date +%R) - Launching all builds"
+			if [ "$BAC56" = "y" ]; then
+				build_fw amng.ac56/release/src-rt-6.x.4708 rt-ac56u master &
+				sleep 20
+			fi
+			if [ "$BAC68" = "y" ]; then
+				build_fw amng.ac68/release/src-rt-6.x.4708 rt-ac68u mainline &
+				sleep 20
+			fi
+			if [ "$BAC87" = "y" ]; then
+				build_fw amng.ac87/release/src-rt-6.x.4708 rt-ac87u 384.13_x &
+				sleep 20
+			fi
+			if [ "$BAC3200" = "y" ]; then
+				build_fw amng.ac3200/release/src-rt-7.x.main/src rt-ac3200 384.13_x &
+				sleep 20
+			fi
+			if [ "$BAC3100" = "y" ]; then
+				build_fw amng.ac3100/release/src-rt-7.14.114.x/src rt-ac3100 mainline &
+				sleep 20
+			fi
+			if [ "$BAC88" = "y" ]; then
+				build_fw amng.ac88/release/src-rt-7.14.114.x/src rt-ac88u mainline &
+				sleep 20
+			fi
+			if [ "$BAC5300" = "y" ]; then
+				build_fw amng.ac5300/release/src-rt-7.14.114.x/src rt-ac5300 mainline &
+				sleep 10
+			fi
+			if [ "$BAC86" = "y" ]; then
+				build_fw amng.ac86/release/src-rt-5.02hnd rt-ac86u mainline &
+				sleep 10
+			fi
+			if [ "$BAX88" = "y" ]; then
+				build_fw amng.ax88/release/src-rt-5.02axhnd rt-ax88u ax &
+				sleep 10
+			fi
+			if [ "$BAX58" = "y" ]; then
+				build_fw amng.ax58/release/src-rt-5.02axhnd.675x rt-ax58u ax &
+				sleep 10
+			fi
 
+			echo "--- $(date +%R) - All builds launched, please wait..."
 
-		# Update all model trees
+			wait
 
-		echo "--- $(date +%R) - Preparing trees"
-		if [ "$BAC56" = "y" ]; then
-			clean_tree amng.ac56 release/src-rt-6.x.4708 rt-ac56u master
-		fi
-		if [ "$BAC68" = "y" ]; then
-			clean_tree amng.ac68 release/src-rt-6.x.4708 rt-ac68u mainline
-		fi
-		if [ "$BAC87" = "y" ]; then
-			clean_tree amng.ac87 release/src-rt-6.x.4708 rt-ac87u 384.13_x
-		fi
-		if [ "$BAC3200" = "y" ]; then
-			clean_tree amng.ac3200 release/src-rt-7.x.main/src rt-ac3200 384.13_x
-		fi
-		if [ "$BAC3100" = "y" ]; then
-			clean_tree amng.ac3100 release/src-rt-7.14.114.x/src rt-ac3100 mainline
-		fi
-		if [ "$BAC88" = "y" ]; then
-			clean_tree amng.ac88 release/src-rt-7.14.114.x/src rt-ac88u mainline
-		fi
-		if [ "$BAC5300" = "y" ]; then
-			clean_tree amng.ac5300 release/src-rt-7.14.114.x/src rt-ac5300 mainline
-		fi
-		if [ "$BAC86" = "y" ]; then
-			clean_tree amng.ac86 release/src-rt-5.02hnd rt-ac86u mainline
-		fi
-		if [ "$BAX88" = "y" ]; then
-			clean_tree amng.ax88 release/src-rt-5.02axhnd rt-ax88u ax
-		fi
-		if [ "$BAX58" = "y" ]; then
-			clean_tree amng.ax58 release/src-rt-5.02axhnd.675x rt-ax58u ax
-		fi
-		echo "--- $(date +%R) - All trees ready!"
-		echo
+			echo
+			cd "$STAGE_LOC" || exit 1
+			{ sha256sum -- *.trx
+			sha256sum -- *.w; } 2>/dev/null | unix2dos > sha256sums-ng.txt
 
-		# Launch parallel builds
+			# Copy everything to the host
 
-		echo "--- $(date +%R) - Launching all builds"
-		if [ "$BAC56" = "y" ]; then
-			build_fw amng.ac56/release/src-rt-6.x.4708 rt-ac56u master &
-			sleep 20
-		fi
-		if [ "$BAC68" = "y" ]; then
-			build_fw amng.ac68/release/src-rt-6.x.4708 rt-ac68u mainline &
-			sleep 20
-		fi
-		if [ "$BAC87" = "y" ]; then
-			build_fw amng.ac87/release/src-rt-6.x.4708 rt-ac87u 384.13_x &
-			sleep 20
-		fi
-		if [ "$BAC3200" = "y" ]; then
-			build_fw amng.ac3200/release/src-rt-7.x.main/src rt-ac3200 384.13_x &
-			sleep 20
-		fi
-		if [ "$BAC3100" = "y" ]; then
-			build_fw amng.ac3100/release/src-rt-7.14.114.x/src rt-ac3100 mainline &
-			sleep 20
-		fi
-		if [ "$BAC88" = "y" ]; then
-			build_fw amng.ac88/release/src-rt-7.14.114.x/src rt-ac88u mainline &
-			sleep 20
-		fi
-		if [ "$BAC5300" = "y" ]; then
-			build_fw amng.ac5300/release/src-rt-7.14.114.x/src rt-ac5300 mainline &
-			sleep 10
-		fi
-		if [ "$BAC86" = "y" ]; then
-			build_fw amng.ac86/release/src-rt-5.02hnd rt-ac86u mainline &
-			sleep 10
-		fi
-		if [ "$BAX88" = "y" ]; then
-			build_fw amng.ax88/release/src-rt-5.02axhnd rt-ax88u ax &
-			sleep 10
-		fi
-		if [ "$BAX58" = "y" ]; then
-			build_fw amng.ax58/release/src-rt-5.02axhnd.675x rt-ax58u ax &
-			sleep 10
-		fi
+			if [ -n "$FINAL_LOC" ] && [ -f "$HOME/amcfwm/build.success" ]; then
+				scp -P "$SSH_PORT" -- *.zip *.trx *.txt *.w "$FINAL_LOC/" 2>/dev/null
+				rm -rf "$HOME/amcfwm/build.success"
+			fi
 
-		echo "--- $(date +%R) - All builds launched, please wait..."
-
-		wait
-
-		echo
-		cd "$STAGE_LOC" || exit 1
-		{ sha256sum -- *.trx
-		sha256sum -- *.w; } 2>/dev/null | unix2dos > sha256sums-ng.txt
-
-		# Copy everything to the host
-
-		if [ -n "$FINAL_LOC" ] && [ -f "$HOME/amcfwm/build.success" ]; then
-			scp -P "$SSH_PORT" -- *.zip *.trx *.txt *.w "$FINAL_LOC/" 2>/dev/null
-			rm -rf "$HOME/amcfwm/build.success"
+			echo "=== $(date +%R) - All done!"
 		fi
-
-		echo "=== $(date +%R) - All done!"
 	;;
 
 	install)
@@ -970,7 +981,7 @@ case "$1" in
 	;;
 
 	repo)
-		sudo rm -rf ~/am-toolchains ~/amng /opt
+		sudo rm -rf "$HOME/am-toolchains" "$HOME/amng" "$HOME"/amng.* "/opt/toolchains" "/opt/brcm-arm"
 		sudo mkdir -p /opt
 
 		cd ~ || exit 1
@@ -1275,6 +1286,11 @@ case "$1" in
 				Set_Default
 				echo "[i] All Settings Reset"
 			;;
+			*)
+				echo "Command Not Recognized, Please Try Again"
+				echo "For Help Check https://github.com/Adamm00/am_cfwm"
+				echo
+			;;
 		esac
 	;;
 
@@ -1302,6 +1318,50 @@ case "$1" in
 		fi
 	;;
 
+	cleanup)
+		echo "[i] Cleaning Up Inactive Build Directories"
+		if [ "$BAC56" = "n" ] && [ -d "$HOME/amng.ac56" ]; then
+			echo "[i] Removing $HOME/amng.ac56 ($(du -sh "$HOME/amng.ac56" | awk '{print $1}'))"
+			rm -rf "$HOME/amng.ac56"
+		fi
+		if [ "$BAC68" = "n" ] && [ -d "$HOME/amng.ac68" ]; then
+			echo "[i] Removing $HOME/amng.ac68 ($(du -sh "$HOME/amng.ac68" | awk '{print $1}'))"
+			rm -rf "$HOME/amng.ac68"
+		fi
+		if [ "$BAC87" = "n" ] && [ -d "$HOME/amng.ac87" ]; then
+			echo "[i] Removing $HOME/amng.ac87 ($(du -sh "$HOME/amng.ac87" | awk '{print $1}'))"
+			rm -rf "$HOME/amng.ac87"
+		fi
+		if [ "$BAC3200" = "n" ] && [ -d "$HOME/amng.ac3200" ]; then
+			echo "[i] Removing $HOME/amng.ac3200 ($(du -sh "$HOME/amng.ac3200" | awk '{print $1}'))"
+			rm -rf "$HOME/amng.ac3200"
+		fi
+		if [ "$BAC3100" = "n" ] && [ -d "$HOME/amng.ac3100" ]; then
+			echo "[i] Removing $HOME/amng.ac3100 ($(du -sh "$HOME/amng.ac3100" | awk '{print $1}'))"
+			rm -rf "$HOME/amng.ac3100"
+		fi
+		if [ "$BAC88" = "n" ] && [ -d "$HOME/amng.ac88" ]; then
+			echo "[i] Removing $HOME/amng.ac88 ($(du -sh "$HOME/amng.ac88" | awk '{print $1}'))"
+			rm -rf "$HOME/amng.ac88"
+		fi
+		if [ "$BAC5300" = "n" ] && [ -d "$HOME/amng.ac5300" ]; then
+			echo "[i] Removing $HOME/amng.ac5300 ($(du -sh "$HOME/amng.ac5300" | awk '{print $1}'))"
+			rm -rf "$HOME/amng.ac5300"
+		fi
+		if [ "$BAC86" = "n" ] && [ -d "$HOME/amng.ac86" ]; then
+			echo "[i] Removing $HOME/amng.ac86 ($(du -sh "$HOME/amng.ac86" | awk '{print $1}'))"
+			rm -rf "$HOME/amng.ac86"
+		fi
+		if [ "$BAX88" = "n" ] && [ -d "$HOME/amng.ax88" ]; then
+			echo "[i] Removing $HOME/amng.ax88 ($(du -sh "$HOME/amng.ax88" | awk '{print $1}'))"
+			rm -rf "$HOME/amng.ax88"
+		fi
+		if [ "$BAX58" = "n" ] && [ -d "$HOME/amng.ax58" ]; then
+			echo "[i] Removing $HOME/amng.ax58 ($(du -sh "$HOME/amng.ax58" | awk '{print $1}'))"
+			rm -rf "$HOME/amng.ax58"
+		fi
+	;;
+
 	uninstall)
 		echo "If You Were Experiencing Issues, Try Update Or Visit SNBForums/Github For Support"
 		echo "https://github.com/Adamm00/am_cfwm"
@@ -1319,9 +1379,9 @@ case "$1" in
 			echo
 			case "$continue" in
 				1)
-					sudo rm -rf "$HOME/am-toolchains" "$HOME/amng"  "$HOME"/amng.* "/opt"
+					sudo rm -rf "$HOME/am-toolchains" "$HOME/amng"  "$HOME"/amng.* "/opt/toolchains" "/opt/brcm-arm"
 					sed -i '\~AsusWRT-Merlin CFW Manager~d' ~/.profile
-					sudo rm -rf "$HOME/amcfwm" "/bin/setup" "/bin/build"
+					sudo rm -rf "$HOME/amcfwm" "/bin/amcfwm"
 					sudo rm -rf /etc/update-motd.d/10-help-text
 				;;
 				2|e|exit)
@@ -1343,7 +1403,7 @@ case "$1" in
 	;;
 esac
 
-echo
+printf '\n\n==============================================================================================================\n\n\n'
 Write_Config
 rm -rf "$HOME/amcfwm/amcfwm.lock"
-if [ -n "$reloadmenu" ]; then echo; printf "[i] Press Enter To Continue..."; read -r continue; exec "$0"; fi
+if [ -n "$reloadmenu" ]; then printf "[i] Press Enter To Continue..."; read -r continue; exec "$0"; fi
