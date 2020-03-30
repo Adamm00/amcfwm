@@ -1538,43 +1538,43 @@ case "$1" in
 		echo "[i] Cleaning Up Inactive Build Directories"
 		if [ "$BAC56" = "n" ] && [ -d "$HOME/amng.ac56" ]; then
 			echo "[i] Removing $HOME/amng.ac56 ($(du -sh "$HOME/amng.ac56" | awk '{print $1}'))"
-			rm -rf "$HOME/amng.ac56" "$HOME/amcfwm/rt-ac56u.git"
+			rm -rf "$HOME/amng.ac56" "$HOME/amcfwm/rt-ac56u.git" "$HOME/amcfwm/rt-ac56u-output.txt"
 		fi
 		if [ "$BAC68" = "n" ] && [ -d "$HOME/amng.ac68" ]; then
 			echo "[i] Removing $HOME/amng.ac68 ($(du -sh "$HOME/amng.ac68" | awk '{print $1}'))"
-			rm -rf "$HOME/amng.ac68" "$HOME/amcfwm/rt-ac68u.git"
+			rm -rf "$HOME/amng.ac68" "$HOME/amcfwm/rt-ac68u.git" "$HOME/amcfwm/rt-ac68u-output.txt"
 		fi
 		if [ "$BAC87" = "n" ] && [ -d "$HOME/amng.ac87" ]; then
 			echo "[i] Removing $HOME/amng.ac87 ($(du -sh "$HOME/amng.ac87" | awk '{print $1}'))"
-			rm -rf "$HOME/amng.ac87" "$HOME/amcfwm/rt-ac87u.git"
+			rm -rf "$HOME/amng.ac87" "$HOME/amcfwm/rt-ac87u.git" "$HOME/amcfwm/rt-ac87u-output.txt"
 		fi
 		if [ "$BAC3200" = "n" ] && [ -d "$HOME/amng.ac3200" ]; then
 			echo "[i] Removing $HOME/amng.ac3200 ($(du -sh "$HOME/amng.ac3200" | awk '{print $1}'))"
-			rm -rf "$HOME/amng.ac3200" "$HOME/amcfwm/rt-ac3200.git"
+			rm -rf "$HOME/amng.ac3200" "$HOME/amcfwm/rt-ac3200.git" "$HOME/amcfwm/rt-ac3200-output.txt"
 		fi
 		if [ "$BAC3100" = "n" ] && [ -d "$HOME/amng.ac3100" ]; then
 			echo "[i] Removing $HOME/amng.ac3100 ($(du -sh "$HOME/amng.ac3100" | awk '{print $1}'))"
-			rm -rf "$HOME/amng.ac3100" "$HOME/amcfwm/rt-ac3100.git"
+			rm -rf "$HOME/amng.ac3100" "$HOME/amcfwm/rt-ac3100.git" "$HOME/amcfwm/rt-ac3100-output.txt"
 		fi
 		if [ "$BAC88" = "n" ] && [ -d "$HOME/amng.ac88" ]; then
 			echo "[i] Removing $HOME/amng.ac88 ($(du -sh "$HOME/amng.ac88" | awk '{print $1}'))"
-			rm -rf "$HOME/amng.ac88" "$HOME/amcfwm/rt-ac88u.git"
+			rm -rf "$HOME/amng.ac88" "$HOME/amcfwm/rt-ac88u.git" "$HOME/amcfwm/rt-ac88u-output.txt"
 		fi
 		if [ "$BAC5300" = "n" ] && [ -d "$HOME/amng.ac5300" ]; then
 			echo "[i] Removing $HOME/amng.ac5300 ($(du -sh "$HOME/amng.ac5300" | awk '{print $1}'))"
-			rm -rf "$HOME/amng.ac5300" "$HOME/amcfwm/rt-ac5300.git"
+			rm -rf "$HOME/amng.ac5300" "$HOME/amcfwm/rt-ac5300.git" "$HOME/amcfwm/rt-ac5300-output.txt"
 		fi
 		if [ "$BAC86" = "n" ] && [ -d "$HOME/amng.ac86" ]; then
 			echo "[i] Removing $HOME/amng.ac86 ($(du -sh "$HOME/amng.ac86" | awk '{print $1}'))"
-			rm -rf "$HOME/amng.ac86" "$HOME/amcfwm/rt-ac86u.git"
+			rm -rf "$HOME/amng.ac86" "$HOME/amcfwm/rt-ac86u.git" "$HOME/amcfwm/rt-ac86u-output.txt"
 		fi
 		if [ "$BAX88" = "n" ] && [ -d "$HOME/amng.ax88" ]; then
 			echo "[i] Removing $HOME/amng.ax88 ($(du -sh "$HOME/amng.ax88" | awk '{print $1}'))"
-			rm -rf "$HOME/amng.ax88" "$HOME/amcfwm/rt-ax88u.git"
+			rm -rf "$HOME/amng.ax88" "$HOME/amcfwm/rt-ax88u.git" "$HOME/amcfwm/rt-ax88u-output.txt"
 		fi
 		if [ "$BAX58" = "n" ] && [ -d "$HOME/amng.ax58" ]; then
 			echo "[i] Removing $HOME/amng.ax58 ($(du -sh "$HOME/amng.ax58" | awk '{print $1}'))"
-			rm -rf "$HOME/amng.ax58" "$HOME/amcfwm/rt-ax58u.git"
+			rm -rf "$HOME/amng.ax58" "$HOME/amcfwm/rt-ax58u.git" "$HOME/amcfwm/rt-ax58u-output.txt"
 		fi
 	;;
 
