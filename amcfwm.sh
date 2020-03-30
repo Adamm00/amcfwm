@@ -56,6 +56,11 @@ Write_Config() {
 		printf '%s="%s"\n' "RSYNC_TREE" "$RSYNC_TREE"
 		printf '%s="%s"\n' "CLEANUP_TREE" "$CLEANUP_TREE"
 		printf '%s="%s"\n\n' "FORCEBUILD" "$FORCEBUILD"
+		printf '%s\n' "## Transfer Options ##"
+		printf '%s="%s"\n' "TRANSFERZIP" "$TRANSFERZIP"
+		printf '%s="%s"\n' "TRANSFERTRX" "$TRANSFERTRX"
+		printf '%s="%s"\n' "TRANSFERW" "$TRANSFERW"
+		printf '%s="%s"\n\n' "TRANSFERTXT" "$TRANSFERTXT"
 		printf '%s\n' "## FW Models ##"
 		printf '%s="%s"\n' "BAC56" "$BAC56"
 		printf '%s="%s"\n' "BAC68" "$BAC68"
@@ -80,6 +85,10 @@ Set_Default() {
 	RSYNC_TREE="y"
 	CLEANUP_TREE="n"
 	FORCEBUILD="n"
+	TRANSFERZIP="y"
+	TRANSFERTRX="y"
+	TRANSFERW="y"
+	TRANSFERTXT="y"
 	BAC56="n"
 	BAC68="n"
 	BAC87="n"
@@ -143,18 +152,22 @@ Load_Menu() {
 					printf '%-35s | %-40s\n' "[6]  --> Rsync Tree" "$(if [ "$RSYNC_TREE" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[7]  --> Cleanup Tree" "$(if [ "$CLEANUP_TREE" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n\n' "[8]  --> Force Image Build" "$(if [ "$FORCEBUILD" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[9]  --> AC56U Build" "$(if [ "$BAC56" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[10] --> AC68U Build" "$(if [ "$BAC68" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[11] --> AC87U Build" "$(if [ "$BAC87" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[12] --> AC3200 Build" "$(if [ "$BAC3200" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[13] --> AC88U Build" "$(if [ "$BAC88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[14] --> AC3100 Build" "$(if [ "$BAC3100" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[15] --> AC5300 Build" "$(if [ "$BAC5300" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[16] --> AC86U Build" "$(if [ "$BAC86" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[17] --> AX88U Build" "$(if [ "$BAX88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n\n' "[18] --> AX58U Build" "$(if [ "$BAX58" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s\n\n' "[19] --> Reset All Settings To Default"
-					printf "[1-19]: "
+					printf '%-35s | %-40s\n' "[9]  --> Transfer .zip Files" "$(if [ "$TRANSFERZIP" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[10] --> Transfer .trx Files" "$(if [ "$TRANSFERTRX" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[11] --> Transfer .w Files" "$(if [ "$TRANSFERW" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n\n' "[12] --> Transfer .txt Files" "$(if [ "$TRANSFERTXT" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[13] --> AC56U Build" "$(if [ "$BAC56" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[14] --> AC68U Build" "$(if [ "$BAC68" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[15] --> AC87U Build" "$(if [ "$BAC87" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[16] --> AC3200 Build" "$(if [ "$BAC3200" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[17] --> AC88U Build" "$(if [ "$BAC88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[18] --> AC3100 Build" "$(if [ "$BAC3100" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[19] --> AC5300 Build" "$(if [ "$BAC5300" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[20] --> AC86U Build" "$(if [ "$BAC86" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[21] --> AX88U Build" "$(if [ "$BAX88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n\n' "[22] --> AX58U Build" "$(if [ "$BAX58" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s\n\n' "[23] --> Reset All Settings To Default"
+					printf "[1-23]: "
 					read -r "menu2"
 					echo
 					case "$menu2" in
@@ -334,6 +347,138 @@ Load_Menu() {
 							break
 						;;
 						9)
+							option2="transferzip"
+							while true; do
+								echo "Select Transfer .zip Option:"
+								echo "[1]  --> Enable"
+								echo "[2]  --> Disable"
+								echo
+								printf "[1-2]: "
+								read -r "menu3"
+								echo
+								case "$menu3" in
+									1)
+										option3="enable"
+										break
+									;;
+									2)
+										option3="disable"
+										break
+									;;
+									e|exit|back|menu)
+										unset "option1" "option2" "option3"
+										clear
+										Load_Menu
+										break
+									;;
+									*)
+										echo "[*] $menu3 Isn't An Option!"
+										echo
+									;;
+								esac
+							done
+							break
+						;;
+						10)
+							option2="transfertrx"
+							while true; do
+								echo "Select Transfer .trx Option:"
+								echo "[1]  --> Enable"
+								echo "[2]  --> Disable"
+								echo
+								printf "[1-2]: "
+								read -r "menu3"
+								echo
+								case "$menu3" in
+									1)
+										option3="enable"
+										break
+									;;
+									2)
+										option3="disable"
+										break
+									;;
+									e|exit|back|menu)
+										unset "option1" "option2" "option3"
+										clear
+										Load_Menu
+										break
+									;;
+									*)
+										echo "[*] $menu3 Isn't An Option!"
+										echo
+									;;
+								esac
+							done
+							break
+						;;
+						11)
+							option2="transferw"
+							while true; do
+								echo "Select Transfer .w Option:"
+								echo "[1]  --> Enable"
+								echo "[2]  --> Disable"
+								echo
+								printf "[1-2]: "
+								read -r "menu3"
+								echo
+								case "$menu3" in
+									1)
+										option3="enable"
+										break
+									;;
+									2)
+										option3="disable"
+										break
+									;;
+									e|exit|back|menu)
+										unset "option1" "option2" "option3"
+										clear
+										Load_Menu
+										break
+									;;
+									*)
+										echo "[*] $menu3 Isn't An Option!"
+										echo
+									;;
+								esac
+							done
+							break
+						;;
+						12)
+							option2="transfertxt"
+							while true; do
+								echo "Select Transfer .txt Option:"
+								echo "[1]  --> Enable"
+								echo "[2]  --> Disable"
+								echo
+								printf "[1-2]: "
+								read -r "menu3"
+								echo
+								case "$menu3" in
+									1)
+										option3="enable"
+										break
+									;;
+									2)
+										option3="disable"
+										break
+									;;
+									e|exit|back|menu)
+										unset "option1" "option2" "option3"
+										clear
+										Load_Menu
+										break
+									;;
+									*)
+										echo "[*] $menu3 Isn't An Option!"
+										echo
+									;;
+								esac
+							done
+							break
+						;;
+						13)
 							option2="bac56"
 							while true; do
 								echo "Select AC56U Build Option:"
@@ -366,7 +511,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						10)
+						14)
 							option2="bac68"
 							while true; do
 								echo "Select AC68U Build Option:"
@@ -399,7 +544,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						11)
+						15)
 							option2="bac87"
 							while true; do
 								echo "Select AC87U Build Option:"
@@ -432,7 +577,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						12)
+						16)
 							option2="bac3200"
 							while true; do
 								echo "Select AC3200U Build Option:"
@@ -465,7 +610,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						13)
+						17)
 							option2="bac88"
 							while true; do
 								echo "Select AC88U Build Option:"
@@ -498,7 +643,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						14)
+						18)
 							option2="bac3100"
 							while true; do
 								echo "Select AC3100U Build Option:"
@@ -531,7 +676,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						15)
+						19)
 							option2="bac5300"
 							while true; do
 								echo "Select AC5300U Build Option:"
@@ -564,7 +709,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						16)
+						20)
 							option2="bac86"
 							while true; do
 								echo "Select AC86U Build Option:"
@@ -597,7 +742,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						17)
+						21)
 							option2="bax88"
 							while true; do
 								echo "Select AX88U Build Option:"
@@ -630,7 +775,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						18)
+						22)
 							option2="bax58"
 							while true; do
 								echo "Select AX58U Build Option:"
@@ -663,7 +808,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						19)
+						23)
 							option2="reset"
 							break
 						;;
@@ -935,7 +1080,10 @@ case "$1" in
 			# Copy everything to the host
 
 			if [ -n "$FINAL_LOC" ] && [ -f "$HOME/amcfwm/build.success" ]; then
-				scp -P "$SSH_PORT" -- *.zip *.trx *.txt *.w "$FINAL_LOC/" 2>/dev/null
+				if [ "$TRANSFERZIP" = "y" ]; then scp -P "$SSH_PORT" -- *.zip "$FINAL_LOC/" 2>/dev/null; fi
+				if [ "$TRANSFERTRX" = "y" ]; then scp -P "$SSH_PORT" -- *.trx "$FINAL_LOC/" 2>/dev/null; fi
+				if [ "$TRANSFERW" = "y" ]; then scp -P "$SSH_PORT" -- *.w "$FINAL_LOC/" 2>/dev/null; fi
+				if [ "$TRANSFERTXT" = "y" ]; then scp -P "$SSH_PORT" -- *.txt "$FINAL_LOC/" 2>/dev/null; fi
 				rm -rf "$HOME/amcfwm/build.success"
 			fi
 
@@ -1104,6 +1252,74 @@ case "$1" in
 					disable)
 						FORCEBUILD="n"
 						echo "[i] Force Image Build Disabled"
+					;;
+					*)
+						echo "Command Not Recognized, Please Try Again"
+						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo; exit 2
+					;;
+				esac
+			;;
+			transferzip)
+				case "$3" in
+					enable)
+						TRANSFERZIP="y"
+						echo "[i] Transfer .zip Files Enabled"
+					;;
+					disable)
+						TRANSFERZIP="n"
+						echo "[i] Transfer .zip Files Disabled"
+					;;
+					*)
+						echo "Command Not Recognized, Please Try Again"
+						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo; exit 2
+					;;
+				esac
+			;;
+			transfertrx)
+				case "$3" in
+					enable)
+						TRANSFERTRX="y"
+						echo "[i] Transfer .trx Files Enabled"
+					;;
+					disable)
+						TRANSFERTRX="n"
+						echo "[i] Transfer .trx Files Disabled"
+					;;
+					*)
+						echo "Command Not Recognized, Please Try Again"
+						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo; exit 2
+					;;
+				esac
+			;;
+			transferw)
+				case "$3" in
+					enable)
+						TRANSFERW="y"
+						echo "[i] Transfer .w Files Enabled"
+					;;
+					disable)
+						TRANSFERW="n"
+						echo "[i] Transfer .w Files Disabled"
+					;;
+					*)
+						echo "Command Not Recognized, Please Try Again"
+						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo; exit 2
+					;;
+				esac
+			;;
+			transfertxt)
+				case "$3" in
+					enable)
+						TRANSFERTXT="y"
+						echo "[i] Transfer .txt Files Enabled"
+					;;
+					disable)
+						TRANSFERTXT="n"
+						echo "[i] Transfer .txt Files Disabled"
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
