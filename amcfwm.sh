@@ -912,8 +912,10 @@ case "$1" in
 				BRANCH="$3"
 				FWMODEL="$2"
 				FWPATH="$1"
+				LOCALFWVER="$(cat "$HOME/amcfwm/$FWMODEL.git" 2>/dev/null)"
+				REMOTEFWVER="$(git ls-remote https://github.com/RMerl/asuswrt-merlin.ng.git "$BRANCH" | awk '{print $1}')"
 
-				if [ "$FWMODELBUILD" != "n" ] || [ "$FORCEBUILD" = "y" ]; then
+				if [ "$LOCALFWVER" != "$REMOTEFWVER" ] || [ "$FORCEBUILD" = "y" ]; then
 					echo "*** $(date +%R) - Starting building $FWMODEL..."
 					cd "$HOME/$FWPATH" || exit 1
 					if make "$FWMODEL" > "$HOME/amcfwm/$FWMODEL-output.txt" 2>&1; then
@@ -973,7 +975,6 @@ case "$1" in
 					echo "*** $(date +%R) - $FWMODEL code ready."
 				else
 					echo "*** $(date +%R) - $FWMODEL Up To Date"
-					eval "$(echo "$FWMODEL" | tr -d '-')BUILD=n"
 				fi
 			}
 
