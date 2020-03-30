@@ -72,7 +72,7 @@ Set_Default() {
 	STAGE_LOC="$HOME/images"
 	FINAL_LOC=admin@router.asus.com:/mnt/sda1/Share
 	SSH_PORT="22"
-	BUILDREV="y"
+	BUILDREV="1"
 	RSYNC_TREE="y"
 	CLEANUP_TREE="n"
 	FORCEBUILD="n"
@@ -132,11 +132,11 @@ Load_Menu() {
 					printf '%-35s | %-40s\n' "[2]  --> Stage Location" "$(Grn "$STAGE_LOC")"
 					printf '%-35s | %-40s\n' "[3]  --> Final Location" "$(Grn "$FINAL_LOC")"
 					printf '%-35s | %-40s\n\n' "[4]  --> Remote SSH Port" "$(Grn "$SSH_PORT")"
-					printf '%-35s | %-40s\n' "[5]  --> Build Revision" "$(if [ "$BUILDREV" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[5]  --> Build Revision" "$(if [ "$BUILDREV" = "1" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[6]  --> Rsync Tree" "$(if [ "$RSYNC_TREE" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[7]  --> Cleanup Tree" "$(if [ "$CLEANUP_TREE" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n\n' "[8]  --> Force Image Build" "$(if [ "$FORCEBUILD" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[9] --> AC56U Build" "$(if [ "$BAC56" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[9]  --> AC56U Build" "$(if [ "$BAC56" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[10] --> AC68U Build" "$(if [ "$BAC68" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[11] --> AC87U Build" "$(if [ "$BAC87" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[12] --> AC3200 Build" "$(if [ "$BAC3200" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
@@ -719,7 +719,7 @@ case "$1" in
 			echo
 			exit 1
 		fi
-		if [ "$BUILDREV" = "y" ]; then export BUILDREV="1"; fi
+		if [ "$BUILDREV" = "1" ]; then export BUILDREV="1"; fi
 		build_fw() {
 			BRANCH="$3"
 			FWMODEL="$2"
@@ -1003,7 +1003,7 @@ case "$1" in
 			buildrev)
 				case "$3" in
 					enable)
-						BUILDREV="y"
+						BUILDREV="1"
 						echo "[i] Build Revision String Enabled"
 					;;
 					disable)
