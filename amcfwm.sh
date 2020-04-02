@@ -20,8 +20,6 @@ mkdir -p "$HOME/amcfwm"
 
 ### Inspired By RMerlin
 
-sudo true
-
 if [ -f "$HOME/amcfwm/amcfwm.lock" ] && [ -d "/proc/$(cat "$HOME/amcfwm/amcfwm.lock")" ]; then
 	echo "[*] Lock File Detected (pid=$(cat "$HOME/amcfwm/amcfwm.lock")) - Exiting"
 	exit 1
@@ -107,7 +105,9 @@ Filter_Version() {
 }
 
 Load_Menu() {
-	. "$HOME/amcfwm/amcfwm.cfg"
+	if [ -f "$HOME/amcfwm/amcfwm.cfg" ]; then
+		. "$HOME/amcfwm/amcfwm.cfg"
+	fi
 	printf '\n\n==============================================================================================================\n\n\n'
 	reloadmenu="1"
 	while true; do
@@ -1093,13 +1093,16 @@ case "$1" in
 
 	install)
 		if grep -qF "Ubuntu 18.04" "/etc/os-release"; then
-			echo "Adding $USER To Sudoers File"
-			echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo EDITOR='tee -a' visudo
+			if ! sudo grep -qF "$USER ALL=(ALL) NOPASSWD: ALL" /etc/sudoers; then
+				echo "Adding $USER To Sudoers File"
+				echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo EDITOR='tee -a' visudo
+			fi
 			sudo apt-get update
 			sudo apt-get -y dist-upgrade
 			sudo dpkg --add-architecture i386
 			sudo apt-get update
-			sudo apt-get -y install lib32ncurses5-dev dos2unix libtool-bin cmake libproxy-dev uuid-dev liblzo2-dev autoconf automake bash bison bzip2 diffutils file flex m4 g++ gawk groff-base libncurses5-dev libtool libslang2 make patch perl pkg-config shtool subversion tar texinfo zlib1g zlib1g-dev git gettext libexpat1-dev libssl-dev cvs gperf unzip python libxml-parser-perl gcc-multilib gconf-editor libxml2-dev g++-multilib gitk libncurses5 mtd-utils libncurses5-dev libvorbis-dev git autopoint autogen sed build-essential intltool libelf1 libglib2.0-dev xutils-dev lib32z1-dev lib32stdc++6 xsltproc gtk-doc-tools libelf-dev:i386 libelf1:i386 libltdl-dev openssh-server curl git build-essential nano
+			sudo apt-get -y install lib32ncurses5-dev dos2unix libtool-bin cmake libproxy-dev uuid-dev liblzo2-dev autoconf automake bash bison bzip2 diffutils file flex m4 g++ gawk groff-base libncurses5-dev libtool libslang2 make patch perl pkg-config shtool subversion tar texinfo zlib1g zlib1g-dev git gettext libexpat1-dev libssl-dev cvs gperf unzip python libxml-parser-perl gcc-multilib gconf-editor libxml2-dev g++-multilib gitk libncurses5 mtd-utils libncurses5-dev libvorbis-dev git autopoint autogen sed build-essential intltool libelf1 libglib2.0-dev xutils-dev lib32z1-dev lib32stdc++6 xsltproc gtk-doc-tools libelf-dev:i386 libelf1:i386 libltdl-dev openssh-server curl git build-essential nano openssh-server
+			sudo apt -y autoremove
 			if [ ! -f "$HOME/amcfwm/amcfwm.sh" ]; then curl -fsL --retry 3 "https://raw.githubusercontent.com/Adamm00/am_cfwm/master/amcfwm.sh" -o "$HOME/amcfwm/amcfwm.sh"; fi
 			sudo ln -sf "$HOME/amcfwm/amcfwm.sh" /bin/amcfwm
 			chmod 755 /bin/amcfwm
@@ -1111,23 +1114,23 @@ case "$1" in
 			echo "Your SSH Pubkey For Remote SSH Access - Save This File - [Press Enter To Continue]"
 			cat "$HOME/.ssh/id_rsa.pub"
 			read -r
-			echo "Setting Up OpenSSH-Server - Input authorized_keys Of Storage Server - [Press Enter To Continue]"
+			echo "Setting Up OpenSSH-Server - Input Pubkey Of Your SSH Client - [Press Enter To Continue]"
 			read -r
 			sudo nano -w "$HOME/.ssh/authorized_keys"
 			echo "Hardening OpenSSH Config"
 			SSHPORT="$(awk -v min=49152 -v max=65535 -v freq=1 'BEGIN{"tr -cd 0-9 </dev/urandom | head -c 6" | getline seed; srand(seed); for(i=0;i<freq;i++)print int(min+rand()*(max-min+1))}')"
-			sed -i "s~.*Port .*~Port $SSHPORT~g" /etc/ssh/sshd_config
+			sudo sed -i "s~.*Port .*~Port $SSHPORT~g" /etc/ssh/sshd_config
 			echo "VM SSH Port Changed To $SSHPORT"
-			sed -i 's~#ChallengeResponseAuthentication yes~ChallengeResponseAuthentication no~g' /etc/ssh/sshd_config
-			sed -i 's~#PasswordAuthentication yes~PasswordAuthentication no~g' /etc/ssh/sshd_config
+			sudo sed -i 's~#ChallengeResponseAuthentication yes~ChallengeResponseAuthentication no~g' /etc/ssh/sshd_config
+			sudo sed -i 's~#PasswordAuthentication yes~PasswordAuthentication no~g' /etc/ssh/sshd_config
 			echo "SSH Password Authentication Disabled"
 			echo "Input MOTD - [Press Enter To Continue]"
 			read -r
-			rm -rf /etc/update-motd.d/80-livepatch /etc/update-motd.d/50-motd-news /etc/update-motd.d/80-esm /etc/update-motd.d/91-release-upgrade /etc/update-motd.d/95-hwe-eol
-			true > /etc/update-motd.d/10-help-text
-			sudo nano -w /etc/update-motd.d/10-help-text
+			sudo rm -rf /etc/update-motd.d/10-help-text /etc/update-motd.d/80-livepatch /etc/update-motd.d/50-motd-news /etc/update-motd.d/80-esm /etc/update-motd.d/91-release-upgrade /etc/update-motd.d/95-hwe-eol
+			sudo nano -w /etc/update-motd.d/2-amcfwm
+			sudo chmod 755 /etc/update-motd.d/2-amcfwm
 			echo "Adding Daily Build Cronjob (5.20AM)"
-			crontab -l | sed "\$a20 5 * * * sh /bin/amcfwm build >/dev/null 2>&1" | crontab -
+			crontab -l | sed "\$a20 5 * * * sh /bin/amcfwm build >/dev/null 2>&1" | crontab - # Needs work
 			Set_Default
 			echo "Rebooting To Apply Updates - [Press Enter To Continue]"
 			read -r
@@ -1604,10 +1607,9 @@ case "$1" in
 			echo
 			case "$continue" in
 				1)
-					sudo rm -rf "$HOME/am-toolchains" "$HOME/amng"  "$HOME"/amng.* "/opt/toolchains" "/opt/brcm-arm"
+					sudo rm -rf "$HOME/am-toolchains" "$HOME/amng"  "$HOME"/amng.* "/opt/toolchains" "/opt/brcm-arm" "/etc/update-motd.d/2-amcfwm"
 					sed -i '\~AsusWRT-Merlin CFW Manager~d' "$HOME/.profile"
 					sudo rm -rf "$HOME/amcfwm" "/bin/amcfwm"
-					sudo rm -rf "/etc/update-motd.d/10-help-text"
 				;;
 				2|e|exit)
 					echo "[*] Exiting!"
