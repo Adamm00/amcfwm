@@ -1148,11 +1148,12 @@ case "$1" in
 		if [ ! -d "$HOME/am-toolchains" ]; then
 			echo "Preparing Toolchain Repo"
 			git clone https://github.com/RMerl/am-toolchains.git
-			sudo ln -s "$HOME/am-toolchains/brcm-arm-hnd" "/opt/toolchains"
+			echo
 		fi
 		if [ ! -d "$HOME/amng" ]; then
 			echo "Preparing Firmware Repo"
 			git clone https://github.com/RMerl/asuswrt-merlin.ng amng
+			echo
 		fi
 
 		sed -i '\~AsusWRT-Merlin CFW Manager~d' "$HOME/.profile"
@@ -1174,7 +1175,6 @@ case "$1" in
 		echo "PATH=\$PATH:/opt/toolchains/crosstools-arm-gcc-5.5-linux-4.1-glibc-2.26-binutils-2.28.1/usr/bin # AsusWRT-Merlin CFW Manager"
 		echo "PATH=\$PATH:/opt/toolchains/crosstools-aarch64-gcc-5.5-linux-4.1-glibc-2.26-binutils-2.28.1/usr/bin # AsusWRT-Merlin CFW Manager"; } >> "$HOME/.profile"
 
-		echo
 		echo "Repo Setup Complete!"
 		echo
 	;;
