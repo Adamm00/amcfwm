@@ -1131,7 +1131,6 @@ case "$1" in
 			sudo chmod 755 /etc/update-motd.d/2-amcfwm
 			echo "Adding Daily Build Cronjob (5.20AM)"
 			crontab -l | sed "\$a20 5 * * * sh /bin/amcfwm build >/dev/null 2>&1" | crontab - # Needs work
-			Set_Default
 			echo "Rebooting To Apply Updates - [Press Enter To Continue]"
 			read -r
 			sudo rm -f /bin/sh && sudo ln -sf bash /bin/sh && sudo reboot
@@ -1144,7 +1143,7 @@ case "$1" in
 		sudo rm -rf "$HOME/am-toolchains" "$HOME/amng" "$HOME"/amng.* "/opt/toolchains" "/opt/brcm-arm"
 		sudo mkdir -p /opt
 
-		cd ~ || exit 1
+		cd "$HOME" || exit 1
 		if [ ! -d "$HOME/am-toolchains" ]; then
 			echo "Preparing Toolchain Repo"
 			git clone https://github.com/RMerl/am-toolchains.git
@@ -1174,6 +1173,11 @@ case "$1" in
 		{ echo "export LD_LIBRARY_PATH=$LD_LIBRARY:/opt/toolchains/crosstools-arm-gcc-5.5-linux-4.1-glibc-2.26-binutils-2.28.1/usr/lib # AsusWRT-Merlin CFW Manager"
 		echo "PATH=\$PATH:/opt/toolchains/crosstools-arm-gcc-5.5-linux-4.1-glibc-2.26-binutils-2.28.1/usr/bin # AsusWRT-Merlin CFW Manager"
 		echo "PATH=\$PATH:/opt/toolchains/crosstools-aarch64-gcc-5.5-linux-4.1-glibc-2.26-binutils-2.28.1/usr/bin # AsusWRT-Merlin CFW Manager"; } >> "$HOME/.profile"
+
+
+		if [ ! -f "$HOME/amcfwm/amcfwm.cfg" ]; then
+			Set_Default
+		fi
 
 		echo "Repo Setup Complete!"
 		echo
