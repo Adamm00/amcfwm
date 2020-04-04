@@ -10,7 +10,7 @@
 #                                                                                                            #
 #                           AsusWRT-Merlin CFW Manager For Ubuntu 18.04 LTS                                  #
 #                            By Adamm - https://github.com/Adamm00/am_cfwm                                   #
-#                                         03/04/2020 - v1.0.0                                                #
+#                                         05/04/2020 - v1.0.0                                                #
 ##############################################################################################################
 
 
@@ -107,6 +107,8 @@ Filter_Version() {
 Load_Menu() {
 	if [ -f "$HOME/amcfwm/amcfwm.cfg" ]; then
 		. "$HOME/amcfwm/amcfwm.cfg"
+	else
+		Set_Default
 	fi
 	printf '\n\n==============================================================================================================\n\n\n'
 	reloadmenu="1"
@@ -894,6 +896,8 @@ fi
 
 if [ -f "$HOME/amcfwm/amcfwm.cfg" ]; then
 	. "$HOME/amcfwm/amcfwm.cfg"
+else
+	Set_Default
 fi
 
 printf '\n\n==============================================================================================================\n\n\n'
@@ -1129,8 +1133,10 @@ case "$1" in
 			sudo rm -rf /etc/update-motd.d/10-help-text /etc/update-motd.d/80-livepatch /etc/update-motd.d/50-motd-news /etc/update-motd.d/80-esm /etc/update-motd.d/91-release-upgrade /etc/update-motd.d/95-hwe-eol
 			sudo nano -w /etc/update-motd.d/2-amcfwm
 			sudo chmod 755 /etc/update-motd.d/2-amcfwm
-			echo "Adding Daily Build Cronjob (5.20AM)"
-			crontab -l | sed "\$a20 5 * * * sh /bin/amcfwm build >/dev/null 2>&1" | crontab - # Needs work
+			if ! crontab -l | grep -qF "amcfwm"; then
+				echo "Adding Daily Build Cronjob (5.20AM)"
+				crontab -l | sed "\$a20 5 * * * sh /bin/amcfwm build >/dev/null 2>&1" | crontab - # Needs work
+			fi
 			echo "Rebooting To Apply Updates - [Press Enter To Continue]"
 			read -r
 			sudo rm -f /bin/sh && sudo ln -sf bash /bin/sh && sudo reboot
