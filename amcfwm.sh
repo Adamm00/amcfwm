@@ -1109,7 +1109,7 @@ case "$1" in
 			sudo apt -y autoremove
 			if [ ! -f "$HOME/amcfwm/amcfwm.sh" ]; then curl -fsL --retry 3 "https://raw.githubusercontent.com/Adamm00/am_cfwm/master/amcfwm.sh" -o "$HOME/amcfwm/amcfwm.sh"; fi
 			sudo ln -sf "$HOME/amcfwm/amcfwm.sh" /bin/amcfwm
-			chmod 755 /bin/amcfwm
+			sudo chmod 755 "/bin/amcfwm"
 			mkdir -p "$HOME/images"
 			echo
 			if [ ! -f "$HOME/.ssh/id_rsa" ]; then
@@ -1137,6 +1137,7 @@ case "$1" in
 				echo "Adding Daily Build Cronjob (6.25AM)"
 				echo "#!/bin/sh" > /etc/cron.daily/amcfwm
 				echo "sh /bin/amcfwm build >/dev/null 2>&1" >> /etc/cron.daily/amcfwm
+				sudo chmod 755 "/etc/cron.daily/amcfwm"
 			fi
 			echo "Rebooting To Apply Updates - [Press Enter To Continue]"
 			read -r "continue"
