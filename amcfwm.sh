@@ -1133,7 +1133,7 @@ case "$1" in
 			sudo rm -rf /etc/update-motd.d/10-help-text /etc/update-motd.d/80-livepatch /etc/update-motd.d/50-motd-news /etc/update-motd.d/80-esm /etc/update-motd.d/91-release-upgrade /etc/update-motd.d/95-hwe-eol
 			sudo nano -w /etc/update-motd.d/2-amcfwm
 			sudo chmod 755 /etc/update-motd.d/2-amcfwm
-			if ! crontab -l | grep -qF "amcfwm"; then
+			if [ ! -f "/etc/cron.daily/amcfwm" ]; then
 				echo "Adding Daily Build Cronjob (6.25AM)"
 				echo "#!/bin/sh" > /etc/cron.daily/amcfwm
 				echo "sh /bin/amcfwm build >/dev/null 2>&1" >> /etc/cron.daily/amcfwm
