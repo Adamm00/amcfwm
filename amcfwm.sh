@@ -1134,8 +1134,9 @@ case "$1" in
 			sudo nano -w /etc/update-motd.d/2-amcfwm
 			sudo chmod 755 /etc/update-motd.d/2-amcfwm
 			if ! crontab -l | grep -qF "amcfwm"; then
-				echo "Adding Daily Build Cronjob (5.20AM)"
-				crontab -l | sed "\$a20 5 * * * sh /bin/amcfwm build >/dev/null 2>&1" | crontab - # Needs work
+				echo "Adding Daily Build Cronjob (6.25AM)"
+				echo "#!/bin/sh" > /etc/cron.daily/amcfwm
+				echo "sh /bin/amcfwm build >/dev/null 2>&1" >> /etc/cron.daily/amcfwm
 			fi
 			echo "Rebooting To Apply Updates - [Press Enter To Continue]"
 			read -r "continue"
