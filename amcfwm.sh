@@ -1117,9 +1117,9 @@ case "$1" in
 			fi
 			echo "Your SSH Pubkey For Remote SSH Access - Save This File - [Press Enter To Continue]"
 			cat "$HOME/.ssh/id_rsa.pub"
-			read -r
+			read -r "continue"
 			echo "Setting Up OpenSSH-Server - Input Pubkey Of Your SSH Client - [Press Enter To Continue]"
-			read -r
+			read -r "continue"
 			sudo nano -w "$HOME/.ssh/authorized_keys"
 			echo "Hardening OpenSSH Config"
 			SSHPORT="$(awk -v min=49152 -v max=65535 -v freq=1 'BEGIN{"tr -cd 0-9 </dev/urandom | head -c 6" | getline seed; srand(seed); for(i=0;i<freq;i++)print int(min+rand()*(max-min+1))}')"
@@ -1129,7 +1129,7 @@ case "$1" in
 			sudo sed -i 's~#PasswordAuthentication yes~PasswordAuthentication no~g' /etc/ssh/sshd_config
 			echo "SSH Password Authentication Disabled"
 			echo "Input MOTD - [Press Enter To Continue]"
-			read -r
+			read -r "continue"
 			sudo rm -rf /etc/update-motd.d/10-help-text /etc/update-motd.d/80-livepatch /etc/update-motd.d/50-motd-news /etc/update-motd.d/80-esm /etc/update-motd.d/91-release-upgrade /etc/update-motd.d/95-hwe-eol
 			sudo nano -w /etc/update-motd.d/2-amcfwm
 			sudo chmod 755 /etc/update-motd.d/2-amcfwm
@@ -1138,7 +1138,7 @@ case "$1" in
 				crontab -l | sed "\$a20 5 * * * sh /bin/amcfwm build >/dev/null 2>&1" | crontab - # Needs work
 			fi
 			echo "Rebooting To Apply Updates - [Press Enter To Continue]"
-			read -r
+			read -r "continue"
 			sudo rm -f /bin/sh && sudo ln -sf bash /bin/sh && sudo reboot
 		else
 			echo "OS Not Supported - Please Install Ubuntu 18.04 LTS To Use This Script"
