@@ -10,7 +10,7 @@
 #                                                                                                            #
 #                           AsusWRT-Merlin CFW Manager For Ubuntu 18.04 LTS                                  #
 #                            By Adamm - https://github.com/Adamm00/am_cfwm                                   #
-#                                         05/04/2020 - v1.0.0                                                #
+#                                         06/04/2020 - v1.0.0                                                #
 ##############################################################################################################
 
 
@@ -1135,8 +1135,8 @@ case "$1" in
 			sudo chmod 755 /etc/update-motd.d/2-amcfwm
 			if [ ! -f "/etc/cron.daily/amcfwm" ]; then
 				echo "Adding Daily Build Cronjob (6.25AM)"
-				echo "#!/bin/sh" > /etc/cron.daily/amcfwm
-				echo "sh /bin/amcfwm build >/dev/null 2>&1" >> /etc/cron.daily/amcfwm
+				{ echo "#!/bin/sh"
+				echo "sh /bin/amcfwm build >/dev/null 2>&1"; } | sudo tee /etc/cron.daily/amcfwm
 				sudo chmod 755 "/etc/cron.daily/amcfwm"
 			fi
 			echo "Rebooting To Apply Updates - [Press Enter To Continue]"
