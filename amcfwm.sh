@@ -45,7 +45,7 @@ Filter_Version() {
 
 Cron_Enable() {
 	{ echo "#!/bin/sh"
-	echo "sh /bin/amcfwm build >/dev/null 2>&1"; } | sudo tee /etc/cron.daily/amcfwm
+	echo "sh /bin/amcfwm build >/dev/null 2>&1"; } | sudo tee /etc/cron.daily/amcfwm >/dev/null 2>&1
 	sudo chmod 755 "/etc/cron.daily/amcfwm"
 }
 
