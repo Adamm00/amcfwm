@@ -10,7 +10,7 @@
 #                                                                                                            #
 #                           AsusWRT-Merlin CFW Manager For Ubuntu 18.04 LTS                                  #
 #                            By Adamm - https://github.com/Adamm00/am_cfwm                                   #
-#                                         06/04/2020 - v1.0.0                                                #
+#                                         07/04/2020 - v1.0.0                                                #
 ##############################################################################################################
 
 
@@ -94,7 +94,8 @@ Write_Config() {
 		printf '%s="%s"\n' "BUILDREV" "$BUILDREV"
 		printf '%s="%s"\n' "RSYNC_TREE" "$RSYNC_TREE"
 		printf '%s="%s"\n' "CLEANUP_TREE" "$CLEANUP_TREE"
-		printf '%s="%s"\n\n' "FORCEBUILD" "$FORCEBUILD"
+		printf '%s="%s"\n' "FORCEBUILD" "$FORCEBUILD"
+		printf '%s="%s"\n\n' "BUILDCRON" "$BUILDCRON"
 		printf '%s\n' "## Transfer Options ##"
 		printf '%s="%s"\n' "TRANSFERZIP" "$TRANSFERZIP"
 		printf '%s="%s"\n' "TRANSFERTRX" "$TRANSFERTRX"
