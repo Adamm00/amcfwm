@@ -166,7 +166,7 @@ Load_Menu() {
 					printf '%-35s | %-40s\n' "[7]  --> Cleanup Tree" "$(if [ "$CLEANUP_TREE" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[8]  --> Force Image Build" "$(if [ "$FORCEBUILD" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n\n' "[9]  --> Daily Build Cronjob" "$(if [ "$BUILDCRON" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[10]  --> Transfer .zip Files" "$(if [ "$TRANSFERZIP" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[10] --> Transfer .zip Files" "$(if [ "$TRANSFERZIP" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[11] --> Transfer .trx Files" "$(if [ "$TRANSFERTRX" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[12] --> Transfer .w Files" "$(if [ "$TRANSFERW" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n\n' "[13] --> Transfer .txt Files" "$(if [ "$TRANSFERTXT" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
