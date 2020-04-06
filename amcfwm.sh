@@ -39,6 +39,47 @@ Grn() {
 	printf -- '\033[1;32m%s\033[0m\n' "$1"
 }
 
+Filter_Version() {
+	grep -m1 -oE 'v[0-9]{1,2}([.][0-9]{1,2})([.][0-9]{1,2})'
+}
+
+Cron_Enable() {
+	{ echo "#!/bin/sh"
+	echo "sh /bin/amcfwm build >/dev/null 2>&1"; } | sudo tee /etc/cron.daily/amcfwm
+	sudo chmod 755 "/etc/cron.daily/amcfwm"
+}
+
+Cron_Disable() {
+	sudo rm -rf "/etc/cron.daily/amcfwm"
+}
+
+Set_Default() {
+	SRC_LOC="$HOME/amng"
+	STAGE_LOC="$HOME/images"
+	FINAL_LOC=admin@router.asus.com:/mnt/sda1/Share
+	SSH_PORT="22"
+	BUILDREV="1"
+	RSYNC_TREE="y"
+	CLEANUP_TREE="n"
+	FORCEBUILD="n"
+	BUILDCRON="y"
+	TRANSFERZIP="y"
+	TRANSFERTRX="y"
+	TRANSFERW="y"
+	TRANSFERTXT="y"
+	BAC56="n"
+	BAC68="n"
+	BAC87="n"
+	BAC3200="n"
+	BAC88="n"
+	BAC3100="n"
+	BAC5300="n"
+	BAC86="n"
+	BAX88="n"
+	BAX58="n"
+	Write_Config
+}
+
 Write_Config() {
 	{
 		printf '%s\n' "################################################"
@@ -72,36 +113,6 @@ Write_Config() {
 		printf '%s="%s"\n' "BAX58" "$BAX58"
 		printf '\n%s\n' "################################################"
 	} > "$HOME/amcfwm/amcfwm.cfg"
-}
-
-Set_Default() {
-	SRC_LOC="$HOME/amng"
-	STAGE_LOC="$HOME/images"
-	FINAL_LOC=admin@router.asus.com:/mnt/sda1/Share
-	SSH_PORT="22"
-	BUILDREV="1"
-	RSYNC_TREE="y"
-	CLEANUP_TREE="n"
-	FORCEBUILD="n"
-	TRANSFERZIP="y"
-	TRANSFERTRX="y"
-	TRANSFERW="y"
-	TRANSFERTXT="y"
-	BAC56="n"
-	BAC68="n"
-	BAC87="n"
-	BAC3200="n"
-	BAC88="n"
-	BAC3100="n"
-	BAC5300="n"
-	BAC86="n"
-	BAX88="n"
-	BAX58="n"
-	Write_Config
-}
-
-Filter_Version() {
-	grep -m1 -oE 'v[0-9]{1,2}([.][0-9]{1,2})([.][0-9]{1,2})'
 }
 
 Load_Menu() {
@@ -153,23 +164,24 @@ Load_Menu() {
 					printf '%-35s | %-40s\n' "[5]  --> Build Revision" "$(if [ "$BUILDREV" = "1" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[6]  --> Rsync Tree" "$(if [ "$RSYNC_TREE" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[7]  --> Cleanup Tree" "$(if [ "$CLEANUP_TREE" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n\n' "[8]  --> Force Image Build" "$(if [ "$FORCEBUILD" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[9]  --> Transfer .zip Files" "$(if [ "$TRANSFERZIP" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[10] --> Transfer .trx Files" "$(if [ "$TRANSFERTRX" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[11] --> Transfer .w Files" "$(if [ "$TRANSFERW" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n\n' "[12] --> Transfer .txt Files" "$(if [ "$TRANSFERTXT" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[13] --> AC56U Build" "$(if [ "$BAC56" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[14] --> AC68U Build" "$(if [ "$BAC68" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[15] --> AC87U Build" "$(if [ "$BAC87" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[16] --> AC3200 Build" "$(if [ "$BAC3200" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[17] --> AC88U Build" "$(if [ "$BAC88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[18] --> AC3100 Build" "$(if [ "$BAC3100" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[19] --> AC5300 Build" "$(if [ "$BAC5300" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[20] --> AC86U Build" "$(if [ "$BAC86" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[21] --> AX88U Build" "$(if [ "$BAX88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n\n' "[22] --> AX58U Build" "$(if [ "$BAX58" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s\n\n' "[23] --> Reset All Settings To Default"
-					printf "[1-23]: "
+					printf '%-35s | %-40s\n' "[8]  --> Force Image Build" "$(if [ "$FORCEBUILD" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n\n' "[9]  --> Daily Build Cronjob" "$(if [ "$BUILDCRON" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[10]  --> Transfer .zip Files" "$(if [ "$TRANSFERZIP" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[11] --> Transfer .trx Files" "$(if [ "$TRANSFERTRX" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[12] --> Transfer .w Files" "$(if [ "$TRANSFERW" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n\n' "[13] --> Transfer .txt Files" "$(if [ "$TRANSFERTXT" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[14] --> AC56U Build" "$(if [ "$BAC56" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[15] --> AC68U Build" "$(if [ "$BAC68" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[16] --> AC87U Build" "$(if [ "$BAC87" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[17] --> AC3200 Build" "$(if [ "$BAC3200" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[18] --> AC88U Build" "$(if [ "$BAC88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[19] --> AC3100 Build" "$(if [ "$BAC3100" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[20] --> AC5300 Build" "$(if [ "$BAC5300" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[21] --> AC86U Build" "$(if [ "$BAC86" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[22] --> AX88U Build" "$(if [ "$BAX88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n\n' "[23] --> AX58U Build" "$(if [ "$BAX58" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s\n\n' "[24] --> Reset All Settings To Default"
+					printf "[1-24]: "
 					read -r "menu2"
 					echo
 					case "$menu2" in
@@ -349,6 +361,39 @@ Load_Menu() {
 							break
 						;;
 						9)
+							option2="buildcron"
+							while true; do
+								echo "Select Daily Build Cronjob Option:"
+								echo "[1]  --> Enable"
+								echo "[2]  --> Disable"
+								echo
+								printf "[1-2]: "
+								read -r "menu3"
+								echo
+								case "$menu3" in
+									1)
+										option3="enable"
+										break
+									;;
+									2)
+										option3="disable"
+										break
+									;;
+									e|exit|back|menu)
+										unset "option1" "option2" "option3"
+										clear
+										Load_Menu
+										break
+									;;
+									*)
+										echo "[*] $menu3 Isn't An Option!"
+										echo
+									;;
+								esac
+							done
+							break
+						;;
+						10)
 							option2="transferzip"
 							while true; do
 								echo "Select Transfer .zip Option:"
@@ -381,7 +426,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						10)
+						11)
 							option2="transfertrx"
 							while true; do
 								echo "Select Transfer .trx Option:"
@@ -414,7 +459,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						11)
+						12)
 							option2="transferw"
 							while true; do
 								echo "Select Transfer .w Option:"
@@ -447,7 +492,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						12)
+						13)
 							option2="transfertxt"
 							while true; do
 								echo "Select Transfer .txt Option:"
@@ -480,7 +525,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						13)
+						14)
 							option2="bac56"
 							while true; do
 								echo "Select AC56U Build Option:"
@@ -513,7 +558,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						14)
+						15)
 							option2="bac68"
 							while true; do
 								echo "Select AC68U Build Option:"
@@ -546,7 +591,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						15)
+						16)
 							option2="bac87"
 							while true; do
 								echo "Select AC87U Build Option:"
@@ -579,7 +624,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						16)
+						17)
 							option2="bac3200"
 							while true; do
 								echo "Select AC3200U Build Option:"
@@ -612,7 +657,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						17)
+						18)
 							option2="bac88"
 							while true; do
 								echo "Select AC88U Build Option:"
@@ -645,7 +690,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						18)
+						19)
 							option2="bac3100"
 							while true; do
 								echo "Select AC3100U Build Option:"
@@ -678,7 +723,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						19)
+						20)
 							option2="bac5300"
 							while true; do
 								echo "Select AC5300U Build Option:"
@@ -711,7 +756,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						20)
+						21)
 							option2="bac86"
 							while true; do
 								echo "Select AC86U Build Option:"
@@ -744,7 +789,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						21)
+						22)
 							option2="bax88"
 							while true; do
 								echo "Select AX88U Build Option:"
@@ -777,7 +822,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						22)
+						23)
 							option2="bax58"
 							while true; do
 								echo "Select AX58U Build Option:"
@@ -810,7 +855,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						23)
+						24)
 							option2="reset"
 							break
 						;;
@@ -1133,12 +1178,8 @@ case "$1" in
 			sudo rm -rf /etc/update-motd.d/10-help-text /etc/update-motd.d/80-livepatch /etc/update-motd.d/50-motd-news /etc/update-motd.d/80-esm /etc/update-motd.d/91-release-upgrade /etc/update-motd.d/95-hwe-eol
 			sudo nano -w /etc/update-motd.d/2-amcfwm
 			sudo chmod 755 /etc/update-motd.d/2-amcfwm
-			if [ ! -f "/etc/cron.daily/amcfwm" ]; then
-				echo "Adding Daily Build Cronjob (6.25AM)"
-				{ echo "#!/bin/sh"
-				echo "sh /bin/amcfwm build >/dev/null 2>&1"; } | sudo tee /etc/cron.daily/amcfwm
-				sudo chmod 755 "/etc/cron.daily/amcfwm"
-			fi
+			echo "Adding Daily Build Cronjob (6.25AM)"
+			Cron_Enable
 			echo "Rebooting To Apply Updates - [Press Enter To Continue]"
 			read -r "continue"
 			sudo rm -f /bin/sh && sudo ln -sf bash /bin/sh && sudo reboot
@@ -1276,6 +1317,25 @@ case "$1" in
 					disable)
 						FORCEBUILD="n"
 						echo "[i] Force Image Build Disabled"
+					;;
+					*)
+						echo "Command Not Recognized, Please Try Again"
+						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo; exit 2
+					;;
+				esac
+			;;
+			buildcron)
+				case "$3" in
+					enable)
+						BUILDCRON="y"
+						Cron_Enable
+						echo "[i] Daily Build Cronjob Enabled"
+					;;
+					disable)
+						BUILDCRON="n"
+						Cron_Disable
+						echo "[i] Daily Build Cronjob Disabled"
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
