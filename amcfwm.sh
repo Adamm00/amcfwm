@@ -10,15 +10,14 @@
 #                                                                                                            #
 #                           AsusWRT-Merlin CFW Manager For Ubuntu 18.04 LTS                                  #
 #                            By Adamm - https://github.com/Adamm00/am_cfwm                                   #
-#                                         07/04/2020 - v1.0.0                                                #
+#                                         09/04/2020 - v1.0.0                                                #
 ##############################################################################################################
 
+### Inspired By RMerlin
 
 clear
 sed -n '2,14p' "$0"
 mkdir -p "$HOME/amcfwm"
-
-### Inspired By RMerlin
 
 if [ -f "$HOME/amcfwm/amcfwm.lock" ] && [ -d "/proc/$(cat "$HOME/amcfwm/amcfwm.lock")" ]; then
 	echo "[*] Lock File Detected (pid=$(cat "$HOME/amcfwm/amcfwm.lock")) - Exiting"
@@ -45,7 +44,7 @@ Filter_Version() {
 
 Cron_Enable() {
 	{ echo "#!/bin/sh"
-	echo "sh /bin/amcfwm build >/dev/null 2>&1"; } | sudo tee /etc/cron.daily/amcfwm >/dev/null 2>&1
+	echo "sudo -H -u $USER sh /bin/amcfwm build >/dev/null 2>&1"; } | sudo tee /etc/cron.daily/amcfwm >/dev/null 2>&1
 	sudo chmod 755 "/etc/cron.daily/amcfwm"
 }
 
