@@ -5,7 +5,7 @@ AsusWRT-Merlin - Custom Firmware Manager
 * Can configure default Ubuntu 18.04 VM
 * Interactive menu
 * Configurable settings
-* No hardcided settings/variables
+* No hardcoded settings/variables
 * Daily build cronjob if git changes detected
 * POSIX compliance
 
