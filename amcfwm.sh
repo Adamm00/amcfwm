@@ -8,9 +8,9 @@
 #        ╚██████╗██║     ╚███╔███╔╝    ██║ ╚═╝ ██║██║  ██║██║ ╚████║██║  ██║╚██████╔╝███████╗██║  ██║        #
 #         ╚═════╝╚═╝      ╚══╝╚══╝     ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝        #
 #                                                                                                            #
-#                           AsusWRT-Merlin CFW Manager For Ubuntu 18.04 LTS                                  #
-#                            By Adamm - https://github.com/Adamm00/am_cfwm                                   #
-#                                         09/04/2020 - v1.0.0                                                #
+#                              AsusWRT-Merlin CFW Manager For Ubuntu 18.04 LTS                               #
+#                                By Adamm - https://github.com/Adamm00/amcfwm                                #
+#                                            09/04/2020 - v1.0.0                                             #
 ##############################################################################################################
 
 ### Inspired By RMerlin
@@ -159,7 +159,7 @@ Load_Menu() {
 					echo "Select Setting To Toggle:"
 					printf '%-35s | %-40s\n' "[1]  --> Source Location" "$(Grn "$SRC_LOC")"
 					printf '%-35s | %-40s\n' "[2]  --> Stage Location" "$(Grn "$STAGE_LOC")"
-					printf '%-35s | %-40s\n' "[3]  --> Final Location" "$(Grn "$FINAL_LOC")"
+					printf '%-35s | %-40s\n' "[3]  --> Final Remote Location" "$(Grn "$FINAL_LOC")"
 					printf '%-35s | %-40s\n\n' "[4]  --> Remote SSH Port" "$(Grn "$SSH_PORT")"
 					printf '%-35s | %-40s\n' "[5]  --> Build Revision" "$(if [ "$BUILDREV" = "1" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[6]  --> Rsync Tree" "$(if [ "$RSYNC_TREE" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
@@ -1152,7 +1152,7 @@ case "$1" in
 			sudo apt-get update
 			sudo apt-get -y install lib32ncurses5-dev dos2unix libtool-bin cmake libproxy-dev uuid-dev liblzo2-dev autoconf automake bash bison bzip2 diffutils file flex m4 g++ gawk groff-base libncurses5-dev libtool libslang2 make patch perl pkg-config shtool subversion tar texinfo zlib1g zlib1g-dev git gettext libexpat1-dev libssl-dev cvs gperf unzip python libxml-parser-perl gcc-multilib gconf-editor libxml2-dev g++-multilib gitk libncurses5 mtd-utils libncurses5-dev libvorbis-dev git autopoint autogen sed build-essential intltool libelf1 libglib2.0-dev xutils-dev lib32z1-dev lib32stdc++6 xsltproc gtk-doc-tools libelf-dev:i386 libelf1:i386 libltdl-dev openssh-server curl git build-essential nano openssh-server
 			sudo apt -y autoremove
-			if [ ! -f "$HOME/amcfwm/amcfwm.sh" ]; then curl -fsL --retry 3 "https://raw.githubusercontent.com/Adamm00/am_cfwm/master/amcfwm.sh" -o "$HOME/amcfwm/amcfwm.sh"; fi
+			if [ ! -f "$HOME/amcfwm/amcfwm.sh" ]; then curl -fsL --retry 3 "https://raw.githubusercontent.com/Adamm00/amcfwm/master/amcfwm.sh" -o "$HOME/amcfwm/amcfwm.sh"; fi
 			sudo ln -sf "$HOME/amcfwm/amcfwm.sh" /bin/amcfwm
 			sudo chmod 755 "/bin/amcfwm"
 			mkdir -p "$HOME/images"
@@ -1173,11 +1173,10 @@ case "$1" in
 			sudo sed -i 's~#ChallengeResponseAuthentication yes~ChallengeResponseAuthentication no~g' /etc/ssh/sshd_config
 			sudo sed -i 's~#PasswordAuthentication yes~PasswordAuthentication no~g' /etc/ssh/sshd_config
 			echo "SSH Password Authentication Disabled"
-			echo "Input MOTD - [Press Enter To Continue]"
-			read -r "continue"
+			echo "Adding MOTD"
 			sudo rm -rf /etc/update-motd.d/10-help-text /etc/update-motd.d/80-livepatch /etc/update-motd.d/50-motd-news /etc/update-motd.d/80-esm /etc/update-motd.d/91-release-upgrade /etc/update-motd.d/95-hwe-eol
-			sudo nano -w /etc/update-motd.d/2-amcfwm
-			sudo chmod 755 /etc/update-motd.d/2-amcfwm
+			sudo curl -fsL --retry 3 "https://raw.githubusercontent.com/Adamm00/amcfwm/master/2-amcfwm-motd" -o "/etc/update-motd.d/2-amcfwm-motd"
+			sudo chmod 755 /etc/update-motd.d/2-amcfwm-motd
 			echo "Adding Daily Build Cronjob (6.25AM)"
 			Cron_Enable
 			echo "Rebooting To Apply Updates - [Press Enter To Continue]"
@@ -1269,7 +1268,7 @@ case "$1" in
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
 						echo; exit 2
 					;;
 				esac
@@ -1286,7 +1285,7 @@ case "$1" in
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
 						echo; exit 2
 					;;
 				esac
@@ -1303,7 +1302,7 @@ case "$1" in
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
 						echo; exit 2
 					;;
 				esac
@@ -1320,7 +1319,7 @@ case "$1" in
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
 						echo; exit 2
 					;;
 				esac
@@ -1339,7 +1338,7 @@ case "$1" in
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
 						echo; exit 2
 					;;
 				esac
@@ -1356,7 +1355,7 @@ case "$1" in
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
 						echo; exit 2
 					;;
 				esac
@@ -1373,7 +1372,7 @@ case "$1" in
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
 						echo; exit 2
 					;;
 				esac
@@ -1390,7 +1389,7 @@ case "$1" in
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
 						echo; exit 2
 					;;
 				esac
@@ -1407,7 +1406,7 @@ case "$1" in
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
 						echo; exit 2
 					;;
 				esac
@@ -1424,7 +1423,7 @@ case "$1" in
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
 						echo; exit 2
 					;;
 				esac
@@ -1441,7 +1440,7 @@ case "$1" in
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
 						echo; exit 2
 					;;
 				esac
@@ -1458,7 +1457,7 @@ case "$1" in
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
 						echo; exit 2
 					;;
 				esac
@@ -1475,7 +1474,7 @@ case "$1" in
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
 						echo; exit 2
 					;;
 				esac
@@ -1492,7 +1491,7 @@ case "$1" in
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
 						echo; exit 2
 					;;
 				esac
@@ -1509,7 +1508,7 @@ case "$1" in
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
 						echo; exit 2
 					;;
 				esac
@@ -1526,7 +1525,7 @@ case "$1" in
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
 						echo; exit 2
 					;;
 				esac
@@ -1543,7 +1542,7 @@ case "$1" in
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
 						echo; exit 2
 					;;
 				esac
@@ -1560,7 +1559,7 @@ case "$1" in
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
 						echo; exit 2
 					;;
 				esac
@@ -1577,7 +1576,7 @@ case "$1" in
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/am_cfwm"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
 						echo; exit 2
 					;;
 				esac
@@ -1588,14 +1587,14 @@ case "$1" in
 			;;
 			*)
 				echo "Command Not Recognized, Please Try Again"
-				echo "For Help Check https://github.com/Adamm00/am_cfwm"
+				echo "For Help Check https://github.com/Adamm00/amcfwm"
 				echo
 			;;
 		esac
 	;;
 
 	update)
-		remotedir="https://raw.githubusercontent.com/Adamm00/am_cfwm/master"
+		remotedir="https://raw.githubusercontent.com/Adamm00/amcfwm/master"
 		localver="$(Filter_Version < "$0")"
 		remotever="$(curl -fsL --retry 3 --connect-timeout 3 "${remotedir}/amcfwm.sh" | Filter_Version)"
 		localmd5="$(md5sum "$0" | awk '{print $1}')"
@@ -1664,7 +1663,7 @@ case "$1" in
 
 	uninstall)
 		echo "If You Were Experiencing Issues, Try Update Or Visit SNBForums/Github For Support"
-		echo "https://github.com/Adamm00/am_cfwm"
+		echo "https://github.com/Adamm00/amcfwm"
 		echo
 		while true; do
 			echo "[!] Warning - This Will Delete All Files Related To The Project"
@@ -1679,7 +1678,7 @@ case "$1" in
 			echo
 			case "$continue" in
 				1)
-					sudo rm -rf "$HOME/am-toolchains" "$HOME/amng"  "$HOME"/amng.* "/opt/toolchains" "/opt/brcm-arm" "/etc/update-motd.d/2-amcfwm"
+					sudo rm -rf "$HOME/am-toolchains" "$HOME/amng"  "$HOME"/amng.* "/opt/toolchains" "/opt/brcm-arm" "/etc/update-motd.d/2-amcfwm-motd"
 					sed -i '\~AsusWRT-Merlin CFW Manager~d' "$HOME/.profile"
 					sudo rm -rf "$HOME/amcfwm" "/bin/amcfwm"
 				;;
@@ -1697,7 +1696,7 @@ case "$1" in
 
 	*)
 		echo "Command Not Recognized, Please Try Again"
-		echo "For Help Check https://github.com/Adamm00/am_cfwm"
+		echo "For Help Check https://github.com/Adamm00/amcfwm"
 		echo
 	;;
 esac
