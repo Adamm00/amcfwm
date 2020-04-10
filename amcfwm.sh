@@ -137,7 +137,7 @@ Load_Menu() {
 		echo
 		echo "[e]  --> Exit Menu"
 		echo
-		printf "[1-6]: "
+		printf "[1-7]: "
 		read -r "menu"
 		echo
 		case "$menu" in
