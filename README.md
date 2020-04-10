@@ -7,7 +7,7 @@ _Inspired By RMerlins [Original Script](https://raw.githubusercontent.com/RMerl/
 * Can configure default Ubuntu 18.04 VM
 * Interactive menu
 * Configurable settings
-* No hardcoded settings/variables
+* No hard-coded settings/variables
 * Daily build cronjob if git changes detected
 * POSIX compliance
 
@@ -21,7 +21,7 @@ _Inspired By RMerlins [Original Script](https://raw.githubusercontent.com/RMerl/
 
 ## **Installation**
 
-1. Download AMCFWM
+1. Download amcfwm
 ```
 mkdir -p "$HOME/amcfwm" && curl -s "https://raw.githubusercontent.com/Adamm00/am_cfwm/master/amcfwm.sh" -o "$HOME/amcfwm/amcfwm.sh" && chmod 755 "$HOME/amcfwm/amcfwm.sh"
 ```
@@ -49,7 +49,7 @@ sh $HOME/amcfwm/amcfwm.sh repo
 &nbsp;
 
 ## **Usage**
-AMCFWM provides both a user interactive menu, and command line interface for those who prefer it.
+amcfwm provides both a user interactive menu, and command line interface for those who prefer it.
 
 #### **Menu**
 To open the menu its as simple as typing;
@@ -116,4 +116,4 @@ This script will always be open source and free to use, but if you want to suppo
 
 &nbsp;
 
-_Note:_ Support will only be provided for questions relating to this script, not general VM/Linux questions. If you are unfamiliar with working in a Linux enviorment this script probably isn't aimed at you.
+_Note:_ Support will only be provided for questions relating to this script, not general VM/Linux questions. If you are unfamiliar with working in a Linux environment this script probably isn't aimed at you.
