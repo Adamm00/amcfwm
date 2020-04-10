@@ -10,10 +10,10 @@
 #                                                                                                            #
 #                              AsusWRT-Merlin CFW Manager For Ubuntu 18.04 LTS                               #
 #                                By Adamm - https://github.com/Adamm00/amcfwm                                #
-#                                            09/04/2020 - v1.0.0                                             #
+#                                            10/04/2020 - v1.0.0                                             #
 ##############################################################################################################
 
-### Inspired By RMerlin
+### Inspired By RMerlins Original Script
 
 clear
 sed -n '2,14p' "$0"

@@ -11,8 +11,9 @@ _Inspired By RMerlins [Original Script](https://raw.githubusercontent.com/RMerl/
 * Daily build cronjob if git changes detected
 * POSIX compliance
 
-![AMCFWM Menu 1](https://i.imgur.com/hCMIuj0.png)
-![AMCFWM Settings Menu](https://i.imgur.com/cbcAai5.png)
+![AMCFWM Menu](https://i.imgur.com/hCMIuj0.png)
+![AMCFWM Settings Menu](https://i.imgur.com/U0iTesC.png)
+![AMCFWM Build Process](https://i.imgur.com/qWznMh8.png)
 
 &nbsp;
 
