@@ -627,7 +627,7 @@ Load_Menu() {
 						17)
 							option2="bac3200"
 							while true; do
-								echo "Select AC3200U Build Option:"
+								echo "Select AC3200 Build Option:"
 								echo "[1]  --> Enable"
 								echo "[2]  --> Disable"
 								echo
@@ -693,7 +693,7 @@ Load_Menu() {
 						19)
 							option2="bac3100"
 							while true; do
-								echo "Select AC3100U Build Option:"
+								echo "Select AC3100 Build Option:"
 								echo "[1]  --> Enable"
 								echo "[2]  --> Disable"
 								echo
@@ -726,7 +726,7 @@ Load_Menu() {
 						20)
 							option2="bac5300"
 							while true; do
-								echo "Select AC5300U Build Option:"
+								echo "Select AC5300 Build Option:"
 								echo "[1]  --> Enable"
 								echo "[2]  --> Disable"
 								echo
@@ -970,13 +970,13 @@ case "$1" in
 					if make "$FWMODEL" > "$HOME/amcfwm/$FWMODEL-output.txt" 2>&1; then
 						cd image || exit 1
 						if [ "$FWMODEL" = "rt-ac86u" ] || [ "$FWMODEL" = "rt-ax88u" ]; then
-							FWNAME=$(find -- *_cferom_ubi.w | head -n 1)
+							FWNAME="$(find -- *_cferom_ubi.w | head -n 1)"
 							ZIPNAME="$(echo "$FWNAME" | sed 's~_cferom_ubi.w~~g').zip"
 						elif [ "$FWMODEL" = "rt-ax58u" ]; then
-							FWNAME=$(find -- *_cferom_pureubi.w | head -n 1)
+							FWNAME="$(find -- *_cferom_pureubi.w | head -n 1)"
 							ZIPNAME="$(echo "$FWNAME" | sed 's~_cferom_pureubi.w~~g').zip"
 						else
-							FWNAME=$(find -- *.trx | head -n 1)
+							FWNAME="$(find -- *.trx | head -n 1)"
 							ZIPNAME="$(echo "$FWNAME" | sed 's~.trx~~g').zip"
 						fi
 						cp "$FWNAME" "$STAGE_LOC/"
