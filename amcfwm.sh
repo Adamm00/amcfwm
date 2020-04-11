@@ -10,7 +10,7 @@
 #                                                                                                            #
 #                              AsusWRT-Merlin CFW Manager For Ubuntu 18.04 LTS                               #
 #                                By Adamm - https://github.com/Adamm00/amcfwm                                #
-#                                            10/04/2020 - v1.0.0                                             #
+#                                            12/04/2020 - v1.0.0                                             #
 ##############################################################################################################
 
 ### Inspired By RMerlins Original Script
@@ -962,7 +962,7 @@ case "$1" in
 				FWMODEL="$2"
 				FWPATH="$1"
 				LOCALFWVER="$(cat "$HOME/amcfwm/$FWMODEL.git" 2>/dev/null)"
-				REMOTEFWVER="$(git ls-remote https://github.com/RMerl/asuswrt-merlin.ng.git "$BRANCH" | awk '{print $1}')"
+				REMOTEFWVER="$(git -C "$HOME/$FWPATH" rev-parse "origin/$BRANCH")"
 
 				if [ "$LOCALFWVER" != "$REMOTEFWVER" ] || [ "$FORCEBUILD" = "y" ]; then
 					echo "*** $(date +%R) - Starting building $FWMODEL..."
@@ -987,6 +987,7 @@ case "$1" in
 						touch "$HOME/amcfwm/build.success"
 					else
 						echo "!!! $(date +%R) - $FWMODEL build failed!"
+						echo "!!! $(date +%R) - $HOME/amcfwm/$FWMODEL-output.txt"
 					fi
 					git -C "$HOME/$FWPATH" rev-parse HEAD > "$HOME/amcfwm/$FWMODEL.git"
 				fi
@@ -998,7 +999,7 @@ case "$1" in
 				FWMODEL=$3
 				BRANCH=$4
 				LOCALFWVER="$(cat "$HOME/amcfwm/$FWMODEL.git" 2>/dev/null)"
-				REMOTEFWVER="$(git ls-remote https://github.com/RMerl/asuswrt-merlin.ng.git "$BRANCH" | awk '{print $1}')"
+				REMOTEFWVER="$(git -C "$HOME/$FWPATH" rev-parse "origin/$BRANCH")"
 
 				if [ "$LOCALFWVER" != "$REMOTEFWVER" ] || [ "$FORCEBUILD" = "y" ]; then
 					echo
