@@ -962,7 +962,7 @@ case "$1" in
 				FWMODEL="$2"
 				FWPATH="$1"
 				LOCALFWVER="$(cat "$HOME/amcfwm/$FWMODEL.git" 2>/dev/null)"
-				REMOTEFWVER="$(git ls-remote "$(git remote get-url origin)" "$BRANCH" | awk '{print $1}')"
+				REMOTEFWVER="$(git ls-remote "$(git -C "$HOME/$FWPATH" remote get-url origin)" "$BRANCH" | awk '{print $1}')"
 
 				if [ "$LOCALFWVER" != "$REMOTEFWVER" ] || [ "$FORCEBUILD" = "y" ]; then
 					echo "*** $(date +%R) - Starting building $FWMODEL..."
@@ -999,7 +999,7 @@ case "$1" in
 				FWMODEL=$3
 				BRANCH=$4
 				LOCALFWVER="$(cat "$HOME/amcfwm/$FWMODEL.git" 2>/dev/null)"
-				REMOTEFWVER="$(git ls-remote "$(git remote get-url origin)" "$BRANCH" | awk '{print $1}')"
+				REMOTEFWVER="$(git ls-remote "$(git -C "$HOME/$FWPATH" remote get-url origin)" "$BRANCH" | awk '{print $1}')"
 
 				if [ "$LOCALFWVER" != "$REMOTEFWVER" ] || [ "$FORCEBUILD" = "y" ]; then
 					echo
