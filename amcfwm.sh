@@ -964,6 +964,8 @@ case "$1" in
 				LOCALFWVER="$(cat "$HOME/amcfwm/$FWMODEL.git" 2>/dev/null)"
 				if [ -d "$HOME/$FWPATH" ]; then
 					REMOTEFWVER="$(git ls-remote "$(git -C "$HOME/$FWPATH" remote get-url origin)" "$BRANCH" | awk '{print $1}')"
+				else
+					REMOTEFWVER="null"
 				fi
 
 				if [ "$LOCALFWVER" != "$REMOTEFWVER" ] || [ "$FORCEBUILD" = "y" ]; then
@@ -1003,6 +1005,8 @@ case "$1" in
 				LOCALFWVER="$(cat "$HOME/amcfwm/$FWMODEL.git" 2>/dev/null)"
 				if [ -d "$HOME/$FWPATH" ]; then
 					REMOTEFWVER="$(git ls-remote "$(git -C "$HOME/$FWPATH" remote get-url origin)" "$BRANCH" | awk '{print $1}')"
+				else
+					REMOTEFWVER="null"
 				fi
 
 				if [ "$LOCALFWVER" != "$REMOTEFWVER" ] || [ "$FORCEBUILD" = "y" ]; then
