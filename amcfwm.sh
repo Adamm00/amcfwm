@@ -1531,7 +1531,7 @@ case "$1" in
 						echo "[i] AC5300 Build Enabled"
 					;;
 					disable)
-						BAC68="n"
+						BAC5300="n"
 						echo "[i] AC5300 Build Disabled"
 					;;
 					*)
