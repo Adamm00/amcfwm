@@ -10,7 +10,7 @@
 #                                                                                                            #
 #                              AsusWRT-Merlin CFW Manager For Ubuntu 18.04 LTS                               #
 #                                By Adamm - https://github.com/Adamm00/amcfwm                                #
-#                                            13/04/2020 - v1.0.0                                             #
+#                                            16/04/2020 - v1.0.1                                             #
 ##############################################################################################################
 
 ### Inspired By RMerlins Original Script
@@ -76,6 +76,7 @@ Set_Default() {
 	BAC86="n"
 	BAX88="n"
 	BAX58="n"
+	BAX56="n"
 	Write_Config
 }
 
@@ -111,6 +112,7 @@ Write_Config() {
 		printf '%s="%s"\n' "BAC86" "$BAC86"
 		printf '%s="%s"\n' "BAX88" "$BAX88"
 		printf '%s="%s"\n' "BAX58" "$BAX58"
+		printf '%s="%s"\n' "BAX56" "$BAX56"
 		printf '\n%s\n' "################################################"
 	} > "$HOME/amcfwm/amcfwm.cfg"
 }
@@ -179,9 +181,10 @@ Load_Menu() {
 					printf '%-35s | %-40s\n' "[20] --> AC5300 Build" "$(if [ "$BAC5300" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[21] --> AC86U Build" "$(if [ "$BAC86" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[22] --> AX88U Build" "$(if [ "$BAX88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n\n' "[23] --> AX58U Build" "$(if [ "$BAX58" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s\n\n' "[24] --> Reset All Settings To Default"
-					printf "[1-24]: "
+					printf '%-35s | %-40s\n' "[23] --> AX58U Build" "$(if [ "$BAX58" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n\n' "[24] --> AX56U Build" "$(if [ "$BAX56" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s\n\n' "[25] --> Reset All Settings To Default"
+					printf "[1-25]: "
 					read -r "menu2"
 					echo
 					case "$menu2" in
@@ -856,6 +859,39 @@ Load_Menu() {
 							break
 						;;
 						24)
+							option2="bax56"
+							while true; do
+								echo "Select AX56U Build Option:"
+								echo "[1]  --> Enable"
+								echo "[2]  --> Disable"
+								echo
+								printf "[1-2]: "
+								read -r "menu3"
+								echo
+								case "$menu3" in
+									1)
+										option3="enable"
+										break
+									;;
+									2)
+										option3="disable"
+										break
+									;;
+									e|exit|back|menu)
+										unset "option1" "option2" "option3"
+										clear
+										Load_Menu
+										break
+									;;
+									*)
+										echo "[*] $menu3 Isn't An Option!"
+										echo
+									;;
+								esac
+							done
+							break
+						;;
+						25)
 							option2="reset"
 							break
 						;;
@@ -976,7 +1012,7 @@ case "$1" in
 						if [ "$FWMODEL" = "rt-ac86u" ] || [ "$FWMODEL" = "rt-ax88u" ]; then
 							FWNAME="$(find -- *_cferom_ubi.w | head -n 1)"
 							ZIPNAME="$(echo "$FWNAME" | sed 's~_cferom_ubi.w~~g').zip"
-						elif [ "$FWMODEL" = "rt-ax58u" ]; then
+						elif [ "$FWMODEL" = "rt-ax58u" ] || [ "$FWMODEL" == "rt-ax56u" ]; then
 							FWNAME="$(find -- *_cferom_pureubi.w | head -n 1)"
 							ZIPNAME="$(echo "$FWNAME" | sed 's~_cferom_pureubi.w~~g').zip"
 						else
@@ -1078,6 +1114,9 @@ case "$1" in
 			if [ "$BAX58" = "y" ]; then
 				clean_tree amng.ax58 release/src-rt-5.02axhnd.675x rt-ax58u ax
 			fi
+			if [ "$BAX56" = "y" ]; then
+				clean_tree amng.ax56 release/src-rt-5.02axhnd.675x rt-ax56u ax
+			fi
 			echo "--- $(date +%R) - All trees ready!"
 			echo
 
@@ -1123,6 +1162,10 @@ case "$1" in
 			if [ "$BAX58" = "y" ]; then
 				build_fw amng.ax58/release/src-rt-5.02axhnd.675x rt-ax58u ax &
 				sleep 10
+			fi
+			if [ "$BAX56" = "y" ]; then
+        		build_fw amng.ax56/release/src-rt-5.02axhnd.675x rt-ax56u ax &
+        		sleep 10
 			fi
 
 			echo "--- $(date +%R) - All builds launched, please wait..."
@@ -1592,6 +1635,23 @@ case "$1" in
 					;;
 				esac
 			;;
+			bax56)
+				case "$3" in
+					enable)
+						BAX56="y"
+						echo "[i] AX56U Build Enabled"
+					;;
+					disable)
+						BAX56="n"
+						echo "[i] AX56U Build Disabled"
+					;;
+					*)
+						echo "Command Not Recognized, Please Try Again"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
+						echo; exit 2
+					;;
+				esac
+			;;
 			reset)
 				Set_Default
 				echo "[i] All Settings Reset"
@@ -1669,6 +1729,10 @@ case "$1" in
 		if [ "$BAX58" = "n" ] && [ -d "$HOME/amng.ax58" ]; then
 			echo "[i] Removing $HOME/amng.ax58 ($(du -sh "$HOME/amng.ax58" | awk '{print $1}'))"
 			rm -rf "$HOME/amng.ax58" "$HOME/amcfwm/rt-ax58u.git" "$HOME/amcfwm/rt-ax58u-output.txt"
+		fi
+		if [ "$BAX56" = "n" ] && [ -d "$HOME/amng.ax56" ]; then
+			echo "[i] Removing $HOME/amng.ax56 ($(du -sh "$HOME/amng.ax56" | awk '{print $1}'))"
+			rm -rf "$HOME/amng.ax56" "$HOME/amcfwm/rt-ax56u.git" "$HOME/amcfwm/rt-ax56u-output.txt"
 		fi
 	;;
 

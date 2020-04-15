@@ -92,6 +92,7 @@ amcfwm
 ( amcfwm settings bac86 enable|disable ) Enable/Disable Building Of AC86U Image
 ( amcfwm settings bax88 enable|disable ) Enable/Disable Building Of AX88U Image
 ( amcfwm settings bax58 enable|disable ) Enable/Disable Building Of AX58U Image
+( amcfwm settings bax56 enable|disable ) Enable/Disable Building Of AX56U Image
 
 ( amcfwm settings reset ) Reset All Settings To Default
 
