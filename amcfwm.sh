@@ -1012,7 +1012,7 @@ case "$1" in
 						if [ "$FWMODEL" = "rt-ac86u" ] || [ "$FWMODEL" = "rt-ax88u" ]; then
 							FWNAME="$(find -- *_cferom_ubi.w | head -n 1)"
 							ZIPNAME="$(echo "$FWNAME" | sed 's~_cferom_ubi.w~~g').zip"
-						elif [ "$FWMODEL" = "rt-ax58u" ] || [ "$FWMODEL" == "rt-ax56u" ]; then
+						elif [ "$FWMODEL" = "rt-ax58u" ] || [ "$FWMODEL" = "rt-ax56u" ]; then
 							FWNAME="$(find -- *_cferom_pureubi.w | head -n 1)"
 							ZIPNAME="$(echo "$FWNAME" | sed 's~_cferom_pureubi.w~~g').zip"
 						else
