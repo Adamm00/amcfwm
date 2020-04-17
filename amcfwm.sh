@@ -10,7 +10,7 @@
 #                                                                                                            #
 #                              AsusWRT-Merlin CFW Manager For Ubuntu 18.04 LTS                               #
 #                                By Adamm - https://github.com/Adamm00/amcfwm                                #
-#                                            16/04/2020 - v1.0.1                                             #
+#                                            17/04/2020 - v1.0.1                                             #
 ##############################################################################################################
 
 ### Inspired By RMerlins Original Script
@@ -989,7 +989,7 @@ printf '\n\n====================================================================
 
 case "$1" in
 	build)
-		if [ "$BAC56" = "n" ] && [ "$BAC68" = "n" ] && [ "$BAC87" = "n" ] && [ "$BAC3200" = "n" ] && [ "$BAC88" = "n" ] && [ "$BAC3100" = "n" ] && [ "$BAC5300" = "n" ] && [ "$BAC86" = "n" ] && [ "$BAX88" = "n" ] && [ "$BAX58" = "n" ]; then
+		if [ "$BAC56" = "n" ] && [ "$BAC68" = "n" ] && [ "$BAC87" = "n" ] && [ "$BAC3200" = "n" ] && [ "$BAC88" = "n" ] && [ "$BAC3100" = "n" ] && [ "$BAC5300" = "n" ] && [ "$BAC86" = "n" ] && [ "$BAX88" = "n" ] && [ "$BAX58" = "n" ] && [ "$BAX56" = "n" ]; then
 			echo "[*] No Models Configured For Build"
 		else
 			if [ "$BUILDREV" = "1" ]; then export BUILDREV="1"; fi
