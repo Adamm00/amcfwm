@@ -10,7 +10,7 @@
 #                                                                                                            #
 #                              AsusWRT-Merlin CFW Manager For Ubuntu 18.04 LTS                               #
 #                                By Adamm - https://github.com/Adamm00/amcfwm                                #
-#                                            17/04/2020 - v1.0.1                                             #
+#                                            18/04/2020 - v1.0.1                                             #
 ##############################################################################################################
 
 ### Inspired By RMerlins Original Script
@@ -1756,6 +1756,7 @@ case "$1" in
 					sudo rm -rf "$HOME/am-toolchains" "$HOME/amng"  "$HOME"/amng.* "/opt/toolchains" "/opt/brcm-arm" "/etc/update-motd.d/2-amcfwm-motd"
 					sed -i '\~AsusWRT-Merlin CFW Manager~d' "$HOME/.profile"
 					sudo rm -rf "$HOME/amcfwm" "/bin/amcfwm"
+					break
 				;;
 				2|e|exit)
 					echo "[*] Exiting!"
