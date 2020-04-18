@@ -117,4 +117,4 @@ This script will always be open source and free to use, but if you want to suppo
 
 &nbsp;
 
-_Note:_ Support will only be provided for questions relating to this script, not general VM/Linux questions. If you are unfamiliar with working in a Linux environment this script probably isn't aimed at you.
+_Note:_ Support will only be provided for questions relating to this script, not general VM/Linux/Compiling questions. If you are unfamiliar with working in a Linux environment this script probably isn't aimed at you.
