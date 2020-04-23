@@ -1683,8 +1683,8 @@ case "$1" in
 		fi
 		if [ "$localmd5" != "$remotemd5" ] || [ "$2" = "-f" ] && [ "$noupdate" != "1" ]; then
 			echo "[i] New Version Detected - Updating To $remotever (${remotemd5})"
-			curl -fsL --retry 3 --connect-timeout 3 "${remotedir}/amcfwm.sh" -o "$0"
-			curl -fsL --retry 3 --connect-timeout 3 "${remotedir}/2-amcfwm-motd" -o "/etc/update-motd.d/2-amcfwm-motd"
+			sudo curl -fsL --retry 3 --connect-timeout 3 "${remotedir}/amcfwm.sh" -o "$0"
+			sudo curl -fsL --retry 3 --connect-timeout 3 "${remotedir}/2-amcfwm-motd" -o "/etc/update-motd.d/2-amcfwm-motd"
 			echo "[i] Update Complete!"
 			echo
 			exit 0
