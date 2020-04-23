@@ -1030,7 +1030,7 @@ case "$1" in
 						echo "!!! $(date +%R) - $HOME/amcfwm/$FWMODEL-output.txt"
 					fi
 					{ git -C "$HOME/$FWPATH" rev-parse HEAD
-					echo "$FWNAME"; } > "$HOME/amcfwm/$FWMODEL.git"
+					if [ -n "$FWNAME" ]; then echo "$FWNAME"; else echo "$(git -C "$HOME/$FWPATH" rev-parse HEAD) [Failed]"; fi ; } > "$HOME/amcfwm/$FWMODEL.git"
 				fi
 			}
 
