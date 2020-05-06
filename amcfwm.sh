@@ -10,7 +10,7 @@
 #                                                                                                            #
 #                              AsusWRT-Merlin CFW Manager For Ubuntu 18.04 LTS                               #
 #                                By Adamm - https://github.com/Adamm00/amcfwm                                #
-#                                            23/04/2020 - v1.0.1                                             #
+#                                            07/05/2020 - v1.0.1                                             #
 ##############################################################################################################
 
 ### Inspired By RMerlins Original Script
@@ -1194,7 +1194,7 @@ case "$1" in
 	;;
 
 	install)
-		if grep -qF "Ubuntu 18.04" "/etc/os-release"; then
+		if grep -qF "Ubuntu " "/etc/os-release"; then
 			if ! sudo grep -qF "$USER ALL=(ALL) NOPASSWD: ALL" /etc/sudoers; then
 				echo "Adding $USER To Sudoers File"
 				echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo EDITOR='tee -a' visudo
