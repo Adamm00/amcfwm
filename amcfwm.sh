@@ -10,10 +10,10 @@
 #                                                                                                            #
 #                              AsusWRT-Merlin CFW Manager For Ubuntu 18.04 LTS                               #
 #                                By Adamm - https://github.com/Adamm00/amcfwm                                #
-#                                            07/05/2020 - v1.0.1                                             #
+#                                            01/09/2020 - v1.0.2                                             #
 ##############################################################################################################
 
-### Inspired By RMerlins Original Script
+### Inspired By RMerlin's Original Script
 
 clear
 sed -n '2,14p' "$0"
@@ -68,8 +68,6 @@ Set_Default() {
 	TRANSFERTXT="y"
 	BAC56="n"
 	BAC68="n"
-	BAC87="n"
-	BAC3200="n"
 	BAC88="n"
 	BAC3100="n"
 	BAC5300="n"
@@ -104,8 +102,6 @@ Write_Config() {
 		printf '%s\n' "## FW Models ##"
 		printf '%s="%s"\n' "BAC56" "$BAC56"
 		printf '%s="%s"\n' "BAC68" "$BAC68"
-		printf '%s="%s"\n' "BAC87" "$BAC87"
-		printf '%s="%s"\n' "BAC3200" "$BAC3200"
 		printf '%s="%s"\n' "BAC88" "$BAC88"
 		printf '%s="%s"\n' "BAC3100" "$BAC3100"
 		printf '%s="%s"\n' "BAC5300" "$BAC5300"
@@ -174,17 +170,15 @@ Load_Menu() {
 					printf '%-35s | %-40s\n\n' "[13] --> Transfer .txt Files" "$(if [ "$TRANSFERTXT" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[14] --> AC56U Build" "$(if [ "$BAC56" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[15] --> AC68U Build" "$(if [ "$BAC68" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[16] --> AC87U Build" "$(if [ "$BAC87" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[17] --> AC3200 Build" "$(if [ "$BAC3200" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[18] --> AC88U Build" "$(if [ "$BAC88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[19] --> AC3100 Build" "$(if [ "$BAC3100" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[20] --> AC5300 Build" "$(if [ "$BAC5300" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[21] --> AC86U Build" "$(if [ "$BAC86" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[22] --> AX88U Build" "$(if [ "$BAX88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[23] --> AX58U Build" "$(if [ "$BAX58" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n\n' "[24] --> AX56U Build" "$(if [ "$BAX56" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s\n\n' "[25] --> Reset All Settings To Default"
-					printf "[1-25]: "
+					printf '%-35s | %-40s\n' "[16] --> AC88U Build" "$(if [ "$BAC88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[17] --> AC3100 Build" "$(if [ "$BAC3100" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[18] --> AC5300 Build" "$(if [ "$BAC5300" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[19] --> AC86U Build" "$(if [ "$BAC86" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[20] --> AX88U Build" "$(if [ "$BAX88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[21] --> AX58U Build" "$(if [ "$BAX58" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n\n' "[22] --> AX56U Build" "$(if [ "$BAX56" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s\n\n' "[23] --> Reset All Settings To Default"
+					printf "[1-23]: "
 					read -r "menu2"
 					echo
 					case "$menu2" in
@@ -595,72 +589,6 @@ Load_Menu() {
 							break
 						;;
 						16)
-							option2="bac87"
-							while true; do
-								echo "Select AC87U Build Option:"
-								echo "[1]  --> Enable"
-								echo "[2]  --> Disable"
-								echo
-								printf "[1-2]: "
-								read -r "menu3"
-								echo
-								case "$menu3" in
-									1)
-										option3="enable"
-										break
-									;;
-									2)
-										option3="disable"
-										break
-									;;
-									e|exit|back|menu)
-										unset "option1" "option2" "option3"
-										clear
-										Load_Menu
-										break
-									;;
-									*)
-										echo "[*] $menu3 Isn't An Option!"
-										echo
-									;;
-								esac
-							done
-							break
-						;;
-						17)
-							option2="bac3200"
-							while true; do
-								echo "Select AC3200 Build Option:"
-								echo "[1]  --> Enable"
-								echo "[2]  --> Disable"
-								echo
-								printf "[1-2]: "
-								read -r "menu3"
-								echo
-								case "$menu3" in
-									1)
-										option3="enable"
-										break
-									;;
-									2)
-										option3="disable"
-										break
-									;;
-									e|exit|back|menu)
-										unset "option1" "option2" "option3"
-										clear
-										Load_Menu
-										break
-									;;
-									*)
-										echo "[*] $menu3 Isn't An Option!"
-										echo
-									;;
-								esac
-							done
-							break
-						;;
-						18)
 							option2="bac88"
 							while true; do
 								echo "Select AC88U Build Option:"
@@ -693,7 +621,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						19)
+						17)
 							option2="bac3100"
 							while true; do
 								echo "Select AC3100 Build Option:"
@@ -726,7 +654,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						20)
+						18)
 							option2="bac5300"
 							while true; do
 								echo "Select AC5300 Build Option:"
@@ -759,7 +687,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						21)
+						19)
 							option2="bac86"
 							while true; do
 								echo "Select AC86U Build Option:"
@@ -792,7 +720,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						22)
+						20)
 							option2="bax88"
 							while true; do
 								echo "Select AX88U Build Option:"
@@ -825,7 +753,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						23)
+						21)
 							option2="bax58"
 							while true; do
 								echo "Select AX58U Build Option:"
@@ -858,7 +786,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						24)
+						22)
 							option2="bax56"
 							while true; do
 								echo "Select AX56U Build Option:"
@@ -891,7 +819,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						25)
+						23)
 							option2="reset"
 							break
 						;;
@@ -989,7 +917,7 @@ printf '\n\n====================================================================
 
 case "$1" in
 	build)
-		if [ "$BAC56" != "y" ] && [ "$BAC68" != "y" ] && [ "$BAC87" != "y" ] && [ "$BAC3200" != "y" ] && [ "$BAC88" != "y" ] && [ "$BAC3100" != "y" ] && [ "$BAC5300" != "y" ] && [ "$BAC86" != "y" ] && [ "$BAX88" != "y" ] && [ "$BAX58" != "y" ] && [ "$BAX56" != "y" ]; then
+		if [ "$BAC56" != "y" ] && [ "$BAC68" != "y" ] && [ "$BAC88" != "y" ] && [ "$BAC3100" != "y" ] && [ "$BAC5300" != "y" ] && [ "$BAC86" != "y" ] && [ "$BAX88" != "y" ] && [ "$BAX58" != "y" ] && [ "$BAX56" != "y" ]; then
 			echo "[*] No Models Configured For Build"
 		else
 			if [ "$BUILDREV" = "1" ]; then export BUILDREV="1"; fi
@@ -1055,11 +983,8 @@ case "$1" in
 					fi
 					cd "$HOME/$FWPATH" || exit 1
 
-					CURRENT=$(git branch | grep "\*" | cut -d ' ' -f2)
-					if [ "$CURRENT" != "$BRANCH" ] ; then
-						git checkout "$BRANCH" >/dev/null 2>&1
-						git pull origin "$BRANCH" >/dev/null 2>&1
-					fi
+					git checkout "$BRANCH" >/dev/null 2>&1
+					git pull origin "$BRANCH" >/dev/null 2>&1
 
 					if [ "$CLEANUP_TREE" = "y" ]; then
 						cd "$HOME/$FWPATH/$SDKPATH" || exit 1
@@ -1089,34 +1014,28 @@ case "$1" in
 				clean_tree amng.ac56 release/src-rt-6.x.4708 rt-ac56u master
 			fi
 			if [ "$BAC68" = "y" ]; then
-				clean_tree amng.ac68 release/src-rt-6.x.4708 rt-ac68u mainline
-			fi
-			if [ "$BAC87" = "y" ]; then
-				clean_tree amng.ac87 release/src-rt-6.x.4708 rt-ac87u 384.13_x
-			fi
-			if [ "$BAC3200" = "y" ]; then
-				clean_tree amng.ac3200 release/src-rt-7.x.main/src rt-ac3200 384.13_x
+				clean_tree amng.ac68 release/src-rt-6.x.4708 rt-ac68u master
 			fi
 			if [ "$BAC3100" = "y" ]; then
-				clean_tree amng.ac3100 release/src-rt-7.14.114.x/src rt-ac3100 mainline
+				clean_tree amng.ac3100 release/src-rt-7.14.114.x/src rt-ac3100 master
 			fi
 			if [ "$BAC88" = "y" ]; then
-				clean_tree amng.ac88 release/src-rt-7.14.114.x/src rt-ac88u mainline
+				clean_tree amng.ac88 release/src-rt-7.14.114.x/src rt-ac88u master
 			fi
 			if [ "$BAC5300" = "y" ]; then
-				clean_tree amng.ac5300 release/src-rt-7.14.114.x/src rt-ac5300 mainline
+				clean_tree amng.ac5300 release/src-rt-7.14.114.x/src rt-ac5300 master
 			fi
 			if [ "$BAC86" = "y" ]; then
-				clean_tree amng.ac86 release/src-rt-5.02hnd rt-ac86u mainline
+				clean_tree amng.ac86 release/src-rt-5.02hnd rt-ac86u master
 			fi
 			if [ "$BAX88" = "y" ]; then
-				clean_tree amng.ax88 release/src-rt-5.02axhnd rt-ax88u ax
+				clean_tree amng.ax88 release/src-rt-5.02axhnd rt-ax88u master
 			fi
 			if [ "$BAX58" = "y" ]; then
-				clean_tree amng.ax58 release/src-rt-5.02axhnd.675x rt-ax58u ax
+				clean_tree amng.ax58 release/src-rt-5.02axhnd.675x rt-ax58u master
 			fi
 			if [ "$BAX56" = "y" ]; then
-				clean_tree amng.ax56 release/src-rt-5.02axhnd.675x rt-ax56u ax
+				clean_tree amng.ax56 release/src-rt-5.02axhnd.675x rt-ax56u master
 			fi
 			echo "--- $(date +%R) - All trees ready!"
 			echo
@@ -1129,43 +1048,35 @@ case "$1" in
 				sleep 20
 			fi
 			if [ "$BAC68" = "y" ]; then
-				build_fw amng.ac68/release/src-rt-6.x.4708 rt-ac68u mainline &
-				sleep 20
-			fi
-			if [ "$BAC87" = "y" ]; then
-				build_fw amng.ac87/release/src-rt-6.x.4708 rt-ac87u 384.13_x &
-				sleep 20
-			fi
-			if [ "$BAC3200" = "y" ]; then
-				build_fw amng.ac3200/release/src-rt-7.x.main/src rt-ac3200 384.13_x &
+				build_fw amng.ac68/release/src-rt-6.x.4708 rt-ac68u master &
 				sleep 20
 			fi
 			if [ "$BAC3100" = "y" ]; then
-				build_fw amng.ac3100/release/src-rt-7.14.114.x/src rt-ac3100 mainline &
+				build_fw amng.ac3100/release/src-rt-7.14.114.x/src rt-ac3100 master &
 				sleep 20
 			fi
 			if [ "$BAC88" = "y" ]; then
-				build_fw amng.ac88/release/src-rt-7.14.114.x/src rt-ac88u mainline &
+				build_fw amng.ac88/release/src-rt-7.14.114.x/src rt-ac88u master &
 				sleep 20
 			fi
 			if [ "$BAC5300" = "y" ]; then
-				build_fw amng.ac5300/release/src-rt-7.14.114.x/src rt-ac5300 mainline &
+				build_fw amng.ac5300/release/src-rt-7.14.114.x/src rt-ac5300 master &
 				sleep 10
 			fi
 			if [ "$BAC86" = "y" ]; then
-				build_fw amng.ac86/release/src-rt-5.02hnd rt-ac86u mainline &
+				build_fw amng.ac86/release/src-rt-5.02hnd rt-ac86u master &
 				sleep 10
 			fi
 			if [ "$BAX88" = "y" ]; then
-				build_fw amng.ax88/release/src-rt-5.02axhnd rt-ax88u ax &
+				build_fw amng.ax88/release/src-rt-5.02axhnd rt-ax88u master &
 				sleep 10
 			fi
 			if [ "$BAX58" = "y" ]; then
-				build_fw amng.ax58/release/src-rt-5.02axhnd.675x rt-ax58u ax &
+				build_fw amng.ax58/release/src-rt-5.02axhnd.675x rt-ax58u master &
 				sleep 10
 			fi
 			if [ "$BAX56" = "y" ]; then
-        		build_fw amng.ax56/release/src-rt-5.02axhnd.675x rt-ax56u ax &
+        		build_fw amng.ax56/release/src-rt-5.02axhnd.675x rt-ax56u master &
         		sleep 10
 			fi
 
@@ -1499,40 +1410,6 @@ case "$1" in
 					;;
 				esac
 			;;
-			bac87)
-				case "$3" in
-					enable)
-						BAC87="y"
-						echo "[i] AC87U Build Enabled"
-					;;
-					disable)
-						BAC87="n"
-						echo "[i] AC87U Build Disabled"
-					;;
-					*)
-						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/amcfwm"
-						echo; exit 2
-					;;
-				esac
-			;;
-			bac3200)
-				case "$3" in
-					enable)
-						BAC3200="y"
-						echo "[i] AC3200 Build Enabled"
-					;;
-					disable)
-						BAC3200="n"
-						echo "[i] AC3200 Build Disabled"
-					;;
-					*)
-						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/amcfwm"
-						echo; exit 2
-					;;
-				esac
-			;;
 			bac88)
 				case "$3" in
 					enable)
@@ -1698,14 +1575,6 @@ case "$1" in
 		if [ "$BAC68" != "y" ] && [ -d "$HOME/amng.ac68" ]; then
 			echo "[i] Removing $HOME/amng.ac68 ($(du -sh "$HOME/amng.ac68" | awk '{print $1}'))"
 			rm -rf "$HOME/amng.ac68" "$HOME/amcfwm/rt-ac68u.git" "$HOME/amcfwm/rt-ac68u-output.txt"
-		fi
-		if [ "$BAC87" != "y" ] && [ -d "$HOME/amng.ac87" ]; then
-			echo "[i] Removing $HOME/amng.ac87 ($(du -sh "$HOME/amng.ac87" | awk '{print $1}'))"
-			rm -rf "$HOME/amng.ac87" "$HOME/amcfwm/rt-ac87u.git" "$HOME/amcfwm/rt-ac87u-output.txt"
-		fi
-		if [ "$BAC3200" != "y" ] && [ -d "$HOME/amng.ac3200" ]; then
-			echo "[i] Removing $HOME/amng.ac3200 ($(du -sh "$HOME/amng.ac3200" | awk '{print $1}'))"
-			rm -rf "$HOME/amng.ac3200" "$HOME/amcfwm/rt-ac3200.git" "$HOME/amcfwm/rt-ac3200-output.txt"
 		fi
 		if [ "$BAC3100" != "y" ] && [ -d "$HOME/amng.ac3100" ]; then
 			echo "[i] Removing $HOME/amng.ac3100 ($(du -sh "$HOME/amng.ac3100" | awk '{print $1}'))"
