@@ -10,7 +10,7 @@
 #                                                                                                            #
 #                              AsusWRT-Merlin CFW Manager For Ubuntu 18.04 LTS                               #
 #                                By Adamm - https://github.com/Adamm00/amcfwm                                #
-#                                            01/09/2020 - v1.0.2                                             #
+#                                            03/09/2020 - v1.0.2                                             #
 ##############################################################################################################
 
 ### Inspired By RMerlin's Original Script
@@ -1076,8 +1076,8 @@ case "$1" in
 				sleep 10
 			fi
 			if [ "$BAX56" = "y" ]; then
-        		build_fw amng.ax56/release/src-rt-5.02axhnd.675x rt-ax56u master &
-        		sleep 10
+				build_fw amng.ax56/release/src-rt-5.02axhnd.675x rt-ax56u master &
+				sleep 10
 			fi
 
 			echo "--- $(date +%R) - All builds launched, please wait..."
