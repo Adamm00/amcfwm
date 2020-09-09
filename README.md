@@ -84,11 +84,9 @@ amcfwm
 
 ( amcfwm settings bac56 enable|disable ) Enable/Disable Building Of AC56U Image
 ( amcfwm settings bac68 enable|disable ) Enable/Disable Building Of AC68U Image
-( amcfwm settings bac87 enable|disable ) Enable/Disable Building Of AC87U Image
-( amcfwm settings bac3200 enable|disable ) Enable/Disable Building Of AC3200 Image
 ( amcfwm settings bac88 enable|disable ) Enable/Disable Building Of AC88U Image
 ( amcfwm settings bac3100 enable|disable ) Enable/Disable Building Of AC3100 Image
-( amcfwm settings bac5300 enable|disable ) Enable/Disable Building Of AC5300 Ima
+( amcfwm settings bac5300 enable|disable ) Enable/Disable Building Of AC5300 Image
 ( amcfwm settings bac86 enable|disable ) Enable/Disable Building Of AC86U Image
 ( amcfwm settings bax88 enable|disable ) Enable/Disable Building Of AX88U Image
 ( amcfwm settings bax58 enable|disable ) Enable/Disable Building Of AX58U Image

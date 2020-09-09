@@ -18,8 +18,6 @@ echo; echo
 userdir="/home/$(grep -a 'sshd' /var/log/auth.log | awk '/session opened for user/{print $11}' | tail -1)/amcfwm"
 if [ -f "${userdir}/rt-ac56u.git" ]; then echo "RT-AC56U | $(sed -n '2p' "${userdir}/rt-ac56u.git") | $(date +"%b %d %T" -r "${userdir}/rt-ac56u.git")"; fi
 if [ -f "${userdir}/rt-ac68u.git" ]; then echo "RT-AC68U | $(sed -n '2p' "${userdir}/rt-ac68u.git") | $(date +"%b %d %T" -r "${userdir}/rt-ac68u.git")"; fi
-if [ -f "${userdir}/rt-ac87u.git" ]; then echo "RT-AC87U | $(sed -n '2p' "${userdir}/rt-ac87u.git") | $(date +"%b %d %T" -r "${userdir}/rt-ac87u.git")"; fi
-if [ -f "${userdir}/rt-ac3200.git" ]; then echo "RT-AC3200 | $(sed -n '2p' "${userdir}/rt-ac3200.git") | $(date +"%b %d %T" -r "${userdir}/rt-ac3200.git")"; fi
 if [ -f "${userdir}/rt-ac88u.git" ]; then echo "RT-AC88U | $(sed -n '2p' "${userdir}/rt-ac88u.git") | $(date +"%b %d %T" -r "${userdir}/rt-ac88u.git")"; fi
 if [ -f "${userdir}/rt-ac3100.git" ]; then echo "RT-AC3100 | $(sed -n '2p' "${userdir}/rt-ac3100.git") | $(date +"%b %d %T" -r "${userdir}/rt-ac3100.git")"; fi
 if [ -f "${userdir}/rt-ac5300.git" ]; then echo "RT-AC5300 | $(sed -n '2p' "${userdir}/rt-ac5300.git") | $(date +"%b %d %T" -r "${userdir}/rt-ac5300.git")"; fi
