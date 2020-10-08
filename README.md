@@ -38,11 +38,11 @@ sh $HOME/amcfwm/amcfwm.sh repo
 
 &nbsp;
 
-## **Ubuntu 18.04.4 LTS Download Links**
+## **Ubuntu 18.04.5 LTS Download Links**
 
-**ISO** - <http://releases.ubuntu.com/18.04.4/ubuntu-18.04.4-desktop-amd64.iso>
+**ISO** - <https://releases.ubuntu.com/bionic/ubuntu-18.04.5-desktop-amd64.iso>
 
-**Torrent** - <http://releases.ubuntu.com/18.04/ubuntu-18.04.4-desktop-amd64.iso.torrent>
+**Torrent** - <https://releases.ubuntu.com/18.04/ubuntu-18.04.5-desktop-amd64.iso.torrent>
 
 &nbsp;
 
