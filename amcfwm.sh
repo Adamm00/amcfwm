@@ -60,7 +60,7 @@ Webhook_Success() {
 	{
 		"username": "amcfwmBOT",
 		"avatar_url": "$avatar",
-		"content": "Firmware Build Sucessful @everyone",
+		"content": "Firmware Build Successful @everyone",
 		"embeds": [{
 			"title": "$(echo "$FWMODEL" | tr '[:lower:]' '[:upper:]')",
 			"color": 2605644,
