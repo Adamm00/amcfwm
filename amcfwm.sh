@@ -10,7 +10,7 @@
 #                                                                                                            #
 #                              AsusWRT-Merlin CFW Manager For Ubuntu 18.04 LTS                               #
 #                                By Adamm - https://github.com/Adamm00/amcfwm                                #
-#                                            03/09/2020 - v1.0.2                                             #
+#                                            17/10/2020 - v1.0.3                                             #
 ##############################################################################################################
 
 ### Inspired By RMerlin's Original Script
@@ -52,6 +52,84 @@ Cron_Disable() {
 	sudo rm -rf "/etc/cron.daily/amcfwm"
 }
 
+Webhook_Success() {
+	avatar="https://i.imgur.com/jZk12SL.png"
+	curl -s -H "Content-Type: application/json" \
+	-X POST \
+	-d "$(cat <<EOF
+	{
+		"username": "amcfwmBOT",
+		"avatar_url": "$avatar",
+		"content": "Firmware Build Sucessful @everyone",
+		"embeds": [{
+			"title": "$(echo "$FWMODEL" | tr '[:lower:]' '[:upper:]')",
+			"color": 2605644,
+			"url": "https://github.com/RMerl/asuswrt-merlin.ng/commit/$(sed -n '1p' "$HOME/amcfwm/$FWMODEL.git" 2>/dev/null)",
+			"fields": [{
+					"name": "Firmware Version",
+					"value": "$FWNAME",
+					"inline": false
+				},
+				{
+					"name": "Git Version",
+					"value": "$(sed -n '1p' "$HOME/amcfwm/$FWMODEL.git" 2>/dev/null)",
+					"inline": false
+				},
+				{
+					"name": "Compile Time",
+					"value": "$ftime",
+					"inline": false
+				}
+			],
+			"footer": {
+				"text": "$(date)",
+				"icon_url": "$avatar"
+			}
+		}]
+	}
+EOF
+	)" "$WEBHOOKURL"
+}
+
+Webhook_Failed() {
+	avatar="https://i.imgur.com/jZk12SL.png"
+	curl -s -H "Content-Type: application/json" \
+	-X POST \
+	-d "$(cat <<EOF
+	{
+		"username": "amcfwmBOT",
+		"avatar_url": "$avatar",
+		"content": "Firmware Build Failed @everyone",
+		"embeds": [{
+			"title": "$(echo "$FWMODEL" | tr '[:lower:]' '[:upper:]')",
+			"color": 15749200,
+			"url": "https://github.com/RMerl/asuswrt-merlin.ng/commit/$(sed -n '1p' "$HOME/amcfwm/$FWMODEL.git" 2>/dev/null)",
+			"fields": [{
+					"name": "Git Version",
+					"value": "$(sed -n '1p' "$HOME/amcfwm/$FWMODEL.git" 2>/dev/null)",
+					"inline": false
+				},
+				{
+					"name": "Build Log",
+					"value": "$HOME/amcfwm/$FWMODEL-output.txt",
+					"inline": false
+				},
+				{
+					"name": "Compile Time",
+					"value": "$ftime",
+					"inline": false
+				}
+			],
+			"footer": {
+				"text": "$(date)",
+				"icon_url": "$avatar"
+			}
+		}]
+	}
+EOF
+	)" "$WEBHOOKURL"
+}
+
 Set_Default() {
 	SRC_LOC="$HOME/amng"
 	STAGE_LOC="$HOME/images"
@@ -66,7 +144,6 @@ Set_Default() {
 	TRANSFERTRX="y"
 	TRANSFERW="y"
 	TRANSFERTXT="y"
-	BAC56="n"
 	BAC68="n"
 	BAC88="n"
 	BAC3100="n"
@@ -75,6 +152,7 @@ Set_Default() {
 	BAX88="n"
 	BAX58="n"
 	BAX56="n"
+	WEBHOOKURL=""
 	Write_Config
 }
 
@@ -100,7 +178,6 @@ Write_Config() {
 		printf '%s="%s"\n' "TRANSFERW" "$TRANSFERW"
 		printf '%s="%s"\n\n' "TRANSFERTXT" "$TRANSFERTXT"
 		printf '%s\n' "## FW Models ##"
-		printf '%s="%s"\n' "BAC56" "$BAC56"
 		printf '%s="%s"\n' "BAC68" "$BAC68"
 		printf '%s="%s"\n' "BAC88" "$BAC88"
 		printf '%s="%s"\n' "BAC3100" "$BAC3100"
@@ -108,7 +185,9 @@ Write_Config() {
 		printf '%s="%s"\n' "BAC86" "$BAC86"
 		printf '%s="%s"\n' "BAX88" "$BAX88"
 		printf '%s="%s"\n' "BAX58" "$BAX58"
-		printf '%s="%s"\n' "BAX56" "$BAX56"
+		printf '%s="%s"\n\n' "BAX56" "$BAX56"
+		printf '%s\n' "## Webhook Notifications ##"
+		printf '%s="%s"\n' "WEBHOOKURL" "$WEBHOOKURL"
 		printf '\n%s\n' "################################################"
 	} > "$HOME/amcfwm/amcfwm.cfg"
 }
@@ -168,15 +247,15 @@ Load_Menu() {
 					printf '%-35s | %-40s\n' "[11] --> Transfer .trx Files" "$(if [ "$TRANSFERTRX" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[12] --> Transfer .w Files" "$(if [ "$TRANSFERW" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n\n' "[13] --> Transfer .txt Files" "$(if [ "$TRANSFERTXT" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[14] --> AC56U Build" "$(if [ "$BAC56" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[15] --> AC68U Build" "$(if [ "$BAC68" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[16] --> AC88U Build" "$(if [ "$BAC88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[17] --> AC3100 Build" "$(if [ "$BAC3100" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[18] --> AC5300 Build" "$(if [ "$BAC5300" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[19] --> AC86U Build" "$(if [ "$BAC86" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[20] --> AX88U Build" "$(if [ "$BAX88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[21] --> AX58U Build" "$(if [ "$BAX58" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n\n' "[22] --> AX56U Build" "$(if [ "$BAX56" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[14] --> AC68U Build" "$(if [ "$BAC68" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[15] --> AC88U Build" "$(if [ "$BAC88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[16] --> AC3100 Build" "$(if [ "$BAC3100" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[17] --> AC5300 Build" "$(if [ "$BAC5300" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[18] --> AC86U Build" "$(if [ "$BAC86" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[19] --> AX88U Build" "$(if [ "$BAX88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[20] --> AX58U Build" "$(if [ "$BAX58" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n\n' "[21] --> AX56U Build" "$(if [ "$BAX56" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n\n' "[22] --> Webhook URL" "$(if [ -n "$WEBHOOKURL" ]; then Grn "$WEBHOOKURL"; else Red "[Disabled]"; fi)"
 					printf '%-35s\n\n' "[23] --> Reset All Settings To Default"
 					printf "[1-23]: "
 					read -r "menu2"
@@ -523,39 +602,6 @@ Load_Menu() {
 							break
 						;;
 						14)
-							option2="bac56"
-							while true; do
-								echo "Select AC56U Build Option:"
-								echo "[1]  --> Enable"
-								echo "[2]  --> Disable"
-								echo
-								printf "[1-2]: "
-								read -r "menu3"
-								echo
-								case "$menu3" in
-									1)
-										option3="enable"
-										break
-									;;
-									2)
-										option3="disable"
-										break
-									;;
-									e|exit|back|menu)
-										unset "option1" "option2" "option3"
-										clear
-										Load_Menu
-										break
-									;;
-									*)
-										echo "[*] $menu3 Isn't An Option!"
-										echo
-									;;
-								esac
-							done
-							break
-						;;
-						15)
 							option2="bac68"
 							while true; do
 								echo "Select AC68U Build Option:"
@@ -588,7 +634,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						16)
+						15)
 							option2="bac88"
 							while true; do
 								echo "Select AC88U Build Option:"
@@ -621,7 +667,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						17)
+						16)
 							option2="bac3100"
 							while true; do
 								echo "Select AC3100 Build Option:"
@@ -654,7 +700,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						18)
+						17)
 							option2="bac5300"
 							while true; do
 								echo "Select AC5300 Build Option:"
@@ -687,7 +733,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						19)
+						18)
 							option2="bac86"
 							while true; do
 								echo "Select AC86U Build Option:"
@@ -720,7 +766,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						20)
+						19)
 							option2="bax88"
 							while true; do
 								echo "Select AX88U Build Option:"
@@ -753,7 +799,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						21)
+						20)
 							option2="bax58"
 							while true; do
 								echo "Select AX58U Build Option:"
@@ -786,7 +832,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						22)
+						21)
 							option2="bax56"
 							while true; do
 								echo "Select AX56U Build Option:"
@@ -817,6 +863,15 @@ Load_Menu() {
 									;;
 								esac
 							done
+							break
+						;;
+						22)
+							option2="webhookurl"
+							echo "Enter Webhook URL:"
+							echo
+							printf "[Webhook URL]: "
+							read -r "option3"
+							echo
 							break
 						;;
 						23)
@@ -917,10 +972,11 @@ printf '\n\n====================================================================
 
 case "$1" in
 	build)
-		if [ "$BAC56" != "y" ] && [ "$BAC68" != "y" ] && [ "$BAC88" != "y" ] && [ "$BAC3100" != "y" ] && [ "$BAC5300" != "y" ] && [ "$BAC86" != "y" ] && [ "$BAX88" != "y" ] && [ "$BAX58" != "y" ] && [ "$BAX56" != "y" ]; then
+		if [ "$BAC68" != "y" ] && [ "$BAC88" != "y" ] && [ "$BAC3100" != "y" ] && [ "$BAC5300" != "y" ] && [ "$BAC86" != "y" ] && [ "$BAX88" != "y" ] && [ "$BAX58" != "y" ] && [ "$BAX56" != "y" ]; then
 			echo "[*] No Models Configured For Build"
 		else
 			if [ "$BUILDREV" = "1" ]; then export BUILDREV="1"; fi
+			stime="$(date +%s)"
 			build_fw() {
 				BRANCH="$3"
 				FWMODEL="$2"
@@ -951,14 +1007,21 @@ case "$1" in
 
 						sha256sum "$FWNAME" > sha256sum.sha256
 						zip -qj "$STAGE_LOC/$ZIPNAME" "$FWNAME" "$STAGE_LOC/README-merlin.txt" "$STAGE_LOC"/Changelog*.txt "sha256sum.sha256" 2>/dev/null
-						echo "*** $(date +%R) - Done building $FWMODEL!"
+						ftime="$(printf '%02dh:%02dm:%02ds\n' $((($(date +%s)-stime)/3600)) $((($(date +%s)-stime)%3600/60)) $((($(date +%s)-stime)%60)))"
+						echo
+						echo "*** $(date +%R) - Done building $FWMODEL! ($ftime)"
 						touch "$HOME/amcfwm/build.success"
 					else
-						echo "!!! $(date +%R) - $FWMODEL build failed!"
+						ftime="$(printf '%02dh:%02dm:%02ds\n' $((($(date +%s)-stime)/3600)) $((($(date +%s)-stime)%3600/60)) $((($(date +%s)-stime)%60)))"
+						echo
+						echo "!!! $(date +%R) - $FWMODEL build failed! ($ftime)"
 						echo "!!! $(date +%R) - $HOME/amcfwm/$FWMODEL-output.txt"
 					fi
 					{ git -C "$HOME/$FWPATH" rev-parse HEAD
 					if [ -n "$FWNAME" ]; then echo "$FWNAME"; else echo "$(git -C "$HOME/$FWPATH" rev-parse HEAD) [Failed]"; fi ; } > "$HOME/amcfwm/$FWMODEL.git"
+					if [ -n "$WEBHOOKURL" ]; then
+						if [ -n "$FWNAME" ]; then Webhook_Success; else Webhook_Failed; fi
+					fi
 				fi
 			}
 
@@ -1010,9 +1073,6 @@ case "$1" in
 			# Update all model trees
 
 			echo "--- $(date +%R) - Preparing trees"
-			if [ "$BAC56" = "y" ]; then
-				clean_tree amng.ac56 release/src-rt-6.x.4708 rt-ac56u master
-			fi
 			if [ "$BAC68" = "y" ]; then
 				clean_tree amng.ac68 release/src-rt-6.x.4708 rt-ac68u master
 			fi
@@ -1043,10 +1103,6 @@ case "$1" in
 			# Launch parallel builds
 
 			echo "--- $(date +%R) - Launching all builds"
-			if [ "$BAC56" = "y" ]; then
-				build_fw amng.ac56/release/src-rt-6.x.4708 rt-ac56u master &
-				sleep 20
-			fi
 			if [ "$BAC68" = "y" ]; then
 				build_fw amng.ac68/release/src-rt-6.x.4708 rt-ac68u master &
 				sleep 20
@@ -1376,23 +1432,6 @@ case "$1" in
 					;;
 				esac
 			;;
-			bac56)
-				case "$3" in
-					enable)
-						BAC56="y"
-						echo "[i] AC56U Build Enabled"
-					;;
-					disable)
-						BAC56="n"
-						echo "[i] AC56U Build Disabled"
-					;;
-					*)
-						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/amcfwm"
-						echo; exit 2
-					;;
-				esac
-			;;
 			bac68)
 				case "$3" in
 					enable)
@@ -1529,6 +1568,14 @@ case "$1" in
 					;;
 				esac
 			;;
+			webhookurl)
+				WEBHOOKURL="$3"
+				if [ -n "$WEBHOOKURL" ]; then
+					echo "[i] Webhook URL Set To $WEBHOOKURL"
+				else
+					echo "[i] Webhook Notifications Disabled"
+				fi
+			;;
 			reset)
 				Set_Default
 				echo "[i] All Settings Reset"
@@ -1568,10 +1615,6 @@ case "$1" in
 
 	cleanup)
 		echo "[i] Cleaning Up Inactive Build Directories"
-		if [ "$BAC56" != "y" ] && [ -d "$HOME/amng.ac56" ]; then
-			echo "[i] Removing $HOME/amng.ac56 ($(du -sh "$HOME/amng.ac56" | awk '{print $1}'))"
-			rm -rf "$HOME/amng.ac56" "$HOME/amcfwm/rt-ac56u.git" "$HOME/amcfwm/rt-ac56u-output.txt"
-		fi
 		if [ "$BAC68" != "y" ] && [ -d "$HOME/amng.ac68" ]; then
 			echo "[i] Removing $HOME/amng.ac68 ($(du -sh "$HOME/amng.ac68" | awk '{print $1}'))"
 			rm -rf "$HOME/amng.ac68" "$HOME/amcfwm/rt-ac68u.git" "$HOME/amcfwm/rt-ac68u-output.txt"
