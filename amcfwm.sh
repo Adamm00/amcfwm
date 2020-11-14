@@ -10,7 +10,7 @@
 #                                                                                                            #
 #                              AsusWRT-Merlin CFW Manager For Ubuntu 18.04 LTS                               #
 #                                By Adamm - https://github.com/Adamm00/amcfwm                                #
-#                                            17/10/2020 - v1.0.3                                             #
+#                                            15/11/2020 - v1.0.4                                             #
 ##############################################################################################################
 
 ### Inspired By RMerlin's Original Script
@@ -152,6 +152,7 @@ Set_Default() {
 	BAX88="n"
 	BAX58="n"
 	BAX56="n"
+	BAX86="n"
 	WEBHOOKURL=""
 	Write_Config
 }
@@ -185,7 +186,8 @@ Write_Config() {
 		printf '%s="%s"\n' "BAC86" "$BAC86"
 		printf '%s="%s"\n' "BAX88" "$BAX88"
 		printf '%s="%s"\n' "BAX58" "$BAX58"
-		printf '%s="%s"\n\n' "BAX56" "$BAX56"
+		printf '%s="%s"\n' "BAX56" "$BAX56"
+		printf '%s="%s"\n\n' "BAX86" "$BAX86"
 		printf '%s\n' "## Webhook Notifications ##"
 		printf '%s="%s"\n' "WEBHOOKURL" "$WEBHOOKURL"
 		printf '\n%s\n' "################################################"
@@ -254,10 +256,11 @@ Load_Menu() {
 					printf '%-35s | %-40s\n' "[18] --> AC86U Build" "$(if [ "$BAC86" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[19] --> AX88U Build" "$(if [ "$BAX88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[20] --> AX58U Build" "$(if [ "$BAX58" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n\n' "[21] --> AX56U Build" "$(if [ "$BAX56" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n\n' "[22] --> Webhook URL" "$(if [ -n "$WEBHOOKURL" ]; then Grn "$WEBHOOKURL"; else Red "[Disabled]"; fi)"
-					printf '%-35s\n\n' "[23] --> Reset All Settings To Default"
-					printf "[1-23]: "
+					printf '%-35s | %-40s\n' "[21] --> AX56U Build" "$(if [ "$BAX56" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n\n' "[22] --> AX86U Build" "$(if [ "$BAX86" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n\n' "[23] --> Webhook URL" "$(if [ -n "$WEBHOOKURL" ]; then Grn "$WEBHOOKURL"; else Red "[Disabled]"; fi)"
+					printf '%-35s\n\n' "[24] --> Reset All Settings To Default"
+					printf "[1-24]: "
 					read -r "menu2"
 					echo
 					case "$menu2" in
@@ -866,6 +869,39 @@ Load_Menu() {
 							break
 						;;
 						22)
+							option2="bax86"
+							while true; do
+								echo "Select AX86U Build Option:"
+								echo "[1]  --> Enable"
+								echo "[2]  --> Disable"
+								echo
+								printf "[1-2]: "
+								read -r "menu3"
+								echo
+								case "$menu3" in
+									1)
+										option3="enable"
+										break
+									;;
+									2)
+										option3="disable"
+										break
+									;;
+									e|exit|back|menu)
+										unset "option1" "option2" "option3"
+										clear
+										Load_Menu
+										break
+									;;
+									*)
+										echo "[*] $menu3 Isn't An Option!"
+										echo
+									;;
+								esac
+							done
+							break
+						;;
+						23)
 							option2="webhookurl"
 							echo "Enter Webhook URL:"
 							echo
@@ -874,7 +910,7 @@ Load_Menu() {
 							echo
 							break
 						;;
-						23)
+						24)
 							option2="reset"
 							break
 						;;
@@ -972,7 +1008,7 @@ printf '\n\n====================================================================
 
 case "$1" in
 	build)
-		if [ "$BAC68" != "y" ] && [ "$BAC88" != "y" ] && [ "$BAC3100" != "y" ] && [ "$BAC5300" != "y" ] && [ "$BAC86" != "y" ] && [ "$BAX88" != "y" ] && [ "$BAX58" != "y" ] && [ "$BAX56" != "y" ]; then
+		if [ "$BAC68" != "y" ] && [ "$BAC88" != "y" ] && [ "$BAC3100" != "y" ] && [ "$BAC5300" != "y" ] && [ "$BAC86" != "y" ] && [ "$BAX88" != "y" ] && [ "$BAX58" != "y" ] && [ "$BAX56" != "y" ] && [ "$BAX86" != "y" ]; then
 			echo "[*] No Models Configured For Build"
 		else
 			if [ "$BUILDREV" = "1" ]; then export BUILDREV="1"; fi
@@ -996,7 +1032,7 @@ case "$1" in
 						if [ "$FWMODEL" = "rt-ac86u" ] || [ "$FWMODEL" = "rt-ax88u" ]; then
 							FWNAME="$(find -- *_cferom_ubi.w | head -n 1)"
 							ZIPNAME="$(echo "$FWNAME" | sed 's~_cferom_ubi.w~~g').zip"
-						elif [ "$FWMODEL" = "rt-ax58u" ] || [ "$FWMODEL" = "rt-ax56u" ]; then
+						elif [ "$FWMODEL" = "rt-ax58u" ] || [ "$FWMODEL" = "rt-ax56u" ] || [ "$FWMODEL" = "rt-ax86u" ]; then
 							FWNAME="$(find -- *_cferom_pureubi.w | head -n 1)"
 							ZIPNAME="$(echo "$FWNAME" | sed 's~_cferom_pureubi.w~~g').zip"
 						else
@@ -1097,6 +1133,9 @@ case "$1" in
 			if [ "$BAX56" = "y" ]; then
 				clean_tree amng.ax56 release/src-rt-5.02axhnd.675x rt-ax56u master
 			fi
+			if [ "$BAX86" = "y" ]; then
+				clean_tree amng.ax86 release/src-rt-5.02p1axhnd.675x rt-ax86u master
+			fi
 			echo "--- $(date +%R) - All trees ready!"
 			echo
 
@@ -1133,6 +1172,10 @@ case "$1" in
 			fi
 			if [ "$BAX56" = "y" ]; then
 				build_fw amng.ax56/release/src-rt-5.02axhnd.675x rt-ax56u master &
+				sleep 10
+			fi
+			if [ "$BAX86" = "y" ]; then
+				build_fw amng.ax86/release/src-rt-5.02p1axhnd.675x rt-ax86u master &
 				sleep 10
 			fi
 
@@ -1568,6 +1611,23 @@ case "$1" in
 					;;
 				esac
 			;;
+			bax86)
+				case "$3" in
+					enable)
+						BAX86="y"
+						echo "[i] AX86U Build Enabled"
+					;;
+					disable)
+						BAX86="n"
+						echo "[i] AX86U Build Disabled"
+					;;
+					*)
+						echo "Command Not Recognized, Please Try Again"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
+						echo; exit 2
+					;;
+				esac
+			;;
 			webhookurl)
 				WEBHOOKURL="$3"
 				if [ -n "$WEBHOOKURL" ]; then
@@ -1646,6 +1706,10 @@ case "$1" in
 		if [ "$BAX56" != "y" ] && [ -d "$HOME/amng.ax56" ]; then
 			echo "[i] Removing $HOME/amng.ax56 ($(du -sh "$HOME/amng.ax56" | awk '{print $1}'))"
 			rm -rf "$HOME/amng.ax56" "$HOME/amcfwm/rt-ax56u.git" "$HOME/amcfwm/rt-ax56u-output.txt"
+		fi
+		if [ "$BAX86" != "y" ] && [ -d "$HOME/amng.ax86" ]; then
+			echo "[i] Removing $HOME/amng.ax86 ($(du -sh "$HOME/amng.ax86" | awk '{print $1}'))"
+			rm -rf "$HOME/amng.ax86" "$HOME/amcfwm/rt-ax86u.git" "$HOME/amcfwm/rt-ax86u-output.txt"
 		fi
 	;;
 
