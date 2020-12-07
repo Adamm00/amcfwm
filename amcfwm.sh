@@ -8,9 +8,9 @@
 #        ╚██████╗██║     ╚███╔███╔╝    ██║ ╚═╝ ██║██║  ██║██║ ╚████║██║  ██║╚██████╔╝███████╗██║  ██║        #
 #         ╚═════╝╚═╝      ╚══╝╚══╝     ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝        #
 #                                                                                                            #
-#                              AsusWRT-Merlin CFW Manager For Ubuntu 18.04 LTS                               #
+#                                 AsusWRT-Merlin CFW Manager For Ubuntu LTS                                  #
 #                                By Adamm - https://github.com/Adamm00/amcfwm                                #
-#                                            15/11/2020 - v1.0.4                                             #
+#                                            08/12/2020 - v1.0.5                                             #
 ##############################################################################################################
 
 ### Inspired By RMerlin's Original Script
@@ -1026,6 +1026,14 @@ case "$1" in
 
 				if [ "$LOCALFWVER" != "$REMOTEFWVER" ] || [ "$FORCEBUILD" = "y" ]; then
 					echo "*** $(date +%R) - Starting building $FWMODEL..."
+					if grep -qF "Ubuntu 20.04" "/etc/os-release"; then
+						echo "*** $(date +%R) - Patching wget"
+						cd "$HOME/$FWPATH/../src/router/wget" || exit 1
+						autoreconf -f -i >/dev/null 2>&1
+						echo "*** $(date +%R) - Patching tor"
+						cd "$HOME/$FWPATH/../src/router/tor" || exit 1
+						autoreconf -f -i >/dev/null 2>&1
+					fi
 					cd "$HOME/$FWPATH" || exit 1
 					if make "$FWMODEL" > "$HOME/amcfwm/$FWMODEL-output.txt" 2>&1; then
 						cd image || exit 1
