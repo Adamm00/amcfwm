@@ -1251,7 +1251,7 @@ case "$1" in
 				clean_tree amng.gt11000 release/src-rt-5.02axhnd gt-ax11000 master
 			fi
 			if [ "$BAX68" = "y" ]; then
-        		clean_tree amng.ax68 release/src-rt-5.02p1axhnd.675x rt-ax68u rtax68
+				clean_tree amng.ax68 release/src-rt-5.02p1axhnd.675x rt-ax68u rtax68
 			fi
 			echo
 			echo "--- $(date +%R) - All trees ready!"
