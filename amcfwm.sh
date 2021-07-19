@@ -10,7 +10,7 @@
 #                                                                                                            #
 #                                 AsusWRT-Merlin CFW Manager For Ubuntu LTS                                  #
 #                                By Adamm - https://github.com/Adamm00/amcfwm                                #
-#                                            09/07/2021 - v1.0.6                                             #
+#                                            19/07/2021 - v1.0.7                                             #
 ##############################################################################################################
 
 ### Inspired By RMerlin's Original Script
@@ -269,7 +269,7 @@ Load_Menu() {
 					printf '%-35s | %-40s\n\n' "[25] --> AX68U Build" "$(if [ "$BAX68" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n\n' "[26] --> Webhook URL" "$(if [ -n "$WEBHOOKURL" ]; then Grn "$WEBHOOKURL"; else Red "[Disabled]"; fi)"
 					printf '%-35s\n\n' "[27] --> Reset All Settings To Default"
-					printf "[1-24]: "
+					printf "[1-27]: "
 					read -r "menu2"
 					echo
 					case "$menu2" in
@@ -1251,7 +1251,7 @@ case "$1" in
 				clean_tree amng.gt11000 release/src-rt-5.02axhnd gt-ax11000 master
 			fi
 			if [ "$BAX68" = "y" ]; then
-				clean_tree amng.ax68 release/src-rt-5.02p1axhnd.675x rt-ax68u rtax68
+				clean_tree amng.ax68 release/src-rt-5.02p1axhnd.675x rt-ax68u master
 			fi
 			echo
 			echo "--- $(date +%R) - All trees ready!"
@@ -1294,7 +1294,7 @@ case "$1" in
 				build_fw amng.gt11000/release/src-rt-5.02axhnd gt-ax11000 master &
 			fi
 			if [ "$BAX68" = "y" ]; then
-				build_fw amng.ax68/release/src-rt-5.02p1axhnd.675x rt-ax68u rtax68 &
+				build_fw amng.ax68/release/src-rt-5.02p1axhnd.675x rt-ax68u master &
 			fi
 
 			sleep 5
@@ -1334,7 +1334,7 @@ case "$1" in
 			sudo dpkg --add-architecture i386
 			sudo apt-get update
 			sudo apt-get -y install "linux-headers-$(uname -r)"
-			sudo apt-get -y install lib32ncurses5-dev dos2unix libtool-bin cmake libproxy-dev uuid-dev liblzo2-dev autoconf automake bash bison bzip2 diffutils file flex m4 g++ gawk groff-base libncurses5-dev libtool libslang2 make patch perl pkg-config shtool subversion tar texinfo zlib1g zlib1g-dev git gettext libexpat1-dev libssl-dev cvs gperf unzip python libxml-parser-perl gcc-multilib gconf-editor libxml2-dev g++-multilib gitk libncurses5 mtd-utils libvorbis-dev autopoint autogen sed build-essential intltool libelf1 libglib2.0-dev xutils-dev lib32z1-dev lib32stdc++6 xsltproc gtk-doc-tools libelf-dev:i386 libelf1:i386 libltdl-dev openssh-server curl nano lzip patchelf automake-1.15
+			sudo apt-get -y install lib32ncurses5-dev dos2unix libtool-bin cmake libproxy-dev uuid-dev liblzo2-dev autoconf automake bash bison bzip2 diffutils file flex m4 g++ gawk groff-base libncurses5-dev libtool libslang2 make patch perl pkg-config shtool subversion tar texinfo zlib1g zlib1g-dev git gettext libexpat1-dev libssl-dev cvs gperf unzip python libxml-parser-perl gcc-multilib gconf-editor libxml2-dev g++-multilib gitk libncurses5 mtd-utils libvorbis-dev autopoint autogen sed build-essential intltool libelf1 libglib2.0-dev xutils-dev lib32z1-dev lib32stdc++6 xsltproc gtk-doc-tools libelf-dev:i386 libelf1:i386 libltdl-dev openssh-server curl nano lzip patchelf automake-1.16
 			sudo apt -y autoremove
 			if [ ! -f "$HOME/amcfwm/amcfwm.sh" ]; then curl -fsL --retry 3 "https://raw.githubusercontent.com/Adamm00/amcfwm/master/amcfwm.sh" -o "$HOME/amcfwm/amcfwm.sh"; fi
 			sudo ln -sf "$HOME/amcfwm/amcfwm.sh" /bin/amcfwm
