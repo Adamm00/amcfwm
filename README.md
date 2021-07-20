@@ -4,16 +4,16 @@ AsusWRT-Merlin - Custom Firmware Manager
 _Inspired By RMerlins [Original Script](https://raw.githubusercontent.com/RMerl/asuswrt-merlin.ng/master/tools/build-all)_
 
 ## **Features**
-* Can configure default Ubuntu 18.04 VM
+* Can configure default Ubuntu 20.04 VM
 * Interactive menu
 * Configurable settings
 * No hard-coded settings/variables
 * Daily build cronjob if git changes detected
 * POSIX compliance
 
-![AMCFWM Menu](https://i.imgur.com/89aSCSN.png)
-![AMCFWM Settings Menu](https://i.imgur.com/U0iTesC.png)
-![AMCFWM Build Process](https://i.imgur.com/qWznMh8.png)
+![AMCFWM Menu](https://i.imgur.com/Y7m5sLA.png)
+![AMCFWM Settings Menu](https://i.imgur.com/jfZA1zF.png)
+![AMCFWM Build Process](https://i.imgur.com/jpFzJlA.png)
 
 &nbsp;
 
@@ -38,11 +38,11 @@ sh $HOME/amcfwm/amcfwm.sh repo
 
 &nbsp;
 
-## **Ubuntu 18.04.5 LTS Download Links**
+## **Ubuntu 20.04.2 LTS Download Links**
 
-**ISO** - <https://releases.ubuntu.com/bionic/ubuntu-18.04.5-desktop-amd64.iso>
+**ISO** - <https://releases.ubuntu.com/20.04.2.0/ubuntu-20.04.2.0-desktop-amd64.iso>
 
-**Torrent** - <https://releases.ubuntu.com/18.04/ubuntu-18.04.5-desktop-amd64.iso.torrent>
+**Torrent** - <https://releases.ubuntu.com/20.04/ubuntu-20.04.2.0-desktop-amd64.iso.torrent>
 
 &nbsp;
 
@@ -91,6 +91,12 @@ amcfwm
 ( amcfwm settings bax88 enable|disable ) Enable/Disable Building Of AX88U Image
 ( amcfwm settings bax58 enable|disable ) Enable/Disable Building Of AX58U Image
 ( amcfwm settings bax56 enable|disable ) Enable/Disable Building Of AX56U Image
+( amcfwm settings bax86 enable|disable ) Enable/Disable Building Of AX86U Image
+( amcfwm settings bgtac2900 enable|disable ) Enable/Disable Building Of GT-AC2900 Image
+( amcfwm settings bgtax11000 enable|disable ) Enable/Disable Building Of GT-AX11000 Image
+( amcfwm settings bax68 enable|disable ) Enable/Disable Building Of AX68U Image
+
+( amcfwm settings webhookurl www.google.com/webhookurl ) Enable/Disable Webhook Notifications
 
 ( amcfwm settings reset ) Reset All Settings To Default
 
