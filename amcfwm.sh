@@ -10,7 +10,7 @@
 #                                                                                                            #
 #                                 AsusWRT-Merlin CFW Manager For Ubuntu LTS                                  #
 #                                By Adamm - https://github.com/Adamm00/amcfwm                                #
-#                                            20/07/2021 - v1.0.8                                             #
+#                                            31/05/2022 - v1.1.0                                             #
 ##############################################################################################################
 
 
@@ -136,12 +136,12 @@ Set_Default() {
 	SSH_PORT="22"
 	BUILDREV="1"
 	RSYNC_TREE="y"
-	CLEANUP_TREE="n"
 	FORCEBUILD="n"
 	BUILDCRON="y"
 	TRANSFERZIP="y"
 	TRANSFERTRX="y"
 	TRANSFERW="y"
+	TRANSFERPKGTB="y"
 	TRANSFERTXT="y"
 	BAC68="n"
 	BAC88="n"
@@ -155,6 +155,10 @@ Set_Default() {
 	BGTAC2900="n"
 	BGTAX11000="n"
 	BAX68="n"
+	BGTAXE11000="n"
+	BAC68V4="n"
+	BGTAX6000="n"
+	BXT12="n"
 	WEBHOOKURL=""
 	Write_Config
 }
@@ -172,13 +176,13 @@ Write_Config() {
 		printf '%s\n' "## Misc Options ##"
 		printf '%s="%s"\n' "BUILDREV" "$BUILDREV"
 		printf '%s="%s"\n' "RSYNC_TREE" "$RSYNC_TREE"
-		printf '%s="%s"\n' "CLEANUP_TREE" "$CLEANUP_TREE"
 		printf '%s="%s"\n' "FORCEBUILD" "$FORCEBUILD"
 		printf '%s="%s"\n\n' "BUILDCRON" "$BUILDCRON"
 		printf '%s\n' "## Transfer Options ##"
 		printf '%s="%s"\n' "TRANSFERZIP" "$TRANSFERZIP"
 		printf '%s="%s"\n' "TRANSFERTRX" "$TRANSFERTRX"
 		printf '%s="%s"\n' "TRANSFERW" "$TRANSFERW"
+		printf '%s="%s"\n' "TRANSFERPKGTB" "$TRANSFERPKGTB"
 		printf '%s="%s"\n\n' "TRANSFERTXT" "$TRANSFERTXT"
 		printf '%s\n' "## FW Models ##"
 		printf '%s="%s"\n' "BAC68" "$BAC68"
@@ -192,7 +196,11 @@ Write_Config() {
 		printf '%s="%s"\n' "BAX86" "$BAX86"
 		printf '%s="%s"\n' "BGTAC2900" "$BGTAC2900"
 		printf '%s="%s"\n' "BGTAX11000" "$BGTAX11000"
-		printf '%s="%s"\n\n' "BAX68" "$BAX68"
+		printf '%s="%s"\n' "BAX68" "$BAX68"
+		printf '%s="%s"\n' "BGTAXE11000" "$BGTAXE11000"
+		printf '%s="%s"\n' "BAC68V4" "$BAC68V4"
+		printf '%s="%s"\n' "BGTAX6000" "$BGTAX6000"
+		printf '%s="%s"\n\n' "BXT12" "$BXT12"
 		printf '%s\n' "## Webhook Notifications ##"
 		printf '%s="%s"\n' "WEBHOOKURL" "$WEBHOOKURL"
 		printf '\n%s\n' "################################################"
@@ -247,28 +255,33 @@ Load_Menu() {
 					printf '%-35s | %-40s\n\n' "[4]  --> Remote SSH Port" "$(Grn "$SSH_PORT")"
 					printf '%-35s | %-40s\n' "[5]  --> Build Revision" "$(if [ "$BUILDREV" = "1" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[6]  --> Rsync Tree" "$(if [ "$RSYNC_TREE" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[7]  --> Cleanup Tree" "$(if [ "$CLEANUP_TREE" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[8]  --> Force Image Build" "$(if [ "$FORCEBUILD" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n\n' "[9]  --> Daily Build Cronjob" "$(if [ "$BUILDCRON" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[10] --> Transfer .zip Files" "$(if [ "$TRANSFERZIP" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[11] --> Transfer .trx Files" "$(if [ "$TRANSFERTRX" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[12] --> Transfer .w Files" "$(if [ "$TRANSFERW" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[7]  --> Force Image Build" "$(if [ "$FORCEBUILD" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n\n' "[8]  --> Daily Build Cronjob" "$(if [ "$BUILDCRON" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[9] --> Transfer .zip Files" "$(if [ "$TRANSFERZIP" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[10] --> Transfer .trx Files" "$(if [ "$TRANSFERTRX" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[11] --> Transfer .w Files" "$(if [ "$TRANSFERW" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[12] --> Transfer .pkgtb Files" "$(if [ "$TRANSFERPKGTB" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n\n' "[13] --> Transfer .txt Files" "$(if [ "$TRANSFERTXT" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[14] --> AC68U Build" "$(if [ "$BAC68" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[15] --> AC88U Build" "$(if [ "$BAC88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[16] --> AC3100 Build" "$(if [ "$BAC3100" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[17] --> AC5300 Build" "$(if [ "$BAC5300" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[18] --> AC86U Build" "$(if [ "$BAC86" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[19] --> AX88U Build" "$(if [ "$BAX88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[20] --> AX58U Build" "$(if [ "$BAX58" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[21] --> AX56U Build" "$(if [ "$BAX56" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[22] --> AX86U Build" "$(if [ "$BAX86" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[23] --> GTAC2900 Build" "$(if [ "$BGTAC2900" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n' "[24] --> GTAX11000 Build" "$(if [ "$BGTAX11000" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n\n' "[25] --> AX68U Build" "$(if [ "$BAX68" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n\n' "[26] --> Webhook URL" "$(if [ -n "$WEBHOOKURL" ]; then Grn "$WEBHOOKURL"; else Red "[Disabled]"; fi)"
-					printf '%-35s\n\n' "[27] --> Reset All Settings To Default"
-					printf "[1-27]: "
+					printf '%-35s | %-40s\n' "[14] --> Combined Images" "$(if [ "$COMBINED" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[15] --> AC68U Build" "$(if [ "$BAC68" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[16] --> AC88U Build" "$(if [ "$BAC88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[17] --> AC3100 Build" "$(if [ "$BAC3100" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[18] --> AC5300 Build" "$(if [ "$BAC5300" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[19] --> AC86U Build" "$(if [ "$BAC86" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[20] --> AX88U Build" "$(if [ "$BAX88" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[21] --> AX58U Build" "$(if [ "$BAX58" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[22] --> AX56U Build" "$(if [ "$BAX56" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[23] --> AX86U Build" "$(if [ "$BAX86" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[24] --> GTAC2900 Build" "$(if [ "$BGTAC2900" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[25] --> GTAX11000 Build" "$(if [ "$BGTAX11000" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[26] --> AX68U Build" "$(if [ "$BAX68" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[27] --> GTAXE11000 Build" "$(if [ "$BGTAXE11000" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[28] --> RTAC68U V4 Build" "$(if [ "$BAC68V4" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[29] --> GTAX6000 Build" "$(if [ "$BGTAX6000" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n\n' "[30] --> XT12 Build" "$(if [ "$BXT12" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n\n' "[31] --> Webhook URL" "$(if [ -n "$WEBHOOKURL" ]; then Grn "$WEBHOOKURL"; else Red "[Disabled]"; fi)"
+					printf '%-35s\n\n' "[32] --> Reset All Settings To Default"
+					printf "[1-32]: "
 					read -r "menu2"
 					echo
 					case "$menu2" in
@@ -382,39 +395,6 @@ Load_Menu() {
 							break
 						;;
 						7)
-							option2="cleanuptree"
-							while true; do
-								echo "Select Cleanup Tree Option:"
-								echo "[1]  --> Enable"
-								echo "[2]  --> Disable"
-								echo
-								printf "[1-2]: "
-								read -r "menu3"
-								echo
-								case "$menu3" in
-									1)
-										option3="enable"
-										break
-									;;
-									2)
-										option3="disable"
-										break
-									;;
-									e|exit|back|menu)
-										unset "option1" "option2" "option3"
-										clear
-										Load_Menu
-										break
-									;;
-									*)
-										echo "[*] $menu3 Isn't An Option!"
-										echo
-									;;
-								esac
-							done
-							break
-						;;
-						8)
 							option2="forcebuild"
 							while true; do
 								echo "Select Force Build Option:"
@@ -447,7 +427,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						9)
+						8)
 							option2="buildcron"
 							while true; do
 								echo "Select Daily Build Cronjob Option:"
@@ -480,7 +460,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						10)
+						9)
 							option2="transferzip"
 							while true; do
 								echo "Select Transfer .zip Option:"
@@ -513,7 +493,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						11)
+						10)
 							option2="transfertrx"
 							while true; do
 								echo "Select Transfer .trx Option:"
@@ -546,10 +526,43 @@ Load_Menu() {
 							done
 							break
 						;;
-						12)
+						11)
 							option2="transferw"
 							while true; do
 								echo "Select Transfer .w Option:"
+								echo "[1]  --> Enable"
+								echo "[2]  --> Disable"
+								echo
+								printf "[1-2]: "
+								read -r "menu3"
+								echo
+								case "$menu3" in
+									1)
+										option3="enable"
+										break
+									;;
+									2)
+										option3="disable"
+										break
+									;;
+									e|exit|back|menu)
+										unset "option1" "option2" "option3"
+										clear
+										Load_Menu
+										break
+									;;
+									*)
+										echo "[*] $menu3 Isn't An Option!"
+										echo
+									;;
+								esac
+							done
+							break
+						;;
+						12)
+							option2="transferpkgtb"
+							while true; do
+								echo "Select Transfer .pkgtb Option:"
 								echo "[1]  --> Enable"
 								echo "[2]  --> Disable"
 								echo
@@ -613,6 +626,39 @@ Load_Menu() {
 							break
 						;;
 						14)
+							option2="combined"
+							while true; do
+								echo "Combine Firmware Images:"
+								echo "[1]  --> Enable"
+								echo "[2]  --> Disable"
+								echo
+								printf "[1-2]: "
+								read -r "menu3"
+								echo
+								case "$menu3" in
+									1)
+										option3="enable"
+										break
+									;;
+									2)
+										option3="disable"
+										break
+									;;
+									e|exit|back|menu)
+										unset "option1" "option2" "option3"
+										clear
+										Load_Menu
+										break
+									;;
+									*)
+										echo "[*] $menu3 Isn't An Option!"
+										echo
+									;;
+								esac
+							done
+							break
+						;;
+						15)
 							option2="bac68"
 							while true; do
 								echo "Select AC68U Build Option:"
@@ -645,7 +691,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						15)
+						16)
 							option2="bac88"
 							while true; do
 								echo "Select AC88U Build Option:"
@@ -678,7 +724,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						16)
+						17)
 							option2="bac3100"
 							while true; do
 								echo "Select AC3100 Build Option:"
@@ -711,7 +757,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						17)
+						18)
 							option2="bac5300"
 							while true; do
 								echo "Select AC5300 Build Option:"
@@ -744,7 +790,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						18)
+						19)
 							option2="bac86"
 							while true; do
 								echo "Select AC86U Build Option:"
@@ -777,7 +823,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						19)
+						20)
 							option2="bax88"
 							while true; do
 								echo "Select AX88U Build Option:"
@@ -810,7 +856,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						20)
+						21)
 							option2="bax58"
 							while true; do
 								echo "Select AX58U Build Option:"
@@ -843,7 +889,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						21)
+						22)
 							option2="bax56"
 							while true; do
 								echo "Select AX56U Build Option:"
@@ -876,7 +922,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						22)
+						23)
 							option2="bax86"
 							while true; do
 								echo "Select AX86U Build Option:"
@@ -909,7 +955,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						23)
+						24)
 							option2="bgtac2900"
 							while true; do
 								echo "Select GTAC2900 Build Option:"
@@ -942,7 +988,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						24)
+						25)
 							option2="bgtax11000"
 							while true; do
 								echo "Select GTAX11000 Build Option:"
@@ -975,7 +1021,7 @@ Load_Menu() {
 							done
 							break
 						;;
-						25)
+						26)
 							option2="bax68"
 							while true; do
 								echo "Select AX68U Build Option:"
@@ -1008,7 +1054,139 @@ Load_Menu() {
 							done
 							break
 						;;
-						26)
+						27)
+							option2="bgtaxe11000"
+							while true; do
+								echo "Select GTAXE11000 Build Option:"
+								echo "[1]  --> Enable"
+								echo "[2]  --> Disable"
+								echo
+								printf "[1-2]: "
+								read -r "menu3"
+								echo
+								case "$menu3" in
+									1)
+										option3="enable"
+										break
+									;;
+									2)
+										option3="disable"
+										break
+									;;
+									e|exit|back|menu)
+										unset "option1" "option2" "option3"
+										clear
+										Load_Menu
+										break
+									;;
+									*)
+										echo "[*] $menu3 Isn't An Option!"
+										echo
+									;;
+								esac
+							done
+							break
+						;;
+						28)
+							option2="bac68v4"
+							while true; do
+								echo "Select RTAC68U V4 Build Option:"
+								echo "[1]  --> Enable"
+								echo "[2]  --> Disable"
+								echo
+								printf "[1-2]: "
+								read -r "menu3"
+								echo
+								case "$menu3" in
+									1)
+										option3="enable"
+										break
+									;;
+									2)
+										option3="disable"
+										break
+									;;
+									e|exit|back|menu)
+										unset "option1" "option2" "option3"
+										clear
+										Load_Menu
+										break
+									;;
+									*)
+										echo "[*] $menu3 Isn't An Option!"
+										echo
+									;;
+								esac
+							done
+							break
+						;;
+						29)
+							option2="bgtax6000"
+							while true; do
+								echo "Select GTAX6000 Build Option:"
+								echo "[1]  --> Enable"
+								echo "[2]  --> Disable"
+								echo
+								printf "[1-2]: "
+								read -r "menu3"
+								echo
+								case "$menu3" in
+									1)
+										option3="enable"
+										break
+									;;
+									2)
+										option3="disable"
+										break
+									;;
+									e|exit|back|menu)
+										unset "option1" "option2" "option3"
+										clear
+										Load_Menu
+										break
+									;;
+									*)
+										echo "[*] $menu3 Isn't An Option!"
+										echo
+									;;
+								esac
+							done
+							break
+						;;
+						30)
+							option2="bxt12"
+							while true; do
+								echo "Select XT12 Build Option:"
+								echo "[1]  --> Enable"
+								echo "[2]  --> Disable"
+								echo
+								printf "[1-2]: "
+								read -r "menu3"
+								echo
+								case "$menu3" in
+									1)
+										option3="enable"
+										break
+									;;
+									2)
+										option3="disable"
+										break
+									;;
+									e|exit|back|menu)
+										unset "option1" "option2" "option3"
+										clear
+										Load_Menu
+										break
+									;;
+									*)
+										echo "[*] $menu3 Isn't An Option!"
+										echo
+									;;
+								esac
+							done
+							break
+						;;
+						31)
 							option2="webhookurl"
 							echo "Enter Webhook URL:"
 							echo
@@ -1017,7 +1195,7 @@ Load_Menu() {
 							echo
 							break
 						;;
-						27)
+						32)
 							option2="reset"
 							break
 						;;
@@ -1070,10 +1248,6 @@ Load_Menu() {
 						;;
 					esac
 				done
-				break
-			;;
-			6)
-				option1="cleanup"
 				break
 			;;
 			7)
@@ -1139,9 +1313,15 @@ case "$1" in
 						if [ "$FWMODEL" = "rt-ac86u" ] || [ "$FWMODEL" = "gt-ac2900" ] || [ "$FWMODEL" = "rt-ax88u" ] || [ "$FWMODEL" = "gt-ax11000" ]; then
 							FWNAME="$(find -- *_cferom_ubi.w | head -n 1)"
 							ZIPNAME="$(echo "$FWNAME" | sed 's~_cferom_ubi.w~~g').zip"
-						elif [ "$FWMODEL" = "rt-ax58u" ] || [ "$FWMODEL" = "rt-ax56u" ] || [ "$FWMODEL" = "rt-ax86u" ] || [ "$FWMODEL" = "rt-ax68u" ]; then
+						elif [ "$FWMODEL" = "rt-ax58u" ] || [ "$FWMODEL" = "rt-ac68u_v4" ]; then
+							FWNAME="$(find -- *_cferom_puresqubi.w | head -n 1)"
+							ZIPNAME="$(echo "$FWNAME" | sed 's~_cferom_puresqubi.w~~g').zip"
+						elif [ "$FWMODEL" = "rt-ax86u" ] || [ "$FWMODEL" = "rt-ax68u" ] || [ "$FWMODEL" = "rt-ax56u" ] || [ "$FWMODEL" = "gt-axe11000" ]; then
 							FWNAME="$(find -- *_cferom_pureubi.w | head -n 1)"
 							ZIPNAME="$(echo "$FWNAME" | sed 's~_cferom_pureubi.w~~g').zip"
+						elif [ "$FWMODEL" = "gt-ax6000" ] || [ "$FWMODEL" = "xt12" ] ; then
+							FWNAME="$(find -- *_nand_squashfs.pkgtb | head -n 1)"
+							ZIPNAME="$(echo "$FWNAME" | sed 's~_nand_squashfs.pkgtb~~g').zip"
 						else
 							FWNAME="$(find -- *.trx | head -n 1)"
 							ZIPNAME="$(echo "$FWNAME" | sed 's~.trx~~g').zip"
@@ -1170,7 +1350,7 @@ case "$1" in
 
 			clean_tree() {
 				FWPATH="$1"
-				SDKPATH="$2"
+#				SDKPATH="$2"
 				FWMODEL="$3"
 				BRANCH="$4"
 				LOCALFWVER="$(sed -n '1p' "$HOME/amcfwm/$FWMODEL.git" 2>/dev/null)"
@@ -1186,17 +1366,15 @@ case "$1" in
 					if [ "$RSYNC_TREE" = "y" ]; then
 						echo "*** $(date +%R) - Updating $FWMODEL tree..."
 						rsync -a --del "$SRC_LOC/" "$HOME/$FWPATH"
+					elif [ "$RSYNC_TREE" = "btrfs" ]; then
+						echo "*** $(date +%R) - Copying $FWMODEL tree..."
+						rm -rf "$HOME/$FWPATH"
+						cp -ar --reflink=auto "$SRC_LOC" "$HOME/$FWPATH"
 					fi
 					cd "$HOME/$FWPATH" || exit 1
 
 					git checkout "$BRANCH" >/dev/null 2>&1
 					git pull origin "$BRANCH" >/dev/null 2>&1
-
-					if [ "$CLEANUP_TREE" = "y" ]; then
-						cd "$HOME/$FWPATH/$SDKPATH" || exit 1
-						make cleankernel clean >/dev/null 2>&1
-						rm .config image/*.trx image/*.w >/dev/null 2>&1
-					fi
 
 					echo "*** $(date +%R) - $FWMODEL code ready."
 				else
@@ -1252,6 +1430,20 @@ case "$1" in
 			if [ "$BAX68" = "y" ]; then
 				clean_tree amng.ax68 release/src-rt-5.02p1axhnd.675x rt-ax68u master
 			fi
+			if [ "$BGTAXE11000" = "y" ]; then
+				clean_tree amng.gtaxe11000 release/src-rt-5.02p1axhnd.675x gt-axe11000 master
+			fi
+			if [ "$BAC68V4" = "y" ]; then
+				clean_tree amng.ac68v4 release/src-rt-5.02p1axhnd.675x rt-ac68u_v4 master
+			fi
+			if [ "$BGTAX6000" = "y" ]; then
+				clean_tree amng.gtax6000 release/src-rt-5.04axhnd.675x gt-ax6000 master &
+			fi
+			if [ "$BXT12" = "y" ]; then
+				clean_tree amng.xt12 release/src-rt-5.04axhnd.675x xt12 master &
+			fi
+
+
 			echo
 			echo "--- $(date +%R) - All trees ready!"
 			echo
@@ -1295,12 +1487,37 @@ case "$1" in
 			if [ "$BAX68" = "y" ]; then
 				build_fw amng.ax68/release/src-rt-5.02p1axhnd.675x rt-ax68u master &
 			fi
+			if [ "$BGTAXE11000" = "y" ]; then
+				build_fw amng.gtaxe11000/release/src-rt-5.02p1axhnd.675x gt-axe11000 master &
+			fi
+			if [ "$BAC68V4" = "y" ]; then
+				build_fw amng.ac68v4/release/src-rt-5.02p1axhnd.675x rt-ac68u_v4 master &
+			fi
+			if [ "$BGTAX6000" = "y" ]; then
+				build_fw amng.gtax6000/release/src-rt-5.04axhnd.675x gt-ax6000 master &
+			fi
+			if [ "$BXT12" = "y" ]; then
+				build_fw amng.xt12/release/src-rt-5.04axhnd.675x xt12 master &
+			fi
+
 
 			sleep 5
 
 			echo "--- $(date +%R) - All builds launched, please wait..."
 
 			wait
+
+			if [ "$BAC68" = "y" ] && [ "$BAC68V4" = "y" ] && [ "$COMBINED" = "y" ]; then
+					echo "--- $(date +%R) - Building combined RT-AC68U image..."
+					cd "$HOME/amng.ac68/release/src-rt-6.x.4708" || exit 1
+					make rt-ac68u-combine_image BCM=y IMAGEDIR="$STAGE_LOC" > "output.txt" 2>&1;
+					cd "$STAGE_LOC" || exit 1
+					FWNAME="$(find -- RT-AC68U_*.trx | head -n 1)"
+					ZIPNAME="$(echo "$FWNAME" | sed 's~.trx~~g').zip"
+					sha256sum "$FWNAME" > sha256sum.sha256
+					zip -qj "$ZIPNAME" "$FWNAME" README-merlin.txt Changelog*.txt sha256sum.sha256 2>/dev/null
+					rm RT-AC68U_V4* sha256sum.sha256
+			fi
 
 			echo
 			cd "$STAGE_LOC" || exit 1
@@ -1313,6 +1530,7 @@ case "$1" in
 				if [ "$TRANSFERZIP" = "y" ]; then scp -P "$SSH_PORT" -- *.zip "$FINAL_LOC/" 2>/dev/null; fi
 				if [ "$TRANSFERTRX" = "y" ]; then scp -P "$SSH_PORT" -- *.trx "$FINAL_LOC/" 2>/dev/null; fi
 				if [ "$TRANSFERW" = "y" ]; then scp -P "$SSH_PORT" -- *.w "$FINAL_LOC/" 2>/dev/null; fi
+				if [ "$TRANSFERPKGTB" = "y" ]; then scp -P "$SSH_PORT" -- *.pkgtb "$FINAL_LOC/" 2>/dev/null; fi
 				if [ "$TRANSFERTXT" = "y" ]; then scp -P "$SSH_PORT" -- *.txt "$FINAL_LOC/" 2>/dev/null; fi
 				echo
 				rm -rf "$HOME/amcfwm/build.success"
@@ -1333,7 +1551,7 @@ case "$1" in
 			sudo dpkg --add-architecture i386
 			sudo apt-get update
 			sudo apt-get -y install "linux-headers-$(uname -r)"
-			sudo apt-get -y install lib32ncurses5-dev dos2unix libtool-bin cmake libproxy-dev uuid-dev liblzo2-dev autoconf automake bash bison bzip2 diffutils file flex m4 g++ gawk groff-base libncurses5-dev libtool libslang2 make patch perl pkg-config shtool subversion tar texinfo zlib1g zlib1g-dev git gettext libexpat1-dev libssl-dev cvs gperf unzip python libxml-parser-perl gcc-multilib gconf-editor libxml2-dev g++-multilib gitk libncurses5 mtd-utils libvorbis-dev autopoint autogen sed build-essential intltool libelf1 libglib2.0-dev xutils-dev lib32z1-dev lib32stdc++6 xsltproc gtk-doc-tools libelf-dev:i386 libelf1:i386 libltdl-dev openssh-server curl nano lzip patchelf automake-1.15
+			sudo apt-get -y install lib32ncurses-dev dos2unix libtool-bin cmake libproxy-dev uuid-dev liblzo2-dev autoconf automake bash bison bzip2 diffutils file flex m4 g++ gawk groff-base libncurses5-dev libtool libslang2 make patch perl pkg-config shtool subversion tar texinfo zlib1g zlib1g-dev git gettext libexpat1-dev libssl-dev cvs gperf unzip python2 libxml-parser-perl gcc-multilib libxml2-dev g++-multilib gitk libncurses5 mtd-utils libvorbis-dev autopoint autogen sed build-essential intltool libelf1 libglib2.0-dev xutils-dev lib32z1-dev lib32stdc++6 xsltproc gtk-doc-tools libelf-dev:i386 libelf1:i386 libltdl-dev openssh-server curl nano lzip patchelf automake
 			sudo apt -y autoremove
 			if [ ! -f "$HOME/amcfwm/amcfwm.sh" ]; then curl -fsL --retry 3 "https://raw.githubusercontent.com/Adamm00/amcfwm/master/amcfwm.sh" -o "$HOME/amcfwm/amcfwm.sh"; fi
 			sudo ln -sf "$HOME/amcfwm/amcfwm.sh" /bin/amcfwm
@@ -1473,23 +1691,6 @@ case "$1" in
 					;;
 				esac
 			;;
-			cleanuptree)
-				case "$3" in
-					enable)
-						CLEANUP_TREE="y"
-						echo "[i] Cleanup Tree Enabled"
-					;;
-					disable)
-						CLEANUP_TREE="n"
-						echo "[i] Cleanup Tree Disabled"
-					;;
-					*)
-						echo "Command Not Recognized, Please Try Again"
-						echo "For Help Check https://github.com/Adamm00/amcfwm"
-						echo; exit 2
-					;;
-				esac
-			;;
 			forcebuild)
 				case "$3" in
 					enable)
@@ -1577,6 +1778,23 @@ case "$1" in
 					;;
 				esac
 			;;
+			transferpkgtb)
+				case "$3" in
+					enable)
+						TRANSFERPKGTB="y"
+						echo "[i] Transfer .pkgtb Files Enabled"
+					;;
+					disable)
+						TRANSFERPKGTB="n"
+						echo "[i] Transfer .pkgtb Files Disabled"
+					;;
+					*)
+						echo "Command Not Recognized, Please Try Again"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
+						echo; exit 2
+					;;
+				esac
+			;;
 			transfertxt)
 				case "$3" in
 					enable)
@@ -1586,6 +1804,23 @@ case "$1" in
 					disable)
 						TRANSFERTXT="n"
 						echo "[i] Transfer .txt Files Disabled"
+					;;
+					*)
+						echo "Command Not Recognized, Please Try Again"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
+						echo; exit 2
+					;;
+				esac
+			;;
+			combined)
+				case "$3" in
+					enable)
+						COMBINED="y"
+						echo "[i] Combine Firmware Images Enabled"
+					;;
+					disable)
+						COMBINED="n"
+						echo "[i] Combine Firmware Images Disabled"
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
@@ -1790,6 +2025,74 @@ case "$1" in
 					disable)
 						BAX68="n"
 						echo "[i] AX68U Build Disabled"
+					;;
+					*)
+						echo "Command Not Recognized, Please Try Again"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
+						echo; exit 2
+					;;
+				esac
+			;;
+			bgtaxe11000)
+				case "$3" in
+					enable)
+						BGTAXE11000="y"
+						echo "[i] GTAXE11000 Build Enabled"
+					;;
+					disable)
+						BGTAXE11000="n"
+						echo "[i] GTAXE11000 Build Disabled"
+					;;
+					*)
+						echo "Command Not Recognized, Please Try Again"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
+						echo; exit 2
+					;;
+				esac
+				;;
+			bac68v4)
+				case "$3" in
+					enable)
+						BAC68V4="y"
+						echo "[i] AC68U V4 Build Enabled"
+					;;
+					disable)
+						BAC68V4="n"
+						echo "[i] AC68U V4 Build Disabled"
+					;;
+					*)
+						echo "Command Not Recognized, Please Try Again"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
+						echo; exit 2
+					;;
+				esac
+			;;
+			bgtax6000)
+				case "$3" in
+					enable)
+						BGTAX6000="y"
+						echo "[i] GTAX6000 Build Enabled"
+					;;
+					disable)
+						BGTAX6000="n"
+						echo "[i] GTAX6000 Build Disabled"
+					;;
+					*)
+						echo "Command Not Recognized, Please Try Again"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
+						echo; exit 2
+					;;
+				esac
+			;;
+			bxt12)
+				case "$3" in
+					enable)
+						BXT12="y"
+						echo "[i] XT12 Build Enabled"
+					;;
+					disable)
+						BXT12="n"
+						echo "[i] XT12 Build Disabled"
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
