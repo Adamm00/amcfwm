@@ -10,7 +10,7 @@
 #                                                                                                            #
 #                                 AsusWRT-Merlin CFW Manager For Ubuntu LTS                                  #
 #                                By Adamm - https://github.com/Adamm00/amcfwm                                #
-#                                            31/05/2022 - v1.1.0                                             #
+#                                            01/06/2022 - v1.1.1                                             #
 ##############################################################################################################
 
 
@@ -1289,7 +1289,7 @@ printf '\n\n====================================================================
 
 case "$1" in
 	build)
-		if [ "$BAC68" != "y" ] && [ "$BAC88" != "y" ] && [ "$BAC3100" != "y" ] && [ "$BAC5300" != "y" ] && [ "$BAC86" != "y" ] && [ "$BAX88" != "y" ] && [ "$BAX58" != "y" ] && [ "$BAX56" != "y" ] && [ "$BAX86" != "y" ] && [ "$BGTAC2900" != "y" ] && [ "$BGTAX11000" != "y" ] && [ "$BAX68" != "y" ]; then
+		if [ "$BAC68" != "y" ] && [ "$BAC88" != "y" ] && [ "$BAC3100" != "y" ] && [ "$BAC5300" != "y" ] && [ "$BAC86" != "y" ] && [ "$BAX88" != "y" ] && [ "$BAX58" != "y" ] && [ "$BAX56" != "y" ] && [ "$BAX86" != "y" ] && [ "$BGTAC2900" != "y" ] && [ "$BGTAX11000" != "y" ] && [ "$BAX68" != "y" ] && [ "$BGTAXE11000" != "y" ] && [ "$BAC68V4" != "y" ] && [ "$BGTAX6000" != "y" ] && [ "$BXT12" != "y" ]; then
 			echo "[*] No Models Configured For Build"
 		else
 			if [ "$BUILDREV" = "1" ]; then export BUILDREV="1"; fi
@@ -1508,15 +1508,15 @@ case "$1" in
 			wait
 
 			if [ "$BAC68" = "y" ] && [ "$BAC68V4" = "y" ] && [ "$COMBINED" = "y" ]; then
-					echo "--- $(date +%R) - Building combined RT-AC68U image..."
-					cd "$HOME/amng.ac68/release/src-rt-6.x.4708" || exit 1
-					make rt-ac68u-combine_image BCM=y IMAGEDIR="$STAGE_LOC" > "output.txt" 2>&1;
-					cd "$STAGE_LOC" || exit 1
-					FWNAME="$(find -- RT-AC68U_*.trx | head -n 1)"
-					ZIPNAME="$(echo "$FWNAME" | sed 's~.trx~~g').zip"
-					sha256sum "$FWNAME" > sha256sum.sha256
-					zip -qj "$ZIPNAME" "$FWNAME" README-merlin.txt Changelog*.txt sha256sum.sha256 2>/dev/null
-					rm RT-AC68U_V4* sha256sum.sha256
+				echo "--- $(date +%R) - Building combined RT-AC68U image..."
+				cd "$HOME/amng.ac68/release/src-rt-6.x.4708" || exit 1
+				make rt-ac68u-combine_image BCM=y IMAGEDIR="$STAGE_LOC" > "output.txt" 2>&1;
+				cd "$STAGE_LOC" || exit 1
+				FWNAME="$(find -- RT-AC68U_*.trx | head -n 1)"
+				ZIPNAME="$(echo "$FWNAME" | sed 's~.trx~~g').zip"
+				sha256sum "$FWNAME" > sha256sum.sha256
+				zip -qj "$ZIPNAME" "$FWNAME" README-merlin.txt Changelog*.txt sha256sum.sha256 2>/dev/null
+				rm RT-AC68U_V4* sha256sum.sha256
 			fi
 
 			echo
@@ -2195,6 +2195,22 @@ case "$1" in
 		if [ "$BAX68" != "y" ] && [ -d "$HOME/amng.ax68" ]; then
 			echo "[i] Removing $HOME/amng.ax68 ($(du -sh "$HOME/amng.ax68" | awk '{print $1}'))"
 			rm -rf "$HOME/amng.ax68" "$HOME/amcfwm/rt-ax68u.git" "$HOME/amcfwm/rt-ax68u-output.txt"
+		fi
+		if [ "$BGTAXE11000" != "y" ] && [ -d "$HOME/amng.gtaxe11000" ]; then
+			echo "[i] Removing $HOME/amng.gtaxe11000 ($(du -sh "$HOME/amng.gtaxe11000" | awk '{print $1}'))"
+			rm -rf "$HOME/amng.gtaxe11000" "$HOME/amcfwm/gt-axe11000.git" "$HOME/amcfwm/gt-axe11000-output.txt"
+		fi
+		if [ "$BAC68V4" != "y" ] && [ -d "$HOME/amng.ac68v4" ]; then
+			echo "[i] Removing $HOME/amng.ac68v4 ($(du -sh "$HOME/amng.ac68v4" | awk '{print $1}'))"
+			rm -rf "$HOME/amng.ac68v4" "$HOME/amcfwm/rt-ac68uv4.git" "$HOME/amcfwm/rt-ac68uv4-output.txt"
+		fi
+		if [ "$BGTAX6000" != "y" ] && [ -d "$HOME/amng.gtax6000" ]; then
+			echo "[i] Removing $HOME/amng.gtax6000 ($(du -sh "$HOME/amng.gtax6000" | awk '{print $1}'))"
+			rm -rf "$HOME/amng.gtax6000" "$HOME/amcfwm/gt-ax6000.git" "$HOME/amcfwm/gt-ax6000-output.txt"
+		fi
+		if [ "$BXT12" != "y" ] && [ -d "$HOME/amng.xt12" ]; then
+			echo "[i] Removing $HOME/amng.xt12 ($(du -sh "$HOME/amng.xt12" | awk '{print $1}'))"
+			rm -rf "$HOME/amng.xt12" "$HOME/amcfwm/zen-xt12.git" "$HOME/amcfwm/zen-xt12-output.txt"
 		fi
 	;;
 
