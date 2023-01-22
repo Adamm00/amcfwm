@@ -1395,19 +1395,19 @@ case "$1" in
 
 			echo "--- $(date +%R) - Preparing trees"
 			if [ "$BAC68" = "y" ]; then
-				clean_tree amng.ac68 release/src-rt-6.x.4708 rt-ac68u master
+				clean_tree amng.ac68 release/src-rt-6.x.4708 rt-ac68u 386_x
 			fi
 			if [ "$BAC3100" = "y" ]; then
-				clean_tree amng.ac3100 release/src-rt-7.14.114.x/src rt-ac3100 master
+				clean_tree amng.ac3100 release/src-rt-7.14.114.x/src rt-ac3100 386_x
 			fi
 			if [ "$BAC88" = "y" ]; then
-				clean_tree amng.ac88 release/src-rt-7.14.114.x/src rt-ac88u master
+				clean_tree amng.ac88 release/src-rt-7.14.114.x/src rt-ac88u 386_x
 			fi
 			if [ "$BAC5300" = "y" ]; then
-				clean_tree amng.ac5300 release/src-rt-7.14.114.x/src rt-ac5300 master
+				clean_tree amng.ac5300 release/src-rt-7.14.114.x/src rt-ac5300 386_x
 			fi
 			if [ "$BAC86" = "y" ]; then
-				clean_tree amng.ac86 release/src-rt-5.02hnd rt-ac86u master
+				clean_tree amng.ac86 release/src-rt-5.02hnd rt-ac86u 386_x
 			fi
 			if [ "$BAX88" = "y" ]; then
 				clean_tree amng.ax88 release/src-rt-5.02axhnd rt-ax88u master
@@ -1419,22 +1419,22 @@ case "$1" in
 				clean_tree amng.ax56 release/src-rt-5.02axhnd.675x rt-ax56u master
 			fi
 			if [ "$BAX86" = "y" ]; then
-				clean_tree amng.ax86 release/src-rt-5.02p1axhnd.675x rt-ax86u master
+				clean_tree amng.ax86 release/src-rt-5.02L.07p2axhnd rt-ax86u master
 			fi
 			if [ "$BGTAC2900" = "y" ]; then
-				clean_tree amng.gt2900 release/src-rt-5.02hnd gt-ac2900 master
+				clean_tree amng.gt2900 release/src-rt-5.02hnd gt-ac2900 386_x
 			fi
 			if [ "$BGTAX11000" = "y" ]; then
 				clean_tree amng.gt11000 release/src-rt-5.02axhnd gt-ax11000 master
 			fi
 			if [ "$BAX68" = "y" ]; then
-				clean_tree amng.ax68 release/src-rt-5.02p1axhnd.675x rt-ax68u master
+				clean_tree amng.ax68 release/src-rt-5.02L.07p2axhnd rt-ax68u master
 			fi
 			if [ "$BGTAXE11000" = "y" ]; then
-				clean_tree amng.gtaxe11000 release/src-rt-5.02p1axhnd.675x gt-axe11000 master
+				clean_tree amng.gtaxe11000 release/src-rt-5.02L.07p2axhnd gt-axe11000 master
 			fi
 			if [ "$BAC68V4" = "y" ]; then
-				clean_tree amng.ac68v4 release/src-rt-5.02p1axhnd.675x rt-ac68u_v4 master
+				clean_tree amng.ac68v4 release/src-rt-5.02L.07p2axhnd rt-ac68u_v4 386_x
 			fi
 			if [ "$BGTAX6000" = "y" ]; then
 				clean_tree amng.gtax6000 release/src-rt-5.04axhnd.675x gt-ax6000 master &
@@ -1452,19 +1452,19 @@ case "$1" in
 
 			echo "--- $(date +%R) - Launching all builds"
 			if [ "$BAC68" = "y" ]; then
-				build_fw amng.ac68/release/src-rt-6.x.4708 rt-ac68u master &
+				build_fw amng.ac68/release/src-rt-6.x.4708 rt-ac68u 386_x &
 			fi
 			if [ "$BAC3100" = "y" ]; then
-				build_fw amng.ac3100/release/src-rt-7.14.114.x/src rt-ac3100 master &
+				build_fw amng.ac3100/release/src-rt-7.14.114.x/src rt-ac3100 386_x &
 			fi
 			if [ "$BAC88" = "y" ]; then
-				build_fw amng.ac88/release/src-rt-7.14.114.x/src rt-ac88u master &
+				build_fw amng.ac88/release/src-rt-7.14.114.x/src rt-ac88u 386_x &
 			fi
 			if [ "$BAC5300" = "y" ]; then
-				build_fw amng.ac5300/release/src-rt-7.14.114.x/src rt-ac5300 master &
+				build_fw amng.ac5300/release/src-rt-7.14.114.x/src rt-ac5300 386_x &
 			fi
 			if [ "$BAC86" = "y" ]; then
-				build_fw amng.ac86/release/src-rt-5.02hnd rt-ac86u master &
+				build_fw amng.ac86/release/src-rt-5.02hnd rt-ac86u 386_x &
 			fi
 			if [ "$BAX88" = "y" ]; then
 				build_fw amng.ax88/release/src-rt-5.02axhnd rt-ax88u master &
@@ -1476,22 +1476,22 @@ case "$1" in
 				build_fw amng.ax56/release/src-rt-5.02axhnd.675x rt-ax56u master &
 			fi
 			if [ "$BAX86" = "y" ]; then
-				build_fw amng.ax86/release/src-rt-5.02p1axhnd.675x rt-ax86u master &
+				build_fw amng.ax86/release/src-rt-5.02L.07p2axhnd rt-ax86u master &
 			fi
 			if [ "$BGTAC2900" = "y" ]; then
-				build_fw amng.gt2900/release/src-rt-5.02hnd gt-ac2900 master &
+				build_fw amng.gt2900/release/src-rt-5.02hnd gt-ac2900 386_x &
 			fi
 			if [ "$BGTAX11000" = "y" ]; then
 				build_fw amng.gt11000/release/src-rt-5.02axhnd gt-ax11000 master &
 			fi
 			if [ "$BAX68" = "y" ]; then
-				build_fw amng.ax68/release/src-rt-5.02p1axhnd.675x rt-ax68u master &
+				build_fw amng.ax68/release/src-rt-5.02L.07p2axhnd rt-ax68u master &
 			fi
 			if [ "$BGTAXE11000" = "y" ]; then
-				build_fw amng.gtaxe11000/release/src-rt-5.02p1axhnd.675x gt-axe11000 master &
+				build_fw amng.gtaxe11000/release/src-rt-5.02L.07p2axhnd gt-axe11000 master &
 			fi
 			if [ "$BAC68V4" = "y" ]; then
-				build_fw amng.ac68v4/release/src-rt-5.02p1axhnd.675x rt-ac68u_v4 master &
+				build_fw amng.ac68v4/release/src-rt-5.02L.07p2axhnd rt-ac68u_v4 386_x &
 			fi
 			if [ "$BGTAX6000" = "y" ]; then
 				build_fw amng.gtax6000/release/src-rt-5.04axhnd.675x gt-ax6000 master &
