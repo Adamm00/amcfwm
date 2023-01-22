@@ -1437,10 +1437,10 @@ case "$1" in
 				clean_tree amng.ac68v4 release/src-rt-5.02L.07p2axhnd rt-ac68u_v4 386_x
 			fi
 			if [ "$BGTAX6000" = "y" ]; then
-				clean_tree amng.gtax6000 release/src-rt-5.04axhnd.675x gt-ax6000 master &
+				clean_tree amng.gtax6000 release/src-rt-5.04axhnd.675x gt-ax6000 master
 			fi
 			if [ "$BXT12" = "y" ]; then
-				clean_tree amng.xt12 release/src-rt-5.04axhnd.675x xt12 master &
+				clean_tree amng.xt12 release/src-rt-5.04axhnd.675x xt12 master
 			fi
 
 
