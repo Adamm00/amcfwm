@@ -1250,6 +1250,10 @@ Load_Menu() {
 				done
 				break
 			;;
+			6)
+				option1="cleanup"
+				break
+			;;
 			7)
 				option1="uninstall"
 				break
