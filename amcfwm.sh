@@ -284,9 +284,9 @@ Load_Menu() {
 					printf '%-35s | %-40s\n' "[27] --> GTAXE11000 Build" "$(if [ "$BGTAXE11000" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[28] --> RTAC68U V4 Build" "$(if [ "$BAC68V4" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[29] --> GTAX6000 Build" "$(if [ "$BGTAX6000" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n\n' "[30] --> XT12 Build" "$(if [ "$BXT12" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n\n' "[31] --> GTAXE16000 Build" "$(if [ "$BGTAXE16000" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n\n' "[32] --> GTAX11000_PRO Build" "$(if [ "$BGTAX11000PRO" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[30] --> XT12 Build" "$(if [ "$BXT12" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[31] --> GTAXE16000 Build" "$(if [ "$BGTAXE16000" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[32] --> GTAX11000_PRO Build" "$(if [ "$BGTAX11000PRO" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n\n' "[33] --> AX86_PRO Build" "$(if [ "$BAX86PRO" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n\n' "[34] --> Webhook URL" "$(if [ -n "$WEBHOOKURL" ]; then Grn "$WEBHOOKURL"; else Red "[Disabled]"; fi)"
 					printf '%-35s\n\n' "[35] --> Reset All Settings To Default"
@@ -2224,6 +2224,57 @@ case "$1" in
 					disable)
 						BXT12="n"
 						echo "[i] XT12 Build Disabled"
+					;;
+					*)
+						echo "Command Not Recognized, Please Try Again"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
+						echo; exit 2
+					;;
+				esac
+			;;
+			bgtaxe16000)
+				case "$3" in
+					enable)
+						BGTAXE16000="y"
+						echo "[i] GTAXE16000 Build Enabled"
+					;;
+					disable)
+						BGTAXE16000="n"
+						echo "[i] GTAXE16000 Build Disabled"
+					;;
+					*)
+						echo "Command Not Recognized, Please Try Again"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
+						echo; exit 2
+					;;
+				esac
+			;;
+			bgtax11000pro)
+				case "$3" in
+					enable)
+						BGTAX11000PRO="y"
+						echo "[i] GTAX11000_PRO Build Enabled"
+					;;
+					disable)
+						BGTAX11000PRO="n"
+						echo "[i] GTAX11000_PRO Build Disabled"
+					;;
+					*)
+						echo "Command Not Recognized, Please Try Again"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
+						echo; exit 2
+					;;
+				esac
+			;;
+			bax86pro)
+				case "$3" in
+					enable)
+						BAX86PRO="y"
+						echo "[i] AX86U_PRO Build Enabled"
+					;;
+					disable)
+						BAX86PRO="n"
+						echo "[i] AX86U_PRO Build Disabled"
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"
