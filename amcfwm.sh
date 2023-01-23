@@ -159,6 +159,9 @@ Set_Default() {
 	BAC68V4="n"
 	BGTAX6000="n"
 	BXT12="n"
+	BGTAXE16000="n"
+	BGTAX11000PRO="n"
+	BAX86PRO="n"
 	WEBHOOKURL=""
 	Write_Config
 }
@@ -200,7 +203,10 @@ Write_Config() {
 		printf '%s="%s"\n' "BGTAXE11000" "$BGTAXE11000"
 		printf '%s="%s"\n' "BAC68V4" "$BAC68V4"
 		printf '%s="%s"\n' "BGTAX6000" "$BGTAX6000"
-		printf '%s="%s"\n\n' "BXT12" "$BXT12"
+		printf '%s="%s"\n' "BXT12" "$BXT12"
+		printf '%s="%s"\n' "BGTAXE16000" "$BGTAXE16000"
+		printf '%s="%s"\n' "BGTAX11000PRO" "$BGTAX11000PRO"
+		printf '%s="%s"\n\n' "BAX86PRO" "$BAX86PRO"
 		printf '%s\n' "## Webhook Notifications ##"
 		printf '%s="%s"\n' "WEBHOOKURL" "$WEBHOOKURL"
 		printf '\n%s\n' "################################################"
@@ -278,10 +284,13 @@ Load_Menu() {
 					printf '%-35s | %-40s\n' "[27] --> GTAXE11000 Build" "$(if [ "$BGTAXE11000" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[28] --> RTAC68U V4 Build" "$(if [ "$BAC68V4" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
 					printf '%-35s | %-40s\n' "[29] --> GTAX6000 Build" "$(if [ "$BGTAX6000" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n\n' "[30] --> XT12 Build" "$(if [ "$BXT12" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
-					printf '%-35s | %-40s\n\n' "[31] --> Webhook URL" "$(if [ -n "$WEBHOOKURL" ]; then Grn "$WEBHOOKURL"; else Red "[Disabled]"; fi)"
-					printf '%-35s\n\n' "[32] --> Reset All Settings To Default"
-					printf "[1-32]: "
+					printf '%-35s | %-40s\n' "[30] --> XT12 Build" "$(if [ "$BXT12" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[31] --> GTAXE16000 Build" "$(if [ "$BGTAXE16000" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n' "[32] --> GTAX11000_PRO Build" "$(if [ "$BGTAX11000PRO" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n\n' "[33] --> AX86_PRO Build" "$(if [ "$BAX86PRO" = "y" ]; then Grn "[Enabled]"; else Red "[Disabled]"; fi)"
+					printf '%-35s | %-40s\n\n' "[34] --> Webhook URL" "$(if [ -n "$WEBHOOKURL" ]; then Grn "$WEBHOOKURL"; else Red "[Disabled]"; fi)"
+					printf '%-35s\n\n' "[35] --> Reset All Settings To Default"
+					printf "[1-35]: "
 					read -r "menu2"
 					echo
 					case "$menu2" in
@@ -1187,6 +1196,105 @@ Load_Menu() {
 							break
 						;;
 						31)
+							option2="bgtaxe16000"
+							while true; do
+								echo "Select GTAXE16000 Build Option:"
+								echo "[1]  --> Enable"
+								echo "[2]  --> Disable"
+								echo
+								printf "[1-2]: "
+								read -r "menu3"
+								echo
+								case "$menu3" in
+									1)
+										option3="enable"
+										break
+									;;
+									2)
+										option3="disable"
+										break
+									;;
+									e|exit|back|menu)
+										unset "option1" "option2" "option3"
+										clear
+										Load_Menu
+										break
+									;;
+									*)
+										echo "[*] $menu3 Isn't An Option!"
+										echo
+									;;
+								esac
+							done
+							break
+						;;
+						32)
+							option2="bgtax11000pro"
+							while true; do
+								echo "Select GTAX11000_PRO Build Option:"
+								echo "[1]  --> Enable"
+								echo "[2]  --> Disable"
+								echo
+								printf "[1-2]: "
+								read -r "menu3"
+								echo
+								case "$menu3" in
+									1)
+										option3="enable"
+										break
+									;;
+									2)
+										option3="disable"
+										break
+									;;
+									e|exit|back|menu)
+										unset "option1" "option2" "option3"
+										clear
+										Load_Menu
+										break
+									;;
+									*)
+										echo "[*] $menu3 Isn't An Option!"
+										echo
+									;;
+								esac
+							done
+							break
+						;;
+						33)
+							option2="bax86pro"
+							while true; do
+								echo "Select AX86U_PRO Build Option:"
+								echo "[1]  --> Enable"
+								echo "[2]  --> Disable"
+								echo
+								printf "[1-2]: "
+								read -r "menu3"
+								echo
+								case "$menu3" in
+									1)
+										option3="enable"
+										break
+									;;
+									2)
+										option3="disable"
+										break
+									;;
+									e|exit|back|menu)
+										unset "option1" "option2" "option3"
+										clear
+										Load_Menu
+										break
+									;;
+									*)
+										echo "[*] $menu3 Isn't An Option!"
+										echo
+									;;
+								esac
+							done
+							break
+						;;
+						34)
 							option2="webhookurl"
 							echo "Enter Webhook URL:"
 							echo
@@ -1195,7 +1303,7 @@ Load_Menu() {
 							echo
 							break
 						;;
-						32)
+						35)
 							option2="reset"
 							break
 						;;
@@ -1250,6 +1358,10 @@ Load_Menu() {
 				done
 				break
 			;;
+			6)
+				option1="cleanup"
+				break
+			;;
 			7)
 				option1="uninstall"
 				break
@@ -1289,7 +1401,7 @@ printf '\n\n====================================================================
 
 case "$1" in
 	build)
-		if [ "$BAC68" != "y" ] && [ "$BAC88" != "y" ] && [ "$BAC3100" != "y" ] && [ "$BAC5300" != "y" ] && [ "$BAC86" != "y" ] && [ "$BAX88" != "y" ] && [ "$BAX58" != "y" ] && [ "$BAX56" != "y" ] && [ "$BAX86" != "y" ] && [ "$BGTAC2900" != "y" ] && [ "$BGTAX11000" != "y" ] && [ "$BAX68" != "y" ] && [ "$BGTAXE11000" != "y" ] && [ "$BAC68V4" != "y" ] && [ "$BGTAX6000" != "y" ] && [ "$BXT12" != "y" ]; then
+		if [ "$BAC68" != "y" ] && [ "$BAC88" != "y" ] && [ "$BAC3100" != "y" ] && [ "$BAC5300" != "y" ] && [ "$BAC86" != "y" ] && [ "$BAX88" != "y" ] && [ "$BAX58" != "y" ] && [ "$BAX56" != "y" ] && [ "$BAX86" != "y" ] && [ "$BGTAC2900" != "y" ] && [ "$BGTAX11000" != "y" ] && [ "$BAX68" != "y" ] && [ "$BGTAXE11000" != "y" ] && [ "$BAC68V4" != "y" ] && [ "$BGTAX6000" != "y" ] && [ "$BXT12" != "y" ] && [ "$BGTAXE16000" != "y" ] && [ "$BGTAX11000PRO" != "y" ] && [ "$BAX86PRO" != "y" ]; then
 			echo "[*] No Models Configured For Build"
 		else
 			if [ "$BUILDREV" = "1" ]; then export BUILDREV="1"; fi
@@ -1314,12 +1426,14 @@ case "$1" in
 							FWNAME="$(find -- *_cferom_ubi.w | head -n 1)"
 							ZIPNAME="$(echo "$FWNAME" | sed 's~_cferom_ubi.w~~g').zip"
 						elif [ "$FWMODEL" = "rt-ax58u" ] || [ "$FWMODEL" = "rt-ac68u_v4" ]; then
-							FWNAME="$(find -- *_cferom_puresqubi.w | head -n 1)"
-							ZIPNAME="$(echo "$FWNAME" | sed 's~_cferom_puresqubi.w~~g').zip"
+							rm *_cferom_puresqubi.w
+							FWNAME="$(find -- *_puresqubi.w | head -n 1)"
+							ZIPNAME="$(echo "$FWNAME" | sed 's~_puresqubi.w~~g').zip"
 						elif [ "$FWMODEL" = "rt-ax86u" ] || [ "$FWMODEL" = "rt-ax68u" ] || [ "$FWMODEL" = "rt-ax56u" ] || [ "$FWMODEL" = "gt-axe11000" ]; then
-							FWNAME="$(find -- *_cferom_pureubi.w | head -n 1)"
-							ZIPNAME="$(echo "$FWNAME" | sed 's~_cferom_pureubi.w~~g').zip"
-						elif [ "$FWMODEL" = "gt-ax6000" ] || [ "$FWMODEL" = "xt12" ] ; then
+							rm *_cferom_pureubi.w	# Broken cferom, do not use until fixed upstream
+							FWNAME="$(find -- *_pureubi.w | head -n 1)"
+							ZIPNAME="$(echo "$FWNAME" | sed 's~_pureubi.w~~g').zip"
+						elif [ "$FWMODEL" = "gt-ax6000" ] || [ "$FWMODEL" = "xt12" ] || [ "$FWMODEL" = "gt-axe16000" ] || [ "$FWMODEL" = "gt-ax11000_pro" ] || [ "$FWMODEL" = "rt-ax86u_pro" ] ; then
 							FWNAME="$(find -- *_nand_squashfs.pkgtb | head -n 1)"
 							ZIPNAME="$(echo "$FWNAME" | sed 's~_nand_squashfs.pkgtb~~g').zip"
 						else
@@ -1395,19 +1509,19 @@ case "$1" in
 
 			echo "--- $(date +%R) - Preparing trees"
 			if [ "$BAC68" = "y" ]; then
-				clean_tree amng.ac68 release/src-rt-6.x.4708 rt-ac68u master
+				clean_tree amng.ac68 release/src-rt-6.x.4708 rt-ac68u 386_x
 			fi
 			if [ "$BAC3100" = "y" ]; then
-				clean_tree amng.ac3100 release/src-rt-7.14.114.x/src rt-ac3100 master
+				clean_tree amng.ac3100 release/src-rt-7.14.114.x/src rt-ac3100 386_x
 			fi
 			if [ "$BAC88" = "y" ]; then
-				clean_tree amng.ac88 release/src-rt-7.14.114.x/src rt-ac88u master
+				clean_tree amng.ac88 release/src-rt-7.14.114.x/src rt-ac88u 386_x
 			fi
 			if [ "$BAC5300" = "y" ]; then
-				clean_tree amng.ac5300 release/src-rt-7.14.114.x/src rt-ac5300 master
+				clean_tree amng.ac5300 release/src-rt-7.14.114.x/src rt-ac5300 386_x
 			fi
 			if [ "$BAC86" = "y" ]; then
-				clean_tree amng.ac86 release/src-rt-5.02hnd rt-ac86u master
+				clean_tree amng.ac86 release/src-rt-5.02hnd rt-ac86u 386_x
 			fi
 			if [ "$BAX88" = "y" ]; then
 				clean_tree amng.ax88 release/src-rt-5.02axhnd rt-ax88u master
@@ -1419,28 +1533,37 @@ case "$1" in
 				clean_tree amng.ax56 release/src-rt-5.02axhnd.675x rt-ax56u master
 			fi
 			if [ "$BAX86" = "y" ]; then
-				clean_tree amng.ax86 release/src-rt-5.02p1axhnd.675x rt-ax86u master
+				clean_tree amng.ax86 release/src-rt-5.02L.07p2axhnd rt-ax86u master
 			fi
 			if [ "$BGTAC2900" = "y" ]; then
-				clean_tree amng.gt2900 release/src-rt-5.02hnd gt-ac2900 master
+				clean_tree amng.gt2900 release/src-rt-5.02hnd gt-ac2900 386_x
 			fi
 			if [ "$BGTAX11000" = "y" ]; then
 				clean_tree amng.gt11000 release/src-rt-5.02axhnd gt-ax11000 master
 			fi
 			if [ "$BAX68" = "y" ]; then
-				clean_tree amng.ax68 release/src-rt-5.02p1axhnd.675x rt-ax68u master
+				clean_tree amng.ax68 release/src-rt-5.02L.07p2axhnd rt-ax68u master
 			fi
 			if [ "$BGTAXE11000" = "y" ]; then
-				clean_tree amng.gtaxe11000 release/src-rt-5.02p1axhnd.675x gt-axe11000 master
+				clean_tree amng.gtaxe11000 release/src-rt-5.02L.07p2axhnd gt-axe11000 master
 			fi
 			if [ "$BAC68V4" = "y" ]; then
-				clean_tree amng.ac68v4 release/src-rt-5.02p1axhnd.675x rt-ac68u_v4 master
+				clean_tree amng.ac68v4 release/src-rt-5.02L.07p2axhnd rt-ac68u_v4 386_x
 			fi
 			if [ "$BGTAX6000" = "y" ]; then
-				clean_tree amng.gtax6000 release/src-rt-5.04axhnd.675x gt-ax6000 master &
+				clean_tree amng.gtax6000 release/src-rt-5.04axhnd.675x gt-ax6000 master
 			fi
 			if [ "$BXT12" = "y" ]; then
-				clean_tree amng.xt12 release/src-rt-5.04axhnd.675x xt12 master &
+				clean_tree amng.xt12 release/src-rt-5.04axhnd.675x xt12 master
+			fi
+			if [ "$BGTAXE16000" = "y" ]; then
+				clean_tree amng.gtaxe16000 release/src-rt-5.04axhnd.675x gt-axe16000 master
+			fi
+			if [ "$BGTAX11000PRO" = "y" ]; then
+				clean_tree amng.gtax11000pro release/src-rt-5.04axhnd.675x gt-ax11000_pro master
+			fi
+			if [ "$BAX86PRO" = "y" ]; then
+				clean_tree amng.ax86pro release/src-rt-5.04axhnd.675x rt-ax86u_pro master
 			fi
 
 
@@ -1452,19 +1575,19 @@ case "$1" in
 
 			echo "--- $(date +%R) - Launching all builds"
 			if [ "$BAC68" = "y" ]; then
-				build_fw amng.ac68/release/src-rt-6.x.4708 rt-ac68u master &
+				build_fw amng.ac68/release/src-rt-6.x.4708 rt-ac68u 386_x &
 			fi
 			if [ "$BAC3100" = "y" ]; then
-				build_fw amng.ac3100/release/src-rt-7.14.114.x/src rt-ac3100 master &
+				build_fw amng.ac3100/release/src-rt-7.14.114.x/src rt-ac3100 386_x &
 			fi
 			if [ "$BAC88" = "y" ]; then
-				build_fw amng.ac88/release/src-rt-7.14.114.x/src rt-ac88u master &
+				build_fw amng.ac88/release/src-rt-7.14.114.x/src rt-ac88u 386_x &
 			fi
 			if [ "$BAC5300" = "y" ]; then
-				build_fw amng.ac5300/release/src-rt-7.14.114.x/src rt-ac5300 master &
+				build_fw amng.ac5300/release/src-rt-7.14.114.x/src rt-ac5300 386_x &
 			fi
 			if [ "$BAC86" = "y" ]; then
-				build_fw amng.ac86/release/src-rt-5.02hnd rt-ac86u master &
+				build_fw amng.ac86/release/src-rt-5.02hnd rt-ac86u 386_x &
 			fi
 			if [ "$BAX88" = "y" ]; then
 				build_fw amng.ax88/release/src-rt-5.02axhnd rt-ax88u master &
@@ -1476,22 +1599,22 @@ case "$1" in
 				build_fw amng.ax56/release/src-rt-5.02axhnd.675x rt-ax56u master &
 			fi
 			if [ "$BAX86" = "y" ]; then
-				build_fw amng.ax86/release/src-rt-5.02p1axhnd.675x rt-ax86u master &
+				build_fw amng.ax86/release/src-rt-5.02L.07p2axhnd rt-ax86u master &
 			fi
 			if [ "$BGTAC2900" = "y" ]; then
-				build_fw amng.gt2900/release/src-rt-5.02hnd gt-ac2900 master &
+				build_fw amng.gt2900/release/src-rt-5.02hnd gt-ac2900 386_x &
 			fi
 			if [ "$BGTAX11000" = "y" ]; then
 				build_fw amng.gt11000/release/src-rt-5.02axhnd gt-ax11000 master &
 			fi
 			if [ "$BAX68" = "y" ]; then
-				build_fw amng.ax68/release/src-rt-5.02p1axhnd.675x rt-ax68u master &
+				build_fw amng.ax68/release/src-rt-5.02L.07p2axhnd rt-ax68u master &
 			fi
 			if [ "$BGTAXE11000" = "y" ]; then
-				build_fw amng.gtaxe11000/release/src-rt-5.02p1axhnd.675x gt-axe11000 master &
+				build_fw amng.gtaxe11000/release/src-rt-5.02L.07p2axhnd gt-axe11000 master &
 			fi
 			if [ "$BAC68V4" = "y" ]; then
-				build_fw amng.ac68v4/release/src-rt-5.02p1axhnd.675x rt-ac68u_v4 master &
+				build_fw amng.ac68v4/release/src-rt-5.02L.07p2axhnd rt-ac68u_v4 386_x &
 			fi
 			if [ "$BGTAX6000" = "y" ]; then
 				build_fw amng.gtax6000/release/src-rt-5.04axhnd.675x gt-ax6000 master &
@@ -1499,7 +1622,15 @@ case "$1" in
 			if [ "$BXT12" = "y" ]; then
 				build_fw amng.xt12/release/src-rt-5.04axhnd.675x xt12 master &
 			fi
-
+			if [ "$BGTAXE16000" = "y" ]; then
+				build_fw amng.gtaxe16000/release/src-rt-5.04axhnd.675x gt-axe16000 master &
+			fi
+			if [ "$BGTAX11000PRO" = "y" ]; then
+				build_fw amng.gtax11000pro/release/src-rt-5.04axhnd.675x gt-ax11000_pro master &
+			fi
+			if [ "$BAX86PRO" = "y" ]; then
+				build_fw amng.ax86pro/release/src-rt-5.04axhnd.675x rt-ax86u_pro master &
+			fi
 
 			sleep 5
 
@@ -2093,6 +2224,57 @@ case "$1" in
 					disable)
 						BXT12="n"
 						echo "[i] XT12 Build Disabled"
+					;;
+					*)
+						echo "Command Not Recognized, Please Try Again"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
+						echo; exit 2
+					;;
+				esac
+			;;
+			bgtaxe16000)
+				case "$3" in
+					enable)
+						BGTAXE16000="y"
+						echo "[i] GTAXE16000 Build Enabled"
+					;;
+					disable)
+						BGTAXE16000="n"
+						echo "[i] GTAXE16000 Build Disabled"
+					;;
+					*)
+						echo "Command Not Recognized, Please Try Again"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
+						echo; exit 2
+					;;
+				esac
+			;;
+			bgtax11000pro)
+				case "$3" in
+					enable)
+						BGTAX11000PRO="y"
+						echo "[i] GTAX11000_PRO Build Enabled"
+					;;
+					disable)
+						BGTAX11000PRO="n"
+						echo "[i] GTAX11000_PRO Build Disabled"
+					;;
+					*)
+						echo "Command Not Recognized, Please Try Again"
+						echo "For Help Check https://github.com/Adamm00/amcfwm"
+						echo; exit 2
+					;;
+				esac
+			;;
+			bax86pro)
+				case "$3" in
+					enable)
+						BAX86PRO="y"
+						echo "[i] AX86U_PRO Build Enabled"
+					;;
+					disable)
+						BAX86PRO="n"
+						echo "[i] AX86U_PRO Build Disabled"
 					;;
 					*)
 						echo "Command Not Recognized, Please Try Again"

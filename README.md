@@ -82,7 +82,6 @@ amcfwm
 ( amcfwm settings transferw enable|disable ) Enable/Disable Transferring Of .w Files
 ( amcfwm settings transfertxt enable|disable ) Enable/Disable Transferring Of .txt Files
 
-( amcfwm settings bac56 enable|disable ) Enable/Disable Building Of AC56U Image
 ( amcfwm settings bac68 enable|disable ) Enable/Disable Building Of AC68U Image
 ( amcfwm settings bac88 enable|disable ) Enable/Disable Building Of AC88U Image
 ( amcfwm settings bac3100 enable|disable ) Enable/Disable Building Of AC3100 Image
@@ -95,6 +94,13 @@ amcfwm
 ( amcfwm settings bgtac2900 enable|disable ) Enable/Disable Building Of GT-AC2900 Image
 ( amcfwm settings bgtax11000 enable|disable ) Enable/Disable Building Of GT-AX11000 Image
 ( amcfwm settings bax68 enable|disable ) Enable/Disable Building Of AX68U Image
+( amcfwm settings bgtaxe11000 enable|disable ) Enable/Disable Building Of GT-AXE11000 Image
+( amcfwm settings bac68v4 enable|disable ) Enable/Disable Building Of AC68U_V4 Image
+( amcfwm settings bgtax6000 enable|disable ) Enable/Disable Building Of GT-AX6000 Image
+( amcfwm settings bxt12 enable|disable ) Enable/Disable Building Of XT12 Image
+( amcfwm settings bgtaxe11000 enable|disable ) Enable/Disable Building Of GT-AXE11000 Image
+( amcfwm settings bgtax11000pro enable|disable ) Enable/Disable Building Of GT-AX11000_PRO Image
+( amcfwm settings bax86pro enable|disable ) Enable/Disable Building Of AX86U_PRO Image
 
 ( amcfwm settings webhookurl www.google.com/webhookurl ) Enable/Disable Webhook Notifications
 
