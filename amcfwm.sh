@@ -1746,16 +1746,20 @@ case "$1" in
 
 		# BCM-HND
 		sudo ln -fs "$HOME/am-toolchains/brcm-arm-hnd" "/opt/toolchains"
-		{ echo "export LD_LIBRARY_PATH=$LD_LIBRARY:/opt/toolchains/crosstools-arm-gcc-5.3-linux-4.1-glibc-2.22-binutils-2.25/usr/lib # AsusWRT-Merlin CFW Manager"
+		{ echo "export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/opt/toolchains/crosstools-arm-gcc-5.3-linux-4.1-glibc-2.22-binutils-2.25/usr/lib # AsusWRT-Merlin CFW Manager"
 		echo "export TOOLCHAIN_BASE=/opt/toolchains # AsusWRT-Merlin CFW Manager"
 		echo "PATH=\$PATH:/opt/toolchains/crosstools-arm-gcc-5.3-linux-4.1-glibc-2.22-binutils-2.25/usr/bin # AsusWRT-Merlin CFW Manager"
 		echo "PATH=\$PATH:/opt/toolchains/crosstools-aarch64-gcc-5.3-linux-4.1-glibc-2.22-binutils-2.25/usr/bin # AsusWRT-Merlin CFW Manager"; } >> "$HOME/.profile"
 
 		# BCM-HND AX
-		{ echo "export LD_LIBRARY_PATH=$LD_LIBRARY:/opt/toolchains/crosstools-arm-gcc-5.5-linux-4.1-glibc-2.26-binutils-2.28.1/usr/lib # AsusWRT-Merlin CFW Manager"
+		{ echo "export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/opt/toolchains/crosstools-arm-gcc-5.5-linux-4.1-glibc-2.26-binutils-2.28.1/usr/lib # AsusWRT-Merlin CFW Manager"
 		echo "PATH=\$PATH:/opt/toolchains/crosstools-arm-gcc-5.5-linux-4.1-glibc-2.26-binutils-2.28.1/usr/bin # AsusWRT-Merlin CFW Manager"
 		echo "PATH=\$PATH:/opt/toolchains/crosstools-aarch64-gcc-5.5-linux-4.1-glibc-2.26-binutils-2.28.1/usr/bin # AsusWRT-Merlin CFW Manager"; } >> "$HOME/.profile"
 
+		# BCM-HND 5.04
+		{ echo "export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/opt/toolchains/crosstools-arm-gcc-9.2-linux-4.19-glibc-2.30-binutils-2.32/usr/lib # AsusWRT-Merlin CFW Manager"
+		echo "PATH=\$PATH:/opt/toolchains/crosstools-aarch64-gcc-9.2-linux-4.19-glibc-2.30-binutils-2.32/usr/bin # AsusWRT-Merlin CFW Manager"
+		echo "PATH=\$PATH:/opt/toolchains/crosstools-arm-gcc-9.2-linux-4.19-glibc-2.30-binutils-2.32/usr/bin # AsusWRT-Merlin CFW Manager"; } >> "$HOME/.profile"
 
 		if [ ! -f "$HOME/amcfwm/amcfwm.cfg" ]; then
 			Set_Default
