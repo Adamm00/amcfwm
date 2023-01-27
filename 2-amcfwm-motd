@@ -16,12 +16,23 @@ uptime | xargs
 echo; echo
 
 userdir="/home/$(grep -a 'sshd' /var/log/auth.log | awk '/session opened for user/{print $11}' | tail -1)/amcfwm"
-if [ -f "${userdir}/rt-ac56u.git" ]; then echo "RT-AC56U | $(sed -n '2p' "${userdir}/rt-ac56u.git") | $(date +"%b %d %T" -r "${userdir}/rt-ac56u.git")"; fi
 if [ -f "${userdir}/rt-ac68u.git" ]; then echo "RT-AC68U | $(sed -n '2p' "${userdir}/rt-ac68u.git") | $(date +"%b %d %T" -r "${userdir}/rt-ac68u.git")"; fi
 if [ -f "${userdir}/rt-ac88u.git" ]; then echo "RT-AC88U | $(sed -n '2p' "${userdir}/rt-ac88u.git") | $(date +"%b %d %T" -r "${userdir}/rt-ac88u.git")"; fi
 if [ -f "${userdir}/rt-ac3100.git" ]; then echo "RT-AC3100 | $(sed -n '2p' "${userdir}/rt-ac3100.git") | $(date +"%b %d %T" -r "${userdir}/rt-ac3100.git")"; fi
 if [ -f "${userdir}/rt-ac5300.git" ]; then echo "RT-AC5300 | $(sed -n '2p' "${userdir}/rt-ac5300.git") | $(date +"%b %d %T" -r "${userdir}/rt-ac5300.git")"; fi
 if [ -f "${userdir}/rt-ac86u.git" ]; then echo "RT-AC86U | $(sed -n '2p' "${userdir}/rt-ac86u.git") | $(date +"%b %d %T" -r "${userdir}/rt-ac86u.git")"; fi
 if [ -f "${userdir}/rt-ax88u.git" ]; then echo "RT-AX88U | $(sed -n '2p' "${userdir}/rt-ax88u.git") | $(date +"%b %d %T" -r "${userdir}/rt-ax88u.git")"; fi
-if [ -f "${userdir}/rt-ax58u.git" ]; then echo "RT-Ax58U | $(sed -n '2p' "${userdir}/rt-ax58u.git") | $(date +"%b %d %T" -r "${userdir}/rt-ax58u.git")"; fi
+if [ -f "${userdir}/rt-ax58u.git" ]; then echo "RT-AX58U | $(sed -n '2p' "${userdir}/rt-ax58u.git") | $(date +"%b %d %T" -r "${userdir}/rt-ax58u.git")"; fi
+if [ -f "${userdir}/rt-ax56u.git" ]; then echo "RT-AX56U | $(sed -n '2p' "${userdir}/rt-ax56u.git") | $(date +"%b %d %T" -r "${userdir}/rt-ax56u.git")"; fi
+if [ -f "${userdir}/rt-ax86u.git" ]; then echo "RT-AX86U | $(sed -n '2p' "${userdir}/rt-ax86u.git") | $(date +"%b %d %T" -r "${userdir}/rt-ax86u.git")"; fi
+if [ -f "${userdir}/gt-ac2900.git" ]; then echo "GT-AC2900 | $(sed -n '2p' "${userdir}/gt-ac2900.git") | $(date +"%b %d %T" -r "${userdir}/gt-ac2900.git")"; fi
+if [ -f "${userdir}/gt-ax11000.git" ]; then echo "GT-AX11000 | $(sed -n '2p' "${userdir}/gt-ax11000.git") | $(date +"%b %d %T" -r "${userdir}/gt-ax11000.git")"; fi
+if [ -f "${userdir}/rt-ax68u.git" ]; then echo "RT-AX68U | $(sed -n '2p' "${userdir}/rt-ax68u.git") | $(date +"%b %d %T" -r "${userdir}/rt-ax68u.git")"; fi
+if [ -f "${userdir}/gt-axe11000.git" ]; then echo "GT-AXE11000 | $(sed -n '2p' "${userdir}/gt-axe11000.git") | $(date +"%b %d %T" -r "${userdir}/gt-axe11000.git")"; fi
+if [ -f "${userdir}/rt-ac68u_v4.git" ]; then echo "RT-AC68U_V4 | $(sed -n '2p' "${userdir}/rt-ac68u_v4.git") | $(date +"%b %d %T" -r "${userdir}/rt-ac68u_v4.git")"; fi
+if [ -f "${userdir}/gt-ax6000.git" ]; then echo "GT-AX6000 | $(sed -n '2p' "${userdir}/gt-ax6000.git") | $(date +"%b %d %T" -r "${userdir}/gt-ax6000.git")"; fi
+if [ -f "${userdir}/xt12.git" ]; then echo "XT12 | $(sed -n '2p' "${userdir}/xt12.git") | $(date +"%b %d %T" -r "${userdir}/xt12.git")"; fi
+if [ -f "${userdir}/gt-axe16000.git" ]; then echo "GT-AXE16000 | $(sed -n '2p' "${userdir}/gt-axe16000.git") | $(date +"%b %d %T" -r "${userdir}/gt-axe16000.git")"; fi
+if [ -f "${userdir}/gt-ax11000_pro.git" ]; then echo "GT-AX11000_PRO | $(sed -n '2p' "${userdir}/gt-ax11000_pro.git") | $(date +"%b %d %T" -r "${userdir}/gt-ax11000_pro.git")"; fi
+if [ -f "${userdir}/rt-ax86u_pro.git" ]; then echo "RT-AX86U_PRO | $(sed -n '2p' "${userdir}/rt-ax86u_pro.git") | $(date +"%b %d %T" -r "${userdir}/rt-ax86u_pro.git")"; fi
 echo
