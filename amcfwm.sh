@@ -2398,6 +2398,18 @@ case "$1" in
 			echo "[i] Removing $HOME/amng.xt12 ($(du -sh "$HOME/amng.xt12" | awk '{print $1}'))"
 			rm -rf "$HOME/amng.xt12" "$HOME/amcfwm/zen-xt12.git" "$HOME/amcfwm/zen-xt12-output.txt"
 		fi
+		if [ "$BGTAXE16000" != "y" ] && [ -d "$HOME/amng.gtaxe16000" ]; then
+			echo "[i] Removing $HOME/amng.gtaxe16000 ($(du -sh "$HOME/amng.gtaxe16000" | awk '{print $1}'))"
+			rm -rf "$HOME/amng.gtaxe16000" "$HOME/amcfwm/gt-axe16000.git" "$HOME/amcfwm/gt-axe16000-output.txt"
+		fi
+		if [ "$BGTAX11000PRO" != "y" ] && [ -d "$HOME/amng.gtax11000pro" ]; then
+			echo "[i] Removing $HOME/amng.gtax11000pro ($(du -sh "$HOME/amng.gtax11000pro" | awk '{print $1}'))"
+			rm -rf "$HOME/amng.gtax11000pro" "$HOME/amcfwm/gt-ax11000_pro.git" "$HOME/amcfwm/gt-ax11000_pro-output.txt"
+		fi
+		if [ "$BAX86PRO" != "y" ] && [ -d "$HOME/amng.ax86pro" ]; then
+			echo "[i] Removing $HOME/amng.ax86pro ($(du -sh "$HOME/amng.ax86pro" | awk '{print $1}'))"
+			rm -rf "$HOME/amng.ax86pro" "$HOME/amcfwm/rt-ax86u_pro.git" "$HOME/amcfwm/rt-ax86u_pro-output.txt"
+		fi
 	;;
 
 	uninstall)
