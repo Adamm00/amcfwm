@@ -14,6 +14,7 @@
 ##############################################################################################################
 
 
+# shellcheck disable=SC1090,SC1091
 clear
 sed -n '2,14p' "$0"
 mkdir -p "$HOME/amcfwm"
@@ -1426,11 +1427,11 @@ case "$1" in
 							FWNAME="$(find -- *_cferom_ubi.w | head -n 1)"
 							ZIPNAME="$(echo "$FWNAME" | sed 's~_cferom_ubi.w~~g').zip"
 						elif [ "$FWMODEL" = "rt-ax58u" ] || [ "$FWMODEL" = "rt-ac68u_v4" ]; then
-							rm *_cferom_puresqubi.w
+							rm ./*_cferom_puresqubi.w
 							FWNAME="$(find -- *_puresqubi.w | head -n 1)"
 							ZIPNAME="$(echo "$FWNAME" | sed 's~_puresqubi.w~~g').zip"
 						elif [ "$FWMODEL" = "rt-ax86u" ] || [ "$FWMODEL" = "rt-ax68u" ] || [ "$FWMODEL" = "rt-ax56u" ] || [ "$FWMODEL" = "gt-axe11000" ]; then
-							rm *_cferom_pureubi.w	# Broken cferom, do not use until fixed upstream
+							rm ./*_cferom_pureubi.w	# Broken cferom, do not use until fixed upstream
 							FWNAME="$(find -- *_pureubi.w | head -n 1)"
 							ZIPNAME="$(echo "$FWNAME" | sed 's~_pureubi.w~~g').zip"
 						elif [ "$FWMODEL" = "gt-ax6000" ] || [ "$FWMODEL" = "xt12" ] || [ "$FWMODEL" = "gt-axe16000" ] || [ "$FWMODEL" = "gt-ax11000_pro" ] || [ "$FWMODEL" = "rt-ax86u_pro" ] ; then
@@ -1482,7 +1483,7 @@ case "$1" in
 						rsync -a --del "$SRC_LOC/" "$HOME/$FWPATH"
 					elif [ "$RSYNC_TREE" = "btrfs" ]; then
 						echo "*** $(date +%R) - Copying $FWMODEL tree..."
-						rm -rf "$HOME/$FWPATH"
+						rm -rf "${HOME:?}/$FWPATH"
 						cp -ar --reflink=auto "$SRC_LOC" "$HOME/$FWPATH"
 					fi
 					cd "$HOME/$FWPATH" || exit 1
