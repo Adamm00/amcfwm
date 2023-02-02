@@ -1702,11 +1702,6 @@ case "$1" in
 			read -r "continue"
 			sudo nano -w "$HOME/.ssh/authorized_keys"
 			echo "Hardening OpenSSH Config"
-			if grep -qF "#Port 22" /etc/ssh/sshd_config; then
-				SSHPORT="$(awk -v min=49152 -v max=65535 -v freq=1 'BEGIN{"tr -cd 0-9 </dev/urandom | head -c 6" | getline seed; srand(seed); for(i=0;i<freq;i++)print int(min+rand()*(max-min+1))}')"
-				sudo sed -i "s~.*Port .*~Port $SSHPORT~g" /etc/ssh/sshd_config
-				echo "VM SSH Port Changed To $SSHPORT"
-			fi
 			sudo sed -i 's~#ChallengeResponseAuthentication yes~ChallengeResponseAuthentication no~g' /etc/ssh/sshd_config
 			sudo sed -i 's~#PasswordAuthentication yes~PasswordAuthentication no~g' /etc/ssh/sshd_config
 			echo "SSH Password Authentication Disabled"
