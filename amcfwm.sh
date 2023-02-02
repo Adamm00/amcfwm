@@ -10,7 +10,7 @@
 #                                                                                                            #
 #                                 AsusWRT-Merlin CFW Manager For Ubuntu LTS                                  #
 #                                By Adamm - https://github.com/Adamm00/amcfwm                                #
-#                                            01/02/2023 - v1.1.3                                             #
+#                                            02/02/2023 - v1.1.4                                             #
 ##############################################################################################################
 
 
@@ -1701,15 +1701,34 @@ case "$1" in
 			echo "Setting Up OpenSSH-Server - Input Pubkey Of Your SSH Client - [Press Enter To Continue]"
 			read -r "continue"
 			sudo nano -w "$HOME/.ssh/authorized_keys"
-			echo "Hardening OpenSSH Config"
-			if grep -qF "#Port 22" /etc/ssh/sshd_config; then
-				SSHPORT="$(awk -v min=49152 -v max=65535 -v freq=1 'BEGIN{"tr -cd 0-9 </dev/urandom | head -c 6" | getline seed; srand(seed); for(i=0;i<freq;i++)print int(min+rand()*(max-min+1))}')"
-				sudo sed -i "s~.*Port .*~Port $SSHPORT~g" /etc/ssh/sshd_config
-				echo "VM SSH Port Changed To $SSHPORT"
-			fi
-			sudo sed -i 's~#ChallengeResponseAuthentication yes~ChallengeResponseAuthentication no~g' /etc/ssh/sshd_config
-			sudo sed -i 's~#PasswordAuthentication yes~PasswordAuthentication no~g' /etc/ssh/sshd_config
-			echo "SSH Password Authentication Disabled"
+			while true; do
+				echo "Harden SSH Server? y/n"
+				echo
+				printf "[y/n]: "
+				read -r "menu"
+				echo
+				case "$menu" in
+					y)
+						echo "Hardening OpenSSH Config"
+						if grep -qF "#Port 22" /etc/ssh/sshd_config; then
+							SSHPORT="$(awk -v min=49152 -v max=65535 -v freq=1 'BEGIN{"tr -cd 0-9 </dev/urandom | head -c 6" | getline seed; srand(seed); for(i=0;i<freq;i++)print int(min+rand()*(max-min+1))}')"
+							sudo sed -i "s~.*Port .*~Port $SSHPORT~g" /etc/ssh/sshd_config
+							echo "VM SSH Port Changed To $SSHPORT"
+						fi
+						sudo sed -i 's~#ChallengeResponseAuthentication yes~ChallengeResponseAuthentication no~g' /etc/ssh/sshd_config
+						sudo sed -i 's~#PasswordAuthentication yes~PasswordAuthentication no~g' /etc/ssh/sshd_config
+						echo "SSH Password Authentication Disabled"
+						break
+					;;
+					n)
+						break
+					;;
+					*)
+						echo "[*] $menu Isn't An Option!"
+						echo
+					;;
+				esac
+			done
 			echo "Adding MOTD"
 			sudo rm -rf /etc/update-motd.d/10-help-text /etc/update-motd.d/80-livepatch /etc/update-motd.d/50-motd-news /etc/update-motd.d/80-esm /etc/update-motd.d/91-release-upgrade /etc/update-motd.d/95-hwe-eol
 			sudo curl -fsL --retry 3 "https://raw.githubusercontent.com/Adamm00/amcfwm/master/2-amcfwm-motd" -o "/etc/update-motd.d/2-amcfwm-motd"
