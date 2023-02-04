@@ -23,7 +23,7 @@ _Inspired By RMerlins [Original Script](https://raw.githubusercontent.com/RMerl/
 
 1. Download amcfwm
 ```
-mkdir -p "$HOME/amcfwm" && curl -s "https://raw.githubusercontent.com/Adamm00/am_cfwm/master/amcfwm.sh" -o "$HOME/amcfwm/amcfwm.sh" && chmod 755 "$HOME/amcfwm/amcfwm.sh"
+mkdir -p "$HOME/amcfwm" && wget -q "https://raw.githubusercontent.com/Adamm00/am_cfwm/master/amcfwm.sh" -O "$HOME/amcfwm/amcfwm.sh" && chmod 755 "$HOME/amcfwm/amcfwm.sh"
 ```
 2. Setup VM Enviorment
 ```
