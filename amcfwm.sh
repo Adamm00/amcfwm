@@ -1756,7 +1756,7 @@ case "$1" in
 		fi
 		if [ ! -d "$HOME/amng" ]; then
 			echo "Preparing Firmware Repo"
-			git clone --depth 1 https://github.com/RMerl/asuswrt-merlin.ng amng
+			git clone https://github.com/RMerl/asuswrt-merlin.ng amng
 			echo
 		fi
 
