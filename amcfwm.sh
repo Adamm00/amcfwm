@@ -10,7 +10,7 @@
 #                                                                                                            #
 #                                 AsusWRT-Merlin CFW Manager For Ubuntu LTS                                  #
 #                                By Adamm - https://github.com/Adamm00/amcfwm                                #
-#                                            05/02/2023 - v1.1.6                                             #
+#                                            15/02/2023 - v1.1.7                                             #
 ##############################################################################################################
 
 
@@ -1507,6 +1507,9 @@ case "$1" in
 			cp "$SRC_LOC/README-merlin.txt" "$STAGE_LOC/"
 			cp "$SRC_LOC"/Changelog*.txt "$STAGE_LOC/"
 
+			echo "--- $(date +%R) - Updating Base Repo"
+			cd "$SRC_LOC" || exit 1
+			git pull
 
 			# Update all model trees
 
