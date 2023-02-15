@@ -1509,7 +1509,7 @@ case "$1" in
 
 			echo "--- $(date +%R) - Updating Base Repo"
 			cd "$SRC_LOC" || exit 1
-			git pull
+			git pull >/dev/null 2>&1
 
 			# Update all model trees
 
