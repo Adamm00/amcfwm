@@ -10,7 +10,7 @@
 #                                                                                                            #
 #                                 AsusWRT-Merlin CFW Manager For Ubuntu LTS                                  #
 #                                By Adamm - https://github.com/Adamm00/amcfwm                                #
-#                                            15/02/2023 - v1.1.7                                             #
+#                                            14/08/2023 - v1.1.8                                             #
 ##############################################################################################################
 
 
@@ -1729,7 +1729,7 @@ case "$1" in
 			sudo dpkg --add-architecture i386
 			sudo apt-get update
 			sudo apt-get -y install "linux-headers-$(uname -r)"
-			sudo apt-get -y install lib32ncurses-dev dos2unix libtool-bin cmake libproxy-dev uuid-dev liblzo2-dev autoconf automake bash bison bzip2 diffutils file flex m4 g++ gawk groff-base libncurses5-dev libtool libslang2 make patch perl pkg-config shtool subversion tar texinfo zlib1g zlib1g-dev git gettext libexpat1-dev libssl-dev cvs gperf unzip python2 libxml-parser-perl gcc-multilib libxml2-dev g++-multilib gitk libncurses5 mtd-utils libvorbis-dev autopoint autogen sed build-essential intltool libelf1 libglib2.0-dev xutils-dev lib32z1-dev lib32stdc++6 xsltproc gtk-doc-tools libelf-dev:i386 libelf1:i386 libltdl-dev openssh-server curl nano lzip patchelf autoconf-archive libpython2.7:i386
+			sudo apt-get -y install lib32ncurses-dev dos2unix libtool-bin cmake libproxy-dev uuid-dev liblzo2-dev autoconf automake bash bison bzip2 diffutils file flex m4 g++ gawk groff-base libncurses5-dev libtool libslang2 make patch perl pkg-config shtool subversion tar texinfo zlib1g zlib1g-dev git gettext libexpat1-dev libssl-dev cvs gperf unzip python2 libxml-parser-perl gcc-multilib libxml2-dev g++-multilib gitk libncurses5 mtd-utils libvorbis-dev autopoint autogen sed build-essential intltool libelf1 libglib2.0-dev xutils-dev lib32z1-dev lib32stdc++6 xsltproc gtk-doc-tools libelf-dev:i386 libelf1:i386 libltdl-dev openssh-server curl nano lzip patchelf autoconf-archive libpython2.7:i386 libisl-dev:i386
 			sudo apt -y autoremove
 			if [ ! -f "$HOME/amcfwm/amcfwm.sh" ]; then curl -fsL --retry 3 "https://raw.githubusercontent.com/Adamm00/amcfwm/master/amcfwm.sh" -o "$HOME/amcfwm/amcfwm.sh"; fi
 			sudo ln -sf "$HOME/amcfwm/amcfwm.sh" /bin/amcfwm
@@ -1825,8 +1825,8 @@ case "$1" in
 
 		# BCM-HND 5.04
 		{ echo "export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/opt/toolchains/crosstools-arm-gcc-9.2-linux-4.19-glibc-2.30-binutils-2.32/usr/lib # AsusWRT-Merlin CFW Manager"
-		echo "PATH=\$PATH:/opt/toolchains/crosstools-aarch64-gcc-9.2-linux-4.19-glibc-2.30-binutils-2.32/usr/bin # AsusWRT-Merlin CFW Manager"
-		echo "PATH=\$PATH:/opt/toolchains/crosstools-arm-gcc-9.2-linux-4.19-glibc-2.30-binutils-2.32/usr/bin # AsusWRT-Merlin CFW Manager"; } >> "$HOME/.profile"
+		echo "export PATH=\$PATH:/opt/toolchains/crosstools-aarch64-gcc-9.2-linux-4.19-glibc-2.30-binutils-2.32/usr/bin # AsusWRT-Merlin CFW Manager"
+		echo "export PATH=\$PATH:/opt/toolchains/crosstools-arm-gcc-9.2-linux-4.19-glibc-2.30-binutils-2.32/usr/bin # AsusWRT-Merlin CFW Manager"; } >> "$HOME/.profile"
 
 		if [ ! -f "$HOME/amcfwm/amcfwm.cfg" ]; then
 			Set_Default
